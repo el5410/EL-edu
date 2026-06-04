@@ -1,0 +1,1562 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EL 영어학원 · 선생님</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --teal: #14b8a6; --teal-d: #0d9488; --teal-light: #ccfbf1; --teal-soft: #f0fdfa;
+  --purple: #8b5cf6; --purple-light: #ede9fe; --purple-soft: #f5f3ff;
+  --orange: #fb923c; --orange-light: #ffedd5; --orange-soft: #fff7ed;
+  --pink: #f472b6; --pink-light: #fce7f3;
+  --green: #22c55e; --green-light: #dcfce7; --green-soft: #f0fdf4;
+  --blue: #3b82f6; --blue-light: #dbeafe;
+  --yellow: #facc15; --yellow-light: #fef3c7;
+  --red: #ef4444; --red-light: #fee2e2;
+  --text: #111827; --text2: #4b5563; --muted: #9ca3af;
+  --bg: #fafafa; --card: #ffffff;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Noto Sans KR','Plus Jakarta Sans',sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+.app { max-width: 1440px; margin: 0 auto; background: var(--bg); min-height: 100vh; padding-bottom: 24px; }
+@media (min-width: 1100px) {
+  body { background: linear-gradient(135deg, #f0fdfa 0%, #faf5ff 100%); padding: 20px 0; }
+  .app { border-radius: 28px; box-shadow: 0 30px 100px rgba(0,0,0,0.06); overflow: hidden; }
+}
+
+/* 헤더 */
+.app-header { background: white; padding: 18px 24px; display: flex; align-items: center; justify-content: space-between; }
+.teacher-greet { display: flex; align-items: center; gap: 14px; }
+.teacher-avatar { width: 50px; height: 50px; border-radius: 16px; background: linear-gradient(135deg, var(--purple) 0%, var(--teal) 100%); display: flex; align-items: center; justify-content: center; color: white; font-weight: 800; font-size: 18px; }
+.teacher-text h1 { font-size: 18px; font-weight: 800; }
+.teacher-text p { font-size: 12px; color: var(--muted); margin-top: 3px; }
+.live-dot { width: 8px; height: 8px; background: var(--green); border-radius: 50%; display: inline-block; margin-right: 4px; vertical-align: middle; animation: pulse-dot 1.5s infinite; }
+@keyframes pulse-dot { 0%,100%{opacity:1} 50%{opacity:.4} }
+.header-actions { display: flex; align-items: center; gap: 10px; }
+.date-pill { font-size: 12px; font-weight: 700; color: var(--text2); background: var(--bg); padding: 8px 14px; border-radius: 10px; }
+.icon-btn { width: 40px; height: 40px; background: var(--bg); border: none; border-radius: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 18px; color: var(--text2); position: relative; }
+.icon-btn .badge { position: absolute; top: 6px; right: 7px; background: var(--red); color: white; font-size: 9px; font-weight: 800; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid white; }
+
+.body { padding: 20px 24px; display: grid; grid-template-columns: 1fr 320px; gap: 20px; align-items: start; }
+@media (max-width: 1100px) { .body { grid-template-columns: 1fr; } }
+.col-main { display: flex; flex-direction: column; gap: 18px; min-width: 0; }
+.col-side { display: flex; flex-direction: column; gap: 16px; position: sticky; top: 20px; }
+
+.card { background: var(--card); border-radius: 20px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03); }
+.card-title-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; gap: 10px; }
+.card-title { font-size: 16px; font-weight: 800; display: flex; align-items: center; gap: 8px; }
+
+/* KPI */
+.kpi-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
+.kpi-card { background: white; border-radius: 16px; padding: 14px 16px; position: relative; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+.kpi-card::after { content: ''; position: absolute; top: -15px; right: -15px; width: 70px; height: 70px; border-radius: 50%; opacity: .3; }
+.kpi-card.attend::after { background: var(--green-light); }
+.kpi-card.now::after { background: var(--teal-light); }
+.kpi-card.late::after { background: var(--orange-light); }
+.kpi-card.absent::after { background: var(--red-light); }
+.kpi-card.alert::after { background: var(--yellow-light); }
+.kpi-icon { width: 30px; height: 30px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 14px; position: relative; z-index: 2; }
+.kpi-card.attend .kpi-icon { background: var(--green-light); color: var(--green); }
+.kpi-card.now .kpi-icon { background: var(--teal-light); color: var(--teal-d); }
+.kpi-card.late .kpi-icon { background: var(--orange-light); color: var(--orange); }
+.kpi-card.absent .kpi-icon { background: var(--red-light); color: var(--red); }
+.kpi-card.alert .kpi-icon { background: var(--yellow-light); color: #ca8a04; }
+.kpi-lbl { font-size: 10px; color: var(--muted); font-weight: 700; margin-top: 8px; position: relative; z-index: 2; }
+.kpi-val { font-size: 22px; font-weight: 800; letter-spacing: -1px; font-family: 'Plus Jakarta Sans',sans-serif; line-height: 1; position: relative; z-index: 2; margin-top: 2px; }
+.kpi-val .unit { font-size: 11px; color: var(--muted); font-weight: 600; margin-left: 2px; }
+.kpi-card.attend .kpi-val { color: var(--green); }
+.kpi-card.now .kpi-val { color: var(--teal-d); }
+.kpi-card.late .kpi-val { color: var(--orange); }
+.kpi-card.absent .kpi-val { color: var(--red); }
+.kpi-card.alert .kpi-val { color: #ca8a04; }
+
+/* 보기 모드 */
+.view-tabs { display: flex; gap: 4px; background: var(--bg); padding: 4px; border-radius: 12px; }
+.view-tab { padding: 7px 14px; border-radius: 9px; font-size: 12px; font-weight: 700; color: var(--muted); cursor: pointer; border: none; background: transparent; font-family: inherit; display: flex; align-items: center; gap: 5px; }
+.view-tab.active { background: white; color: var(--text); box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+
+/* 검색 강조 */
+.student-card.search-highlight { animation: search-pulse 1.8s ease-out; }
+@keyframes search-pulse {
+  0% { box-shadow: 0 0 0 0 rgba(20,184,166,0.5); transform: scale(1); }
+  20% { box-shadow: 0 0 0 8px rgba(20,184,166,0.4); transform: scale(1.03); }
+  100% { box-shadow: 0 0 0 0 rgba(20,184,166,0); transform: scale(1); }
+}
+#studentSearch:focus { border-color: var(--teal) !important; background: var(--teal-soft); }
+
+/* 학생 카드 ⚙️ 메뉴 */
+.sc-menu-btn { position: absolute; top: 10px; right: 10px; width: 26px; height: 26px; border-radius: 8px; background: rgba(255,255,255,0.9); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 14px; color: var(--text2); transition: .15s; z-index: 5; }
+.sc-menu-btn:hover { background: white; color: var(--teal-d); box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+.sc-menu-dropdown { display: none; position: absolute; top: 38px; right: 10px; background: white; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.15); padding: 6px; z-index: 10; min-width: 160px; }
+.sc-menu-dropdown.show { display: block; animation: drop-in .2s ease-out; }
+@keyframes drop-in { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+.sc-menu-item { padding: 8px 10px; border-radius: 8px; font-size: 11px; font-weight: 700; color: var(--text); cursor: pointer; display: flex; align-items: center; gap: 8px; transition: .12s; }
+.sc-menu-item:hover { background: var(--teal-soft); color: var(--teal-d); }
+.sc-menu-item i { font-size: 13px; }
+
+/* 보강 뱃지 (학습중 옆 작게) */
+.bogang-badge { background: #a855f7; color: white; font-size: 9px; font-weight: 800; padding: 3px 7px; border-radius: 7px; display: inline-flex; align-items: center; gap: 3px; margin-left: 4px; }
+.student-card.bogang { border-color: #a855f7; background: linear-gradient(135deg, #faf5ff 0%, #f5f3ff 100%); }
+.student-card.bogang .sc-status.attending { background: #a855f7; }
+
+/* 보강 모달 */
+.bogang-modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(3px); }
+.bogang-modal-overlay.show { display: flex; }
+.bogang-modal { background: white; border-radius: 20px; padding: 24px; max-width: 360px; width: 90%; box-shadow: 0 20px 60px rgba(0,0,0,0.3); animation: pop-in .3s cubic-bezier(0.34,1.56,0.64,1); }
+@keyframes pop-in { from { opacity: 0; transform: scale(0.85); } to { opacity: 1; transform: scale(1); } }
+.bogang-modal h3 { font-size: 17px; font-weight: 800; margin-bottom: 4px; display: flex; align-items: center; gap: 6px; }
+.bogang-modal .sub { font-size: 11px; color: var(--muted); font-weight: 600; margin-bottom: 18px; }
+.bogang-row { margin-bottom: 12px; }
+.bogang-row label { font-size: 11px; font-weight: 800; color: var(--text2); margin-bottom: 5px; display: block; }
+.bogang-row input, .bogang-row select, .bogang-row textarea { width: 100%; padding: 9px 12px; border: 1.5px solid #e5e7eb; border-radius: 10px; font-size: 12px; font-family: inherit; font-weight: 600; outline: none; background: white; }
+.bogang-row input:focus, .bogang-row select:focus { border-color: #a855f7; }
+.bogang-actions { display: flex; gap: 8px; margin-top: 6px; }
+.bogang-btn-cancel { flex: 1; padding: 11px; background: var(--bg); color: var(--text2); border: none; border-radius: 11px; font-size: 12px; font-weight: 800; cursor: pointer; font-family: inherit; }
+.bogang-btn-confirm { flex: 1; padding: 11px; background: linear-gradient(135deg, #a855f7, #8b5cf6); color: white; border: none; border-radius: 11px; font-size: 12px; font-weight: 800; cursor: pointer; font-family: inherit; box-shadow: 0 4px 12px rgba(168,85,247,0.3); }
+
+/* 시간대 빠른 이동 */
+.time-jump-btn .jump-attendance {
+  font-size: 10px;
+  font-weight: 800;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: rgba(255,255,255,0.7);
+  padding: 2px 8px;
+  border-radius: 6px;
+  display: block;
+  margin-top: 4px;
+}
+.time-jump-btn.current .jump-attendance {
+  background: white;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+/* 시간대 빠른 이동 */
+.time-quick-nav { display: flex; align-items: center; gap: 8px; padding: 12px; background: linear-gradient(135deg, var(--teal-soft) 0%, var(--purple-soft) 100%); border-radius: 14px; margin-bottom: 16px; flex-wrap: wrap; }
+.time-quick-label { font-size: 11px; font-weight: 800; color: var(--text2); display: flex; align-items: center; gap: 4px; }
+.time-jump-btn { padding: 9px 14px; border-radius: 11px; border: 2px solid transparent; background: white; cursor: pointer; font-family: inherit; display: flex; flex-direction: column; align-items: center; gap: 2px; transition: .15s; box-shadow: 0 1px 3px rgba(0,0,0,0.05); flex: 1; min-width: 110px; }
+.time-jump-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 14px rgba(0,0,0,0.08); }
+.time-jump-btn .jump-time { font-size: 12px; font-weight: 800; color: var(--text); font-family: 'Plus Jakarta Sans',sans-serif; }
+.time-jump-btn .jump-status { font-size: 9px; font-weight: 700; padding: 2px 7px; border-radius: 6px; }
+.time-jump-btn.ended { border-color: #e5e7eb; }
+.time-jump-btn.ended .jump-status { background: #f3f4f6; color: var(--muted); }
+.time-jump-btn.ended:hover { border-color: var(--muted); }
+.time-jump-btn.current { border-color: var(--green); }
+.time-jump-btn.current .jump-status { background: var(--green); color: white; animation: pulse-dot 1.5s infinite; }
+.time-jump-btn.upcoming { border-color: #fde68a; }
+.time-jump-btn.upcoming .jump-status { background: var(--yellow-light); color: #ca8a04; }
+.time-jump-btn.upcoming:hover { border-color: #facc15; }
+.time-jump-btn.active-jump { transform: scale(0.97); }
+
+/* 스크롤 시 강조 효과 */
+.time-section.flash { animation: flash-highlight 1.2s ease-out; }
+@keyframes flash-highlight {
+  0% { box-shadow: 0 0 0 4px rgba(20,184,166,0.4); border-radius: 12px; }
+  100% { box-shadow: 0 0 0 0 transparent; border-radius: 12px; }
+}
+.time-section { margin-bottom: 18px; }
+.time-section:last-child { margin-bottom: 0; }
+.time-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; padding: 8px 12px; background: linear-gradient(135deg, var(--teal-soft) 0%, var(--purple-soft) 100%); border-radius: 11px; flex-wrap: wrap; }
+.time-badge { background: white; color: var(--teal-d); font-size: 13px; font-weight: 800; padding: 5px 12px; border-radius: 8px; font-family: 'Plus Jakarta Sans',sans-serif; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+.time-info { font-size: 11px; color: var(--text2); font-weight: 600; display: flex; gap: 12px; flex-wrap: wrap; }
+.time-info b { font-weight: 800; }
+
+/* 학생 카드 */
+.student-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 12px; }
+
+/* ============ 줄 보기 모드 ============ */
+.view-mode-list .student-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.view-mode-list .student-card {
+  padding: 8px 12px;
+  display: grid;
+  grid-template-columns: minmax(150px, 1.2fr) minmax(150px, 1.3fr) minmax(180px, 1.7fr) 130px;
+  align-items: center;
+  gap: 10px;
+  border-radius: 10px;
+  border-width: 1.5px;
+}
+.view-mode-list .student-card:hover { transform: none; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+/* 줄 모드에서 숨길 요소들 - 원본 */
+.view-mode-list .sc-time,
+.view-mode-list .sc-vocab-section,
+.view-mode-list .sc-prog-section,
+.view-mode-list .sc-progress-text,
+.view-mode-list .absent-btn { display: none !important; }
+.view-mode-list .sc-hw-section { margin-bottom: 0; }
+.view-mode-list .sc-hw-label { display: none; }
+.view-mode-list .early-badge,
+.view-mode-list .late-arrival-badge { position: static; box-shadow: none; padding: 2px 6px; font-size: 8px; }
+.view-mode-list .sc-menu-btn { top: 4px; right: 4px; width: 20px; height: 20px; font-size: 11px; }
+/* 줄 모드 헤더 (아바타+이름) */
+.view-mode-list .sc-header { margin-bottom: 0; gap: 6px; }
+.view-mode-list .sc-avatar { width: 30px; height: 30px; font-size: 11px; border-radius: 8px; }
+.view-mode-list .sc-name { font-size: 12px; }
+.view-mode-list .sc-level { font-size: 9px; }
+.view-mode-list .sc-status { padding: 2px 6px; font-size: 8px; align-self: flex-start; margin-top: 2px; }
+.view-mode-list .sc-name-wrap { display: flex; flex-direction: column; }
+.view-mode-list .sc-header { display: flex; align-items: center; }
+
+/* 줄 모드용 정보 표시 */
+.sc-list-info { display: none; }
+.view-mode-list .sc-list-info {
+  display: flex;
+  flex-direction: column;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text2);
+  gap: 3px;
+  min-width: 0;
+}
+.view-mode-list .sc-list-info .sl-row {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.view-mode-list .sc-list-info .sl-row b {
+  color: var(--text);
+  font-weight: 800;
+  font-family: 'Plus Jakarta Sans',sans-serif;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.view-mode-list .sc-list-info .sl-row span:first-child {
+  color: var(--muted);
+  font-size: 9px;
+  flex-shrink: 0;
+}
+/* 줄 모드 숙제 버튼 - 작게 */
+.view-mode-list .sc-hw-btns { grid-template-columns: 30px 30px 30px 30px; gap: 3px; }
+.view-mode-list .sc-hw-btn { padding: 5px 0; font-size: 11px; min-width: 30px; }
+
+/* 보기 모드 토글 버튼 */
+.view-mode-toggle { display: inline-flex; background: var(--bg); padding: 3px; border-radius: 10px; gap: 2px; }
+.view-mode-toggle button { padding: 6px 12px; border: none; background: transparent; color: var(--muted); font-size: 11px; font-weight: 800; cursor: pointer; font-family: inherit; border-radius: 8px; display: flex; align-items: center; gap: 4px; transition: .15s; }
+.view-mode-toggle button.active { background: white; color: var(--teal-d); box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+
+
+.student-card { background: white; border: 2px solid #f3f4f6; border-radius: 14px; padding: 14px; cursor: pointer; transition: .15s; position: relative; }
+.student-card:hover { border-color: var(--teal-light); transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0,0,0,0.06); }
+.student-card.attending { border-color: var(--green); background: var(--green-soft); }
+.student-card.early { border-color: var(--blue); background: var(--blue-light); }
+.student-card.late { border-color: var(--orange); background: var(--orange-light); }
+.student-card.absent { border-color: var(--red); background: #fef2f2; opacity: .85; }
+.student-card.waiting { border-color: #f3f4f6; background: white; }
+
+.early-badge { position: absolute; top: -8px; right: 10px; background: var(--blue); color: white; font-size: 9px; font-weight: 800; padding: 3px 9px; border-radius: 12px; box-shadow: 0 2px 8px rgba(59,130,246,0.3); }
+.late-arrival-badge { position: absolute; top: -8px; left: 10px; background: var(--orange); color: white; font-size: 9px; font-weight: 800; padding: 3px 9px; border-radius: 12px; box-shadow: 0 2px 8px rgba(251,146,60,0.3); }
+.student-card.late-arrival { border-color: var(--orange) !important; background: linear-gradient(135deg,#fff7ed 0%,#ffedd5 100%) !important; }
+
+.sc-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+.sc-avatar { width: 36px; height: 36px; border-radius: 11px; background: linear-gradient(135deg, var(--teal) 0%, #4dd4c0 100%); display: flex; align-items: center; justify-content: center; color: white; font-weight: 800; font-size: 13px; flex-shrink: 0; }
+.sc-name-wrap { flex: 1; min-width: 0; }
+.sc-name { font-size: 13px; font-weight: 800; color: var(--text); }
+.sc-level { font-size: 9px; color: var(--muted); font-weight: 700; margin-top: 1px; }
+.sc-status { display: flex; align-items: center; gap: 4px; padding: 3px 8px; border-radius: 8px; font-size: 9px; font-weight: 800; }
+.sc-status.attending { background: var(--green); color: white; }
+.sc-status.early { background: var(--blue); color: white; }
+.sc-status.late { background: var(--orange); color: white; }
+.sc-status.absent { background: var(--red); color: white; }
+.sc-status.waiting { background: var(--muted); color: white; }
+
+.sc-time { display: flex; align-items: center; gap: 6px; padding: 8px 10px; background: white; border-radius: 9px; margin-bottom: 10px; font-size: 10px; font-weight: 600; color: var(--text2); }
+.sc-time-item { flex: 1; display: flex; align-items: center; gap: 4px; }
+.sc-time-item b { color: var(--text); font-weight: 800; font-family: 'Plus Jakarta Sans',sans-serif; }
+.sc-time-divider { width: 1px; background: #e5e7eb; align-self: stretch; }
+
+/* 결석 처리 버튼 */
+.absent-btn { width: 100%; padding: 7px; background: white; border: 1.5px solid var(--red); color: var(--red); border-radius: 9px; font-size: 11px; font-weight: 800; cursor: pointer; font-family: inherit; margin-bottom: 10px; transition: .12s; }
+.absent-btn:hover { background: var(--red); color: white; }
+.absent-btn.confirmed { background: var(--red); color: white; }
+
+/* 과제 점검 */
+.sc-hw-section { margin-bottom: 10px; }
+.sc-hw-label { font-size: 9px; color: var(--muted); font-weight: 700; margin-bottom: 4px; display: flex; align-items: center; justify-content: space-between; }
+.sc-hw-btns { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 4px; }
+.sc-hw-btn { padding: 6px 4px; border-radius: 8px; border: 1.5px solid #e5e7eb; background: white; font-size: 11px; font-weight: 700; cursor: pointer; font-family: inherit; transition: .12s; }
+.sc-hw-btn.o { color: var(--green); }
+.sc-hw-btn.tri { color: var(--orange); }
+.sc-hw-btn.x { color: var(--red); }
+.sc-hw-btn.exempt { color: var(--purple); }
+.sc-hw-btn.o.on { background: var(--green); color: white; border-color: var(--green); }
+.sc-hw-btn.tri.on { background: var(--orange); color: white; border-color: var(--orange); }
+.sc-hw-btn.x.on { background: var(--red); color: white; border-color: var(--red); }
+.sc-hw-btn.exempt.on { background: var(--purple); color: white; border-color: var(--purple); }
+
+/* 안 한 과제 메모란 */
+.sc-hw-memo { margin-top: 6px; display: none; }
+.sc-hw-memo.show { display: block; animation: slide-down .25s ease-out; }
+@keyframes slide-down { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+.sc-hw-memo-input { width: 100%; padding: 7px 9px; border: 1.5px dashed var(--orange); border-radius: 8px; font-size: 11px; font-weight: 600; color: var(--text); background: var(--orange-soft); outline: none; font-family: inherit; resize: none; min-height: 38px; }
+.sc-hw-memo-input:focus { background: white; border-style: solid; }
+.sc-hw-memo-input::placeholder { color: var(--orange); opacity: 0.6; }
+.sc-hw-memo-tag { font-size: 9px; color: var(--orange); font-weight: 800; display: flex; align-items: center; gap: 3px; margin-bottom: 4px; }
+
+/* 단어시험 입력 */
+.sc-vocab-section { margin-bottom: 10px; padding: 10px; background: white; border-radius: 9px; }
+.sc-vocab-row { display: flex; align-items: center; gap: 6px; }
+.sc-vocab-row label { font-size: 9px; color: var(--muted); font-weight: 700; flex-shrink: 0; }
+.sc-vocab-row input { width: 32px; text-align: center; padding: 4px; border: 1.5px solid #e5e7eb; border-radius: 6px; font-size: 12px; font-weight: 800; color: var(--text); background: var(--bg); outline: none; font-family: 'Plus Jakarta Sans',sans-serif; }
+.sc-vocab-row input:focus { border-color: var(--teal); background: white; }
+.sc-vocab-row .sep { color: var(--muted); font-size: 11px; font-weight: 700; }
+.sc-vocab-pct { margin-left: auto; font-size: 14px; font-weight: 800; padding: 3px 10px; border-radius: 8px; font-family: 'Plus Jakarta Sans',sans-serif; background: var(--bg); color: var(--muted); }
+.sc-vocab-pct.high { background: var(--green-light); color: var(--green); }
+.sc-vocab-pct.mid { background: var(--orange-light); color: var(--orange); }
+.sc-vocab-pct.low { background: var(--red-light); color: var(--red); }
+
+/* 어제/오늘 */
+.sc-prog-section { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.sc-prog-item { background: white; border-radius: 9px; padding: 8px 10px; }
+.sc-prog-item .lbl { font-size: 9px; color: var(--muted); font-weight: 700; margin-bottom: 3px; }
+.sc-prog-item .lbl.yest { color: var(--blue); }
+.sc-prog-item .lbl.today { color: var(--teal-d); }
+.sc-prog-item .val { font-size: 11px; font-weight: 700; color: var(--text); line-height: 1.3; }
+
+/* 알림 */
+.notice-list { display: flex; flex-direction: column; gap: 8px; }
+.notice-item { display: flex; gap: 10px; padding: 11px 12px; border-radius: 12px; background: var(--bg); border-left: 3px solid var(--muted); cursor: pointer; transition: .15s; }
+.notice-item:hover { background: white; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+.notice-item.urgent { border-left-color: var(--red); background: var(--red-light); }
+.notice-item.warn { border-left-color: var(--orange); background: var(--orange-light); }
+.notice-item.help { border-left-color: var(--purple); background: var(--purple-light); }
+.notice-item.info { border-left-color: var(--blue); background: var(--blue-light); }
+.notice-icon { width: 32px; height: 32px; border-radius: 10px; background: rgba(255,255,255,.7); display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
+.notice-item.urgent .notice-icon { color: var(--red); }
+.notice-item.warn .notice-icon { color: var(--orange); }
+.notice-item.help .notice-icon { color: var(--purple); }
+.notice-item.info .notice-icon { color: var(--blue); }
+.notice-body { flex: 1; min-width: 0; }
+.notice-title { font-size: 11px; font-weight: 800; margin-bottom: 2px; }
+.notice-desc { font-size: 10px; color: var(--text2); font-weight: 500; line-height: 1.4; }
+.notice-time { font-size: 9px; color: var(--muted); font-weight: 600; margin-top: 4px; }
+
+/* 빠른 작업 */
+.quick-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.qa-btn { padding: 14px 10px; background: white; border: 1.5px solid #f3f4f6; border-radius: 13px; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 6px; transition: .15s; font-family: inherit; }
+.qa-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.06); }
+.qa-emoji { font-size: 22px; }
+.qa-lbl { font-size: 10px; font-weight: 700; color: var(--text2); }
+
+.side-nav { background: white; border-radius: 16px; padding: 14px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+.side-nav-title { font-size: 11px; font-weight: 800; color: var(--muted); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
+.side-nav-item { padding: 10px 12px; border-radius: 10px; font-size: 12px; font-weight: 700; color: var(--text2); cursor: pointer; display: flex; align-items: center; gap: 8px; margin-bottom: 3px; }
+.side-nav-item:hover { background: var(--bg); }
+.side-nav-item.active { background: var(--teal-light); color: var(--teal-d); }
+.side-nav-item i { font-size: 14px; }
+
+/* ━━━━━ 사이드 패널 ━━━━━ */
+.side-panel-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 998; opacity: 0; pointer-events: none; transition: opacity .3s; backdrop-filter: blur(2px); }
+.side-panel-overlay.show { opacity: 1; pointer-events: all; }
+.side-panel { position: fixed; top: 0; right: 0; bottom: 0; width: 100%; max-width: 720px; background: var(--bg); z-index: 999; transform: translateX(100%); transition: transform .35s cubic-bezier(0.25,0.46,0.45,0.94); overflow: hidden; box-shadow: -10px 0 40px rgba(0,0,0,0.15); display: flex; flex-direction: column; }
+.side-panel.show { transform: translateX(0); }
+.sp-header { background: white; padding: 16px 20px; position: sticky; top: 0; z-index: 10; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #f3f4f6; }
+.sp-title-grp { display: flex; align-items: center; gap: 12px; }
+.sp-avatar { width: 44px; height: 44px; border-radius: 14px; background: linear-gradient(135deg, var(--teal), #4dd4c0); display: flex; align-items: center; justify-content: center; color: white; font-weight: 800; }
+.sp-name { font-size: 16px; font-weight: 800; }
+.sp-sub { font-size: 11px; color: var(--muted); font-weight: 600; margin-top: 2px; }
+.sp-close { width: 36px; height: 36px; background: var(--bg); border: none; border-radius: 11px; font-size: 18px; cursor: pointer; }
+
+.sp-edit-badge { background: var(--purple); color: white; font-size: 10px; font-weight: 800; padding: 4px 9px; border-radius: 8px; display: inline-flex; align-items: center; gap: 4px; margin-left: 8px; }
+
+.sp-body { padding: 20px; display: flex; flex-direction: column; gap: 14px; }
+
+.sp-card { background: white; border-radius: 16px; padding: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+.sp-card-title { font-size: 13px; font-weight: 800; margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
+
+/* 미니 KPI (사이드패널) */
+.sp-mini-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+.sp-mini { background: white; padding: 12px; border-radius: 12px; text-align: center; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+.sp-mini-lbl { font-size: 9px; color: var(--muted); font-weight: 700; margin-bottom: 4px; }
+.sp-mini-val { font-size: 18px; font-weight: 800; font-family: 'Plus Jakarta Sans',sans-serif; line-height: 1; }
+.sp-mini-val.t { color: var(--teal-d); }
+.sp-mini-val.p { color: var(--purple); }
+.sp-mini-val.o { color: var(--orange); }
+
+/* 사이드 패널 입력 */
+.sp-input { width: 100%; padding: 9px 11px; border: 1.5px solid #e5e7eb; border-radius: 10px; font-size: 12px; font-family: inherit; font-weight: 600; color: var(--text); background: white; outline: none; }
+.sp-input:focus { border-color: var(--teal); }
+.sp-textarea { width: 100%; padding: 10px 12px; border: 1.5px solid #e5e7eb; border-radius: 10px; font-size: 12px; font-family: inherit; font-weight: 500; color: var(--text); background: white; outline: none; resize: none; min-height: 60px; }
+
+.sp-hw-row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+.sp-hw-check { width: 18px; height: 18px; border-radius: 5px; background: #6d28d9; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.sp-hw-check::after { content: '✓'; color: white; font-size: 11px; font-weight: 800; }
+
+.sp-save-fab { position: sticky; bottom: 0; background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.05) 100%); padding: 16px 20px; }
+.sp-save-btn { width: 100%; padding: 14px; background: linear-gradient(135deg, var(--teal), var(--teal-d)); color: white; border: none; border-radius: 14px; font-size: 14px; font-weight: 800; cursor: pointer; font-family: inherit; box-shadow: 0 6px 20px rgba(20,184,166,.35); }
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <header class="app-header">
+    <div class="teacher-greet">
+      <div class="teacher-avatar">👨‍🏫</div>
+      <div class="teacher-text">
+        <h1>안녕하세요, 김선생님! ☀️</h1>
+        <p><span class="live-dot"></span>오늘 등원 <b style="color:var(--green)">12명</b> · 학습 중 8명 · 늦은 등원 1명</p>
+      </div>
+    </div>
+    <div class="header-actions">
+      <div class="date-pill">📅 2026. 5. 31 (일) · 16:45</div>
+      <button class="icon-btn"><i class="ti ti-search"></i></button>
+      <button class="icon-btn"><i class="ti ti-bell"></i><span class="badge">4</span></button>
+      <button class="icon-btn"><i class="ti ti-settings"></i></button>
+    </div>
+  </header>
+
+  <div class="body">
+
+    <div class="col-main">
+
+      <!-- KPI -->
+      <div class="kpi-grid">
+        <div class="kpi-card attend">
+          <div class="kpi-icon"><i class="ti ti-users"></i></div>
+          <div class="kpi-lbl">오늘 등원</div>
+          <div class="kpi-val">12<span class="unit">/ 15명</span></div>
+        </div>
+        <div class="kpi-card now">
+          <div class="kpi-icon"><i class="ti ti-pulse"></i></div>
+          <div class="kpi-lbl">현재 학습</div>
+          <div class="kpi-val">8<span class="unit">명</span></div>
+        </div>
+        <div class="kpi-card late">
+          <div class="kpi-icon"><i class="ti ti-clock-exclamation"></i></div>
+          <div class="kpi-lbl">지각 / 늦은 등원</div>
+          <div class="kpi-val">2<span class="unit">명</span></div>
+        </div>
+        <div class="kpi-card absent">
+          <div class="kpi-icon"><i class="ti ti-user-off"></i></div>
+          <div class="kpi-lbl">결석</div>
+          <div class="kpi-val">1<span class="unit">명</span></div>
+        </div>
+        <div class="kpi-card alert">
+          <div class="kpi-icon"><i class="ti ti-alert-triangle"></i></div>
+          <div class="kpi-lbl">알림</div>
+          <div class="kpi-val">4<span class="unit">건</span></div>
+        </div>
+      </div>
+
+      <!-- 보기 모드 -->
+      <div class="card" style="padding:14px 16px">
+        <div class="view-tabs">
+          <button class="view-tab active"><i class="ti ti-calendar-event"></i> 오늘 시간표</button>
+          <button class="view-tab"><i class="ti ti-list"></i> 전체 학생</button>
+        </div>
+      </div>
+
+      <!-- 시간표 -->
+      <div class="card">
+        <div class="card-title-row">
+          <div class="card-title">📅 오늘 시간표 <span style="font-size:11px;color:var(--muted);font-weight:600;margin-left:6px">현재 16:45</span></div>
+          <div style="display:flex;gap:8px;align-items:center;position:relative">
+            <div style="position:relative">
+              <input type="text" id="studentSearch" placeholder="🔍 학생 이름 검색..." oninput="searchStudent(this.value)" onfocus="showSearchResults()" onblur="setTimeout(hideSearchResults,200)" style="padding:8px 14px;padding-right:32px;border:1.5px solid #f3f4f6;border-radius:11px;font-size:12px;font-family:inherit;outline:none;width:200px;font-weight:600;transition:.15s"/>
+              <button onclick="clearSearch()" id="searchClear" style="position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:14px;color:var(--muted);display:none">✕</button>
+              <div id="searchResults" style="display:none;position:absolute;top:calc(100% + 4px);left:0;right:0;background:white;border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,0.12);max-height:300px;overflow-y:auto;z-index:50;border:1px solid #f3f4f6"></div>
+            </div>
+            <button class="icon-btn" style="background:var(--teal-soft);color:var(--teal-d);width:auto;padding:0 12px;font-size:12px;font-weight:700">+ 학생 추가</button>
+          </div>
+        </div>
+
+        <!-- 보기 모드 + 시간대 빠른 이동 -->
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap">
+          <div class="view-mode-toggle">
+            <button id="viewModeCard" class="active" onclick="setViewMode('card')">
+              <span style="font-size:13px">▦</span> 카드 보기
+            </button>
+            <button id="viewModeList" onclick="setViewMode('list')">
+              <span style="font-size:13px">☰</span> 줄 보기
+            </button>
+          </div>
+          <div style="font-size:10px;color:var(--muted);font-weight:700">💡 줄 보기로 한 시간대 학생을 한눈에 비교하세요</div>
+        </div>
+
+        <!-- 시간대 빠른 이동 -->
+        <div class="time-quick-nav">
+          <span class="time-quick-label">⚡ 빠른 이동:</span>
+          <button class="time-jump-btn ended" onclick="jumpToTime('t14')">
+            <span class="jump-time">2시 타임</span>
+            <span class="jump-attendance" style="color:var(--green)">4/6 등원</span>
+            <span class="jump-status">종료</span>
+          </button>
+          <button class="time-jump-btn ended" onclick="jumpToTime('t15')">
+            <span class="jump-time">3시 타임</span>
+            <span class="jump-attendance" style="color:var(--green)">5/5 등원</span>
+            <span class="jump-status">종료</span>
+          </button>
+          <button class="time-jump-btn current" onclick="jumpToTime('t16')">
+            <span class="jump-time">4시 타임</span>
+            <span class="jump-attendance" style="color:var(--teal-d)">5/7 등원</span>
+            <span class="jump-status">진행 중</span>
+          </button>
+          <button class="time-jump-btn upcoming" onclick="jumpToTime('t17')">
+            <span class="jump-time">5시 타임</span>
+            <span class="jump-attendance" style="color:var(--muted)">0/6 등원</span>
+            <span class="jump-status">예정</span>
+          </button>
+          <button class="time-jump-btn upcoming" onclick="jumpToTime('t18')">
+            <span class="jump-time">6시 타임</span>
+            <span class="jump-attendance" style="color:var(--muted)">0/8 등원</span>
+            <span class="jump-status">예정</span>
+          </button>
+        </div>
+
+        <!-- 14:00 ~ 16:00 (이미 끝남) -->
+        <div class="time-section" id="t14">
+          <div class="time-header">
+            <div class="time-badge">14:00 ~ 16:00</div>
+            <div class="time-info">
+              <span>👥 <b>6명</b> 등록</span>
+              <span style="color:var(--green)">✅ <b>4명</b> 등원</span>
+              <span style="color:var(--orange)">⏰ <b>1명</b> 지각</span>
+              <span style="color:var(--red)">❌ <b>1명</b> 결석</span>
+              <span style="color:var(--muted);font-weight:500">· 종료된 시간대</span>
+            </div>
+          </div>
+          <div class="student-grid">
+
+            <!-- 김민준 (학습 중) -->
+            <div class="student-card attending" onclick="openSidePanel('김민준')">
+              <button class="sc-menu-btn" onclick="event.stopPropagation();toggleMenu(this,'김민준')" title="설정">⚙️</button>
+              <div class="sc-header">
+                <div class="sc-avatar">민준</div>
+                <div class="sc-name-wrap"><div class="sc-name">김민준</div><div class="sc-level">ORT2 · 초3</div></div>
+                <div class="sc-status attending">학습중</div>
+              </div>
+              <div class="sc-time">
+                <div class="sc-time-item">🟢 등원 <b>14:02</b></div>
+                <div class="sc-time-divider"></div>
+                <div class="sc-time-item">⏱ <b>2시간 43분</b></div>
+              </div>
+              <div class="sc-vocab-section">
+                <div class="sc-vocab-row">
+                  <label>📝 단어시험</label>
+                  <input type="number" placeholder="0" value="17" onclick="event.stopPropagation()" oninput="calcVocab(this)"/>
+                  <span class="sep">/</span>
+                  <input type="number" value="20" onclick="event.stopPropagation()" oninput="calcVocab(this)"/>
+                  <span class="sc-vocab-pct high">85%</span>
+                </div>
+              </div>
+              <div class="sc-hw-section">
+                <div class="sc-hw-label">과제 점검</div>
+                <div class="sc-hw-btns">
+                  <button class="sc-hw-btn o on" onclick="event.stopPropagation();selHw(this)">○</button>
+                  <button class="sc-hw-btn tri" onclick="event.stopPropagation();selHw(this)">△</button>
+                  <button class="sc-hw-btn x" onclick="event.stopPropagation();selHw(this)">×</button>
+                  <button class="sc-hw-btn exempt" onclick="event.stopPropagation();selHw(this)">—</button>
+                </div>
+              </div>
+              <div class="sc-prog-section">
+                <div class="sc-prog-item"><div class="lbl yest">📋 어제</div><div class="val">ORT2-3-3 <span style="font-size:9px;background:var(--purple-light);color:var(--purple);padding:1px 6px;border-radius:5px;margin-left:2px">P 퍼즐</span></div></div>
+                <div class="sc-prog-item"><div class="lbl today">🎯 오늘</div><div class="val">ORT2-3-4 · Fly Guy 15</div></div>
+              </div>
+            </div>
+
+            <!-- 이지우 -->
+            <div class="student-card attending" onclick="openSidePanel('이지우')">
+              <button class="sc-menu-btn" onclick="event.stopPropagation();toggleMenu(this,'이지우')" title="설정">⚙️</button>
+              <div class="sc-header">
+                <div class="sc-avatar" style="background:linear-gradient(135deg,#f472b6,#f59e0b)">지우</div>
+                <div class="sc-name-wrap"><div class="sc-name">이지우</div><div class="sc-level">ORT3 · 초3</div></div>
+                <div class="sc-status attending">학습중</div>
+              </div>
+              <div class="sc-time">
+                <div class="sc-time-item">🟢 등원 <b>13:58</b></div>
+                <div class="sc-time-divider"></div>
+                <div class="sc-time-item">⏱ <b>2시간 47분</b></div>
+              </div>
+              <div class="sc-vocab-section">
+                <div class="sc-vocab-row">
+                  <label>📝 단어시험</label>
+                  <input type="number" placeholder="0" value="12" onclick="event.stopPropagation()" oninput="calcVocab(this)"/>
+                  <span class="sep">/</span>
+                  <input type="number" value="20" onclick="event.stopPropagation()" oninput="calcVocab(this)"/>
+                  <span class="sc-vocab-pct mid">60%</span>
+                </div>
+              </div>
+              <div class="sc-hw-section">
+                <div class="sc-hw-label">과제 점검</div>
+                <div class="sc-hw-btns">
+                  <button class="sc-hw-btn o" onclick="event.stopPropagation();selHw(this)">○</button>
+                  <button class="sc-hw-btn tri on" onclick="event.stopPropagation();selHw(this)">△</button>
+                  <button class="sc-hw-btn x" onclick="event.stopPropagation();selHw(this)">×</button>
+                  <button class="sc-hw-btn exempt" onclick="event.stopPropagation();selHw(this)">—</button>
+                </div>
+                <div class="sc-hw-memo show">
+                  <div class="sc-hw-memo-tag">📝 안 한 과제 · 시키고 보낼 것</div>
+                  <textarea class="sc-hw-memo-input" placeholder="예) 단어 5개 미완료, 클카 녹음 안 함" onclick="event.stopPropagation()">RG 1p 빠짐, 클카 녹음 3개만 함</textarea>
+                </div>
+              </div>
+              <div class="sc-prog-section">
+                <div class="sc-prog-item"><div class="lbl yest">📋 어제</div><div class="val">ORT3-1-5 <span style="font-size:9px;background:var(--purple-light);color:var(--purple);padding:1px 6px;border-radius:5px;margin-left:2px">D 듣기</span></div></div>
+                <div class="sc-prog-item"><div class="lbl today">🎯 오늘</div><div class="val">ORT3-2-1 · Froggy 3</div></div>
+              </div>
+            </div>
+
+            <!-- 박서연 (보강중 예시) -->
+            <div class="student-card attending bogang" onclick="openSidePanel('박서연')">
+              <button class="sc-menu-btn" onclick="event.stopPropagation();toggleMenu(this,'박서연')" title="설정">⚙️</button>
+              <div class="sc-header">
+                <div class="sc-avatar" style="background:linear-gradient(135deg,#8b5cf6,#3b82f6)">서연</div>
+                <div class="sc-name-wrap"><div class="sc-name">박서연</div><div class="sc-level">ORT2 · 초2</div></div>
+                <div class="sc-status attending">학습중<span class="bogang-badge">🩹 보강중</span></div>
+              </div>
+              <div class="sc-time">
+                <div class="sc-time-item">🟣 등원 <b>14:05</b></div>
+                <div class="sc-time-divider"></div>
+                <div class="sc-time-item">⏱ <b>2시간 40분</b></div>
+              </div>
+              <div style="background:#faf5ff;border:1.5px solid #a855f7;border-radius:9px;padding:7px 10px;margin-bottom:10px;font-size:10px;font-weight:700;color:#7e22ce">
+                🩹 5/28 결석 보강 · 원래 수업 진도 진행
+              </div>
+              <div class="sc-vocab-section">
+                <div class="sc-vocab-row">
+                  <label>📝 단어시험</label>
+                  <input type="number" placeholder="0" onclick="event.stopPropagation()" oninput="calcVocab(this)"/>
+                  <span class="sep">/</span>
+                  <input type="number" value="20" onclick="event.stopPropagation()" oninput="calcVocab(this)"/>
+                  <span class="sc-vocab-pct">—%</span>
+                </div>
+              </div>
+              <div class="sc-hw-section">
+                <div class="sc-hw-label">과제 점검</div>
+                <div class="sc-hw-btns">
+                  <button class="sc-hw-btn o on" onclick="event.stopPropagation();selHw(this)">○</button>
+                  <button class="sc-hw-btn tri" onclick="event.stopPropagation();selHw(this)">△</button>
+                  <button class="sc-hw-btn x" onclick="event.stopPropagation();selHw(this)">×</button>
+                  <button class="sc-hw-btn exempt" onclick="event.stopPropagation();selHw(this)">—</button>
+                </div>
+              </div>
+              <div class="sc-prog-section">
+                <div class="sc-prog-item"><div class="lbl yest">📋 어제</div><div class="val">ORT2-2-6 <span style="font-size:9px;background:var(--purple-light);color:var(--purple);padding:1px 6px;border-radius:5px;margin-left:2px">Q 퀴즈</span></div></div>
+                <div class="sc-prog-item"><div class="lbl today">🎯 오늘</div><div class="val">ORT2-3-1 · Biscuit 12</div></div>
+              </div>
+            </div>
+
+            <!-- 최도윤 -->
+            <div class="student-card attending" onclick="openSidePanel('최도윤')">
+              <button class="sc-menu-btn" onclick="event.stopPropagation();toggleMenu(this,'최도윤')" title="설정">⚙️</button>
+              <div class="sc-header">
+                <div class="sc-avatar" style="background:linear-gradient(135deg,#22c55e,#14b8a6)">도윤</div>
+                <div class="sc-name-wrap"><div class="sc-name">최도윤</div><div class="sc-level">ORT4 · 초4</div></div>
+                <div class="sc-status attending">학습중</div>
+              </div>
+              <div class="sc-time">
+                <div class="sc-time-item">🟢 등원 <b>14:10</b></div>
+                <div class="sc-time-divider"></div>
+                <div class="sc-time-item">⏱ <b>2시간 35분</b></div>
+              </div>
+              <div class="sc-vocab-section">
+                <div class="sc-vocab-row">
+                  <label>📝 단어시험</label>
+                  <input type="number" placeholder="0" value="8" onclick="event.stopPropagation()" oninput="calcVocab(this)"/>
+                  <span class="sep">/</span>
+                  <input type="number" value="20" onclick="event.stopPropagation()" oninput="calcVocab(this)"/>
+                  <span class="sc-vocab-pct low">40%</span>
+                </div>
+              </div>
+              <div class="sc-hw-section">
+                <div class="sc-hw-label">과제 점검</div>
+                <div class="sc-hw-btns">
+                  <button class="sc-hw-btn o" onclick="event.stopPropagation();selHw(this)">○</button>
+                  <button class="sc-hw-btn tri" onclick="event.stopPropagation();selHw(this)">△</button>
+                  <button class="sc-hw-btn x on" onclick="event.stopPropagation();selHw(this)">×</button>
+                  <button class="sc-hw-btn exempt" onclick="event.stopPropagation();selHw(this)">—</button>
+                </div>
+                <div class="sc-hw-memo show">
+                  <div class="sc-hw-memo-tag">📝 안 한 과제 · 시키고 보낼 것</div>
+                  <textarea class="sc-hw-memo-input" placeholder="예) 단어 5개 미완료, 클카 녹음 안 함" onclick="event.stopPropagation()">전부 못 함 (단어 20개, 클카, RG, 문법 모두)</textarea>
+                </div>
+              </div>
+              <div class="sc-prog-section">
+                <div class="sc-prog-item"><div class="lbl yest">📋 어제</div><div class="val">ORT4-1-2 <span style="font-size:9px;background:var(--purple-light);color:var(--purple);padding:1px 6px;border-radius:5px;margin-left:2px">L 라이팅</span></div></div>
+                <div class="sc-prog-item"><div class="lbl today">🎯 오늘</div><div class="val">ORT4-1-3</div></div>
+              </div>
+            </div>
+
+            <!-- 장유민 - 14:00 예정이었으나 16:05 늦게 등원 → 16시 시간대로 이동됨 -->
+            <div class="student-card" style="border-color:#e5e7eb;background:#fafafa;opacity:0.85;cursor:pointer" onclick="document.querySelector('.time-section:nth-child(3)').scrollIntoView({behavior:'smooth'})">
+              <div class="sc-header">
+                <div class="sc-avatar" style="background:linear-gradient(135deg,#9ca3af,#fb923c);opacity:0.7">유민</div>
+                <div class="sc-name-wrap"><div class="sc-name" style="color:var(--text2)">장유민</div><div class="sc-level">ORT5 · 초5</div></div>
+                <div class="sc-status" style="background:var(--orange);color:white">이동됨</div>
+              </div>
+              <div style="background:var(--orange-light);border:1.5px solid var(--orange);border-radius:10px;padding:10px;text-align:center">
+                <div style="font-size:18px;margin-bottom:4px">🔀</div>
+                <div style="font-size:11px;font-weight:800;color:var(--orange);margin-bottom:3px">늦은 등원으로 이동</div>
+                <div style="font-size:10px;font-weight:600;color:var(--text2)">16:00 시간대로 이동됨<br>(16:05 등원, 2시간 5분 늦음)</div>
+                <div style="font-size:10px;color:var(--orange);font-weight:700;margin-top:6px;cursor:pointer">↓ 16:00 시간대 보기</div>
+              </div>
+            </div>
+
+            <!-- 강민호 (14:00 예정 - 지각, 아직 등원 안 함) -->
+            <div class="student-card late" onclick="openSidePanel('강민호')">
+              <button class="sc-menu-btn" onclick="event.stopPropagation();toggleMenu(this,'강민호')" title="설정">⚙️</button>
+              <div class="sc-header">
+                <div class="sc-avatar" style="background:linear-gradient(135deg,#fb923c,#facc15)">민호</div>
+                <div class="sc-name-wrap"><div class="sc-name">강민호</div><div class="sc-level">ORT3 · 초3</div></div>
+                <div class="sc-status late">지각</div>
+              </div>
+              <div class="sc-time">
+                <div class="sc-time-item" style="color:var(--orange)">⏰ <b>2시간 45분</b> 지각</div>
+                <div class="sc-time-divider"></div>
+                <div class="sc-time-item">예정 <b>14:00</b></div>
+              </div>
+              <button class="absent-btn" onclick="event.stopPropagation();confirmAbsent(this)">❌ 결석으로 처리</button>
+              <div class="sc-prog-section">
+                <div class="sc-prog-item"><div class="lbl yest">📋 어제</div><div class="val">ORT3-1-3 <span style="font-size:9px;background:var(--purple-light);color:var(--purple);padding:1px 6px;border-radius:5px;margin-left:2px">C 클카</span></div></div>
+                <div class="sc-prog-item"><div class="lbl today">🎯 오늘</div><div class="val" style="color:var(--muted)">아직 미등원</div></div>
+              </div>
+            </div>
+
+            <!-- 정유나 (결석 처리됨) -->
+            <div class="student-card absent" id="card-정유나" onclick="openSidePanel('정유나')">
+              <button class="sc-menu-btn" onclick="event.stopPropagation();toggleMenu(this,'정유나')" title="설정">⚙️</button>
+              <div class="sc-header">
+                <div class="sc-avatar" style="background:linear-gradient(135deg,#9ca3af,#6b7280)">유나</div>
+                <div class="sc-name-wrap"><div class="sc-name">정유나</div><div class="sc-level">ORT3 · 초3</div></div>
+                <div class="sc-status absent">결석</div>
+              </div>
+              <div class="sc-time">
+                <div class="sc-time-item" style="color:var(--red)">❌ 결석 확정</div>
+                <div class="sc-time-divider"></div>
+                <div class="sc-time-item">예정 <b>14:00</b></div>
+              </div>
+              <button class="absent-btn confirmed" style="background:var(--red);color:white;border-color:var(--red);margin-bottom:6px" disabled>✓ 결석 확정됨</button>
+              <button onclick="event.stopPropagation();openBogangModal('정유나')" style="width:100%;padding:8px;background:linear-gradient(135deg,#a855f7,#8b5cf6);color:white;border:none;border-radius:9px;font-size:11px;font-weight:800;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:5px;margin-bottom:6px;box-shadow:0 3px 10px rgba(168,85,247,0.3)">
+                🩹 보강 추가하기
+              </button>
+              <button onclick="event.stopPropagation();simulateLateArrival('정유나')" style="width:100%;padding:6px;background:white;color:var(--green);border:1.5px dashed var(--green);border-radius:9px;font-size:10px;font-weight:800;cursor:pointer;font-family:inherit;margin-bottom:10px">
+                🧪 [데모] 학생이 늦게 등원 + 학습 시작
+              </button>
+              <div class="sc-prog-section">
+                <div class="sc-prog-item"><div class="lbl yest">📋 어제</div><div class="val">ORT3-1-4 <span style="font-size:9px;background:var(--purple-light);color:var(--purple);padding:1px 6px;border-radius:5px;margin-left:2px">S 셰도잉</span></div></div>
+                <div class="sc-prog-item"><div class="lbl today">🎯 오늘</div><div class="val" style="color:var(--muted)">결석</div></div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- 16:00 ~ 18:00 (현재 진행) -->
+        <div class="time-section" id="t16">
+          <div class="time-header">
+            <div class="time-badge">16:00 ~ 18:00</div>
+            <div class="time-info">
+              <span>👥 <b>5명</b> 등록</span>
+              <span style="color:var(--green)">✅ <b>3명</b> 등원</span>
+              <span style="color:var(--blue)">✨ <b>1명</b> 일찍 등원</span>
+              <span style="color:var(--orange)">⏰ <b>1명</b> 늦은 등원 (타시간대)</span>
+            </div>
+          </div>
+          <div class="student-grid">
+
+            <!-- 윤하은 (일찍 등원) -->
+            <div class="student-card early" onclick="openSidePanel('윤하은')">
+              <button class="sc-menu-btn" onclick="event.stopPropagation();toggleMenu(this,'윤하은')" title="설정">⚙️</button>
+              <div class="early-badge">✨ 일찍 등원</div>
+              <div class="sc-header">
+                <div class="sc-avatar" style="background:linear-gradient(135deg,#fb923c,#facc15)">하은</div>
+                <div class="sc-name-wrap"><div class="sc-name">윤하은</div><div class="sc-level">ORT5 · 초5</div></div>
+                <div class="sc-status early">조기등원</div>
+              </div>
+              <div class="sc-time">
+                <div class="sc-time-item">🔵 등원 <b>15:42</b></div>
+                <div class="sc-time-divider"></div>
+                <div class="sc-time-item">⏱ <b>1시간 3분</b></div>
+              </div>
+              <div class="sc-vocab-section">
+                <div class="sc-vocab-row">
+                  <label>📝 단어시험</label>
+                  <input type="number" value="19" onclick="event.stopPropagation()" oninput="calcVocab(this)"/>
+                  <span class="sep">/</span>
+                  <input type="number" value="20" onclick="event.stopPropagation()" oninput="calcVocab(this)"/>
+                  <span class="sc-vocab-pct high">95%</span>
+                </div>
+              </div>
+              <div class="sc-hw-section">
+                <div class="sc-hw-label">과제 점검</div>
+                <div class="sc-hw-btns">
+                  <button class="sc-hw-btn o on" onclick="event.stopPropagation();selHw(this)">○</button>
+                  <button class="sc-hw-btn tri" onclick="event.stopPropagation();selHw(this)">△</button>
+                  <button class="sc-hw-btn x" onclick="event.stopPropagation();selHw(this)">×</button>
+                  <button class="sc-hw-btn exempt" onclick="event.stopPropagation();selHw(this)">—</button>
+                </div>
+              </div>
+              <div class="sc-prog-section">
+                <div class="sc-prog-item"><div class="lbl yest">📋 어제</div><div class="val">ORT5-2-3 <span style="font-size:9px;background:var(--purple-light);color:var(--purple);padding:1px 6px;border-radius:5px;margin-left:2px">R 리뷰</span></div></div>
+                <div class="sc-prog-item"><div class="lbl today">🎯 오늘</div><div class="val">ORT5-2-4 · Mercy 5</div></div>
+              </div>
+            </div>
+
+            <!-- 강시현 -->
+            <div class="student-card attending" onclick="openSidePanel('강시현')">
+              <button class="sc-menu-btn" onclick="event.stopPropagation();toggleMenu(this,'강시현')" title="설정">⚙️</button>
+              <div class="sc-header">
+                <div class="sc-avatar" style="background:linear-gradient(135deg,#3b82f6,#8b5cf6)">시현</div>
+                <div class="sc-name-wrap"><div class="sc-name">강시현</div><div class="sc-level">ORT4 · 초4</div></div>
+                <div class="sc-status attending">학습중</div>
+              </div>
+              <div class="sc-time">
+                <div class="sc-time-item">🟢 등원 <b>16:03</b></div>
+                <div class="sc-time-divider"></div>
+                <div class="sc-time-item">⏱ <b>42분</b></div>
+              </div>
+              <div class="sc-vocab-section">
+                <div class="sc-vocab-row">
+                  <label>📝 단어시험</label>
+                  <input type="number" placeholder="0" onclick="event.stopPropagation()" oninput="calcVocab(this)"/>
+                  <span class="sep">/</span>
+                  <input type="number" value="20" onclick="event.stopPropagation()" oninput="calcVocab(this)"/>
+                  <span class="sc-vocab-pct">—%</span>
+                </div>
+              </div>
+              <div class="sc-hw-section">
+                <div class="sc-hw-label">과제 점검</div>
+                <div class="sc-hw-btns">
+                  <button class="sc-hw-btn o" onclick="event.stopPropagation();selHw(this)">○</button>
+                  <button class="sc-hw-btn tri" onclick="event.stopPropagation();selHw(this)">△</button>
+                  <button class="sc-hw-btn x" onclick="event.stopPropagation();selHw(this)">×</button>
+                  <button class="sc-hw-btn exempt on" onclick="event.stopPropagation();selHw(this)">—</button>
+                </div>
+              </div>
+              <div class="sc-prog-section">
+                <div class="sc-prog-item"><div class="lbl yest">📋 어제</div><div class="val">ORT4-2-5 <span style="font-size:9px;background:var(--purple-light);color:var(--purple);padding:1px 6px;border-radius:5px;margin-left:2px">📓 앞바닥</span></div></div>
+                <div class="sc-prog-item"><div class="lbl today">🎯 오늘</div><div class="val">ORT4-2-6</div></div>
+              </div>
+            </div>
+
+            <!-- 조예린 -->
+            <div class="student-card attending" onclick="openSidePanel('조예린')">
+              <button class="sc-menu-btn" onclick="event.stopPropagation();toggleMenu(this,'조예린')" title="설정">⚙️</button>
+              <div class="sc-header">
+                <div class="sc-avatar" style="background:linear-gradient(135deg,#ec4899,#f59e0b)">예린</div>
+                <div class="sc-name-wrap"><div class="sc-name">조예린</div><div class="sc-level">중1 내신</div></div>
+                <div class="sc-status attending">학습중</div>
+              </div>
+              <div class="sc-time">
+                <div class="sc-time-item">🟢 등원 <b>15:58</b></div>
+                <div class="sc-time-divider"></div>
+                <div class="sc-time-item">⏱ <b>47분</b></div>
+              </div>
+              <div class="sc-vocab-section">
+                <div class="sc-vocab-row">
+                  <label>📝 단어시험</label>
+                  <input type="number" value="18" onclick="event.stopPropagation()" oninput="calcVocab(this)"/>
+                  <span class="sep">/</span>
+                  <input type="number" value="20" onclick="event.stopPropagation()" oninput="calcVocab(this)"/>
+                  <span class="sc-vocab-pct high">90%</span>
+                </div>
+              </div>
+              <div class="sc-hw-section">
+                <div class="sc-hw-label">과제 점검</div>
+                <div class="sc-hw-btns">
+                  <button class="sc-hw-btn o on" onclick="event.stopPropagation();selHw(this)">○</button>
+                  <button class="sc-hw-btn tri" onclick="event.stopPropagation();selHw(this)">△</button>
+                  <button class="sc-hw-btn x" onclick="event.stopPropagation();selHw(this)">×</button>
+                  <button class="sc-hw-btn exempt" onclick="event.stopPropagation();selHw(this)">—</button>
+                </div>
+              </div>
+              <div class="sc-prog-section">
+                <div class="sc-prog-item"><div class="lbl yest">📋 어제</div><div class="val">3과 본문2 <span style="font-size:9px;background:var(--purple-light);color:var(--purple);padding:1px 6px;border-radius:5px;margin-left:2px">단어 외움</span></div></div>
+                <div class="sc-prog-item"><div class="lbl today">🎯 오늘</div><div class="val">3과 대화 · CC 문법</div></div>
+              </div>
+            </div>
+
+            <!-- 장유민 (원래 14:00반 → 늦게 등원, 현재 시간대로 이동 표시) -->
+            <div class="student-card attending late-arrival" onclick="openSidePanel('장유민')">
+              <button class="sc-menu-btn" onclick="event.stopPropagation();toggleMenu(this,'장유민')" title="설정">⚙️</button>
+              <div class="late-arrival-badge">⏰ 늦은 등원 · 원래 14:00반</div>
+              <div class="sc-header">
+                <div class="sc-avatar" style="background:linear-gradient(135deg,#fb923c,#ef4444)">유민</div>
+                <div class="sc-name-wrap"><div class="sc-name">장유민</div><div class="sc-level">ORT5 · 초5</div></div>
+                <div class="sc-status attending">학습중</div>
+              </div>
+              <div class="sc-time">
+                <div class="sc-time-item">🟢 등원 <b>16:05</b></div>
+                <div class="sc-time-divider"></div>
+                <div class="sc-time-item" style="color:var(--orange)">⚠ <b>2시간 5분 늦음</b></div>
+              </div>
+              <div class="sc-vocab-section">
+                <div class="sc-vocab-row">
+                  <label>📝 단어시험</label>
+                  <input type="number" placeholder="0" onclick="event.stopPropagation()" oninput="calcVocab(this)"/>
+                  <span class="sep">/</span>
+                  <input type="number" value="20" onclick="event.stopPropagation()" oninput="calcVocab(this)"/>
+                  <span class="sc-vocab-pct">—%</span>
+                </div>
+              </div>
+              <div class="sc-hw-section">
+                <div class="sc-hw-label">과제 점검</div>
+                <div class="sc-hw-btns">
+                  <button class="sc-hw-btn o" onclick="event.stopPropagation();selHw(this)">○</button>
+                  <button class="sc-hw-btn tri" onclick="event.stopPropagation();selHw(this)">△</button>
+                  <button class="sc-hw-btn x" onclick="event.stopPropagation();selHw(this)">×</button>
+                  <button class="sc-hw-btn exempt" onclick="event.stopPropagation();selHw(this)">—</button>
+                </div>
+              </div>
+              <div class="sc-prog-section">
+                <div class="sc-prog-item"><div class="lbl yest">📋 어제</div><div class="val">ORT5-1-4</div></div>
+                <div class="sc-prog-item"><div class="lbl today">🎯 오늘</div><div class="val">ORT5-1-5</div></div>
+              </div>
+            </div>
+
+            <!-- 한주원 (아직 시간) -->
+            <div class="student-card waiting">
+              <div class="sc-header">
+                <div class="sc-avatar" style="background:linear-gradient(135deg,#a78bfa,#06b6d4)">주원</div>
+                <div class="sc-name-wrap"><div class="sc-name">한주원</div><div class="sc-level">ORT3 · 초4</div></div>
+                <div class="sc-status waiting">대기</div>
+              </div>
+              <div class="sc-time">
+                <div class="sc-time-item" style="color:var(--muted)">⏳ 예정 시간</div>
+                <div class="sc-time-divider"></div>
+                <div class="sc-time-item">예정 <b>17:00</b></div>
+              </div>
+              <div class="sc-hw-section">
+                <div class="sc-hw-label">과제 점검 <span style="color:var(--muted);font-weight:500">· 등원 후 입력</span></div>
+                <div class="sc-hw-btns">
+                  <button class="sc-hw-btn o" onclick="event.stopPropagation();selHw(this)">○</button>
+                  <button class="sc-hw-btn tri" onclick="event.stopPropagation();selHw(this)">△</button>
+                  <button class="sc-hw-btn x" onclick="event.stopPropagation();selHw(this)">×</button>
+                  <button class="sc-hw-btn exempt" onclick="event.stopPropagation();selHw(this)">—</button>
+                </div>
+              </div>
+              <div class="sc-prog-section">
+                <div class="sc-prog-item"><div class="lbl yest">📋 어제</div><div class="val">ORT3-2-2</div></div>
+                <div class="sc-prog-item"><div class="lbl today">🎯 오늘</div><div class="val" style="color:var(--muted)">예정 진도</div></div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- 18:00 ~ 20:00 (대기) -->
+        <div class="time-section" id="t18">
+          <div class="time-header">
+            <div class="time-badge">18:00 ~ 20:00</div>
+            <div class="time-info">
+              <span>👥 <b>5명</b> 등록</span>
+              <span style="color:var(--muted)">⏳ <b>5명</b> 예정</span>
+            </div>
+          </div>
+          <div class="student-grid">
+            <div class="student-card waiting">
+              <div class="sc-header">
+                <div class="sc-avatar" style="background:linear-gradient(135deg,#06b6d4,#3b82f6)">현우</div>
+                <div class="sc-name-wrap"><div class="sc-name">임현우</div><div class="sc-level">중2 내신</div></div>
+                <div class="sc-status waiting">대기</div>
+              </div>
+              <div class="sc-time">
+                <div class="sc-time-item" style="color:var(--muted)">⏳ 등원 예정</div>
+                <div class="sc-time-divider"></div>
+                <div class="sc-time-item"><b>18:00</b></div>
+              </div>
+              <div class="sc-hw-section">
+                <div class="sc-hw-label">과제 점검</div>
+                <div class="sc-hw-btns">
+                  <button class="sc-hw-btn o" onclick="event.stopPropagation();selHw(this)">○</button>
+                  <button class="sc-hw-btn tri" onclick="event.stopPropagation();selHw(this)">△</button>
+                  <button class="sc-hw-btn x" onclick="event.stopPropagation();selHw(this)">×</button>
+                  <button class="sc-hw-btn exempt" onclick="event.stopPropagation();selHw(this)">—</button>
+                </div>
+              </div>
+              <div class="sc-prog-section">
+                <div class="sc-prog-item"><div class="lbl yest">📋 어제</div><div class="val">5과 본문1</div></div>
+                <div class="sc-prog-item"><div class="lbl today">🎯 오늘</div><div class="val" style="color:var(--muted)">시험범위 학습</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- 사이드 컬럼 -->
+    <div class="col-side">
+
+      <div class="side-nav">
+        <div class="side-nav-title">메뉴</div>
+        <div class="side-nav-item active"><i class="ti ti-home"></i> 메인 대시보드</div>
+        <div class="side-nav-item"><i class="ti ti-users"></i> 학생 관리</div>
+        <div class="side-nav-item"><i class="ti ti-book"></i> 교재 관리</div>
+        <div class="side-nav-item"><i class="ti ti-chart-bar"></i> 통계 · 리포트</div>
+        <div class="side-nav-item"><i class="ti ti-message"></i> 학부모 소통</div>
+        <div class="side-nav-item"><i class="ti ti-settings"></i> 설정</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title-row">
+          <div class="card-title" style="font-size:14px">🔔 알림 <span style="background:var(--red);color:white;font-size:10px;font-weight:800;padding:2px 7px;border-radius:8px;margin-left:4px">4</span></div>
+          <span style="font-size:10px;color:var(--muted);font-weight:600;cursor:pointer">모두 보기 →</span>
+        </div>
+        <div class="notice-list">
+          <div class="notice-item urgent">
+            <div class="notice-icon"><i class="ti ti-clock-exclamation"></i></div>
+            <div class="notice-body">
+              <div class="notice-title">강민호 학생 지각 중</div>
+              <div class="notice-desc">14:00 예정 → 아직 미등원 (2시간 45분 지각)</div>
+              <div class="notice-time">방금</div>
+            </div>
+          </div>
+          <div class="notice-item urgent">
+            <div class="notice-icon"><i class="ti ti-user-off"></i></div>
+            <div class="notice-body">
+              <div class="notice-title">정유나 학생 결석</div>
+              <div class="notice-desc">14:00 예정이었으나 미등원 (확정됨)</div>
+              <div class="notice-time">방금</div>
+            </div>
+          </div>
+          <div class="notice-item info">
+            <div class="notice-icon" style="color:var(--orange)"><i class="ti ti-clock-exclamation"></i></div>
+            <div class="notice-body">
+              <div class="notice-title">장유민 늦은 등원</div>
+              <div class="notice-desc">원래 14:00반 → 16:05 등원 (2시간 5분 늦음)</div>
+              <div class="notice-time">5분 전</div>
+            </div>
+          </div>
+          <div class="notice-item help">
+            <div class="notice-icon"><i class="ti ti-help"></i></div>
+            <div class="notice-body">
+              <div class="notice-title">김민준 학생 도움 요청</div>
+              <div class="notice-desc">"문법 부분이 어려워요!"</div>
+              <div class="notice-time">10분 전</div>
+            </div>
+          </div>
+          <div class="notice-item info">
+            <div class="notice-icon"><i class="ti ti-trending-down"></i></div>
+            <div class="notice-body">
+              <div class="notice-title">이지우 점수 급락</div>
+              <div class="notice-desc">단어 88점 → 60점 (-28점)</div>
+              <div class="notice-time">15분 전</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title" style="font-size:14px;margin-bottom:12px">⚡ 빠른 작업</div>
+        <div class="quick-actions">
+          <button class="qa-btn"><div class="qa-emoji">➕</div><div class="qa-lbl">학생 추가</div></button>
+          <button class="qa-btn"><div class="qa-emoji">📝</div><div class="qa-lbl">시험범위 설정</div></button>
+          <button class="qa-btn"><div class="qa-emoji">💌</div><div class="qa-lbl">학생에게 메시지</div></button>
+          <button class="qa-btn"><div class="qa-emoji">📊</div><div class="qa-lbl">주간 리포트</div></button>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- 보강 추가 모달 -->
+<div class="bogang-modal-overlay" id="bogangModal" onclick="if(event.target===this)closeBogangModal()">
+  <div class="bogang-modal">
+    <h3>🩹 보강 일정 추가</h3>
+    <p class="sub"><span id="bogangStudentName">학생</span>의 보강 시간을 설정해주세요</p>
+    <div class="bogang-row">
+      <label>📅 보강 날짜</label>
+      <input type="date" id="bogangDate" value="2026-06-02"/>
+    </div>
+    <div class="bogang-row">
+      <label>⏰ 보강 시간</label>
+      <select id="bogangTime">
+        <option value="14:00">14:00 (2시 타임)</option>
+        <option value="15:00">15:00 (3시 타임)</option>
+        <option value="16:00" selected>16:00 (4시 타임)</option>
+        <option value="17:00">17:00 (5시 타임)</option>
+        <option value="18:00">18:00 (6시 타임)</option>
+        <option value="19:00">19:00 (7시 타임)</option>
+      </select>
+    </div>
+    <div class="bogang-row">
+      <label>📝 보강 사유 (선택)</label>
+      <textarea id="bogangReason" placeholder="예) 5/31 결석 보강" style="resize:none;min-height:50px"></textarea>
+    </div>
+    <div class="bogang-actions">
+      <button class="bogang-btn-cancel" onclick="closeBogangModal()">취소</button>
+      <button class="bogang-btn-confirm" onclick="addBogang()">보강 등록</button>
+    </div>
+  </div>
+</div>
+
+<!-- ━━━━━ 사이드 패널 (학생 화면 전체 임베드) ━━━━━ -->
+<div class="side-panel-overlay" id="sidePanelOverlay" onclick="closeSidePanel()"></div>
+<div class="side-panel" id="sidePanel">
+
+  <div class="sp-header">
+    <div class="sp-title-grp">
+      <div class="sp-avatar" id="spAvatar">민준</div>
+      <div>
+        <div class="sp-name" id="spName">김민준</div>
+        <div class="sp-sub">ORT2 · 초3 · 학습중 <span class="sp-edit-badge">👨‍🏫 선생님 편집모드</span></div>
+      </div>
+    </div>
+    <div style="display:flex;gap:6px">
+      <button class="sp-close" onclick="openInNewTab()" title="새 탭에서 열기" style="width:36px"><i class="ti ti-external-link" style="font-size:14px"></i></button>
+      <button class="sp-close" onclick="closeSidePanel()">✕</button>
+    </div>
+  </div>
+
+  <!-- 알림 배너 -->
+  <div style="background:linear-gradient(90deg,var(--purple),var(--teal));color:white;padding:10px 16px;font-size:11px;font-weight:700;display:flex;align-items:center;gap:8px">
+    <span style="font-size:14px">✨</span>
+    <span>선생님이 직접 수정한 내용은 학생 화면에 실시간으로 반영됩니다</span>
+  </div>
+
+  <!-- 학생 화면 iframe -->
+  <div style="flex:1;background:white;overflow:hidden">
+    <iframe id="studentFrame" src="el_student_dashboard_v7.html" style="width:100%;height:calc(100vh - 110px);border:none;display:block"></iframe>
+  </div>
+
+</div>
+
+<script>
+// === 보기 모드 토글 (카드 ↔ 줄) ===
+function setViewMode(mode){
+  const container = document.querySelector('main') || document.body;
+  const btnCard = document.getElementById('viewModeCard');
+  const btnList = document.getElementById('viewModeList');
+
+  if(mode === 'list'){
+    container.classList.add('view-mode-list');
+    document.body.classList.add('view-mode-list');
+    btnCard.classList.remove('active');
+    btnList.classList.add('active');
+    enrichListInfo();
+  } else {
+    container.classList.remove('view-mode-list');
+    document.body.classList.remove('view-mode-list');
+    btnList.classList.remove('active');
+    btnCard.classList.add('active');
+  }
+}
+
+// 줄 보기 시 학생 카드에 요약 정보 추가
+function enrichListInfo(){
+  document.querySelectorAll('.student-card').forEach(function(card){
+    // 이미 추가됐으면 스킵
+    if(card.querySelector('.sc-list-info')) return;
+
+    // 정보 추출
+    const timeText = card.querySelector('.sc-time')?.innerText.replace(/\s+/g, ' ').trim() || '—';
+    const vocabRow = card.querySelector('.sc-vocab-row');
+    let vocabHtml = '—';
+    if(vocabRow){
+      const inputs = vocabRow.querySelectorAll('input');
+      const pct = vocabRow.querySelector('.sc-vocab-pct');
+      if(inputs.length >= 2){
+        vocabHtml = '📝 ' + (inputs[0].value||'0') + '/' + (inputs[1].value||'0') + (pct ? ' <b>' + pct.textContent + '</b>' : '');
+      }
+    }
+    const progItems = card.querySelectorAll('.sc-prog-item');
+    let yest = '—', today = '—';
+    if(progItems.length >= 2){
+      yest = progItems[0].querySelector('.val')?.innerText || '—';
+      today = progItems[1].querySelector('.val')?.innerText || '—';
+    } else if(progItems.length === 1){
+      today = progItems[0].querySelector('.val')?.innerText || '—';
+    }
+
+    // sc-list-info 생성 (헤더 다음에 삽입)
+    const info = document.createElement('div');
+    info.className = 'sc-list-info';
+    info.innerHTML =
+      '<div class="sl-row"><span>📋 어제</span> <b>' + yest + '</b></div>'
+      + '<div class="sl-row"><span>🎯 오늘</span> <b>' + today + '</b></div>';
+
+    // 두번째 컬럼용 시간/단어
+    const timeInfo = document.createElement('div');
+    timeInfo.className = 'sc-list-info';
+    timeInfo.innerHTML =
+      '<div class="sl-row"><span>🟢</span> <b>' + timeText + '</b></div>'
+      + '<div class="sl-row">' + vocabHtml + '</div>';
+
+    // 헤더 다음에 시간/단어 정보 삽입
+    const header = card.querySelector('.sc-header');
+    if(header) header.after(timeInfo);
+    // 진도 정보 - sc-prog-section 자리에 (또는 hw 위)
+    const hwSec = card.querySelector('.sc-hw-section');
+    if(hwSec) hwSec.before(info);
+  });
+}
+
+
+// ============ [학생 등원 자동 감지] 결석 → 학습중 ============
+// 학생이 학생 페이지에서 학습 시작 시 → 선생님 카드 자동 업데이트
+function simulateLateArrival(studentName){
+  const card = document.getElementById('card-' + studentName);
+  if(!card) return;
+
+  // 1. 카드 클래스 변경: absent → attending
+  card.classList.remove('absent');
+  card.classList.add('attending');
+
+  // 2. 상태 뱃지 변경
+  const status = card.querySelector('.sc-status');
+  if(status){
+    status.classList.remove('absent');
+    status.classList.add('attending');
+    status.textContent = '학습중';
+  }
+
+  // 3. 시간 정보 변경 (등원 시각 자동 기록)
+  const now = new Date();
+  const hh = String(now.getHours()).padStart(2,'0');
+  const mm = String(now.getMinutes()).padStart(2,'0');
+  const timeRow = card.querySelector('.sc-time');
+  if(timeRow){
+    timeRow.innerHTML =
+      '<div class="sc-time-item" style="color:var(--green)">🟢 등원 <b>' + hh + ':' + mm + '</b></div>' +
+      '<div class="sc-time-divider"></div>' +
+      '<div class="sc-time-item" style="color:var(--orange)">⏰ <b>4시간 늦음</b></div>';
+  }
+
+  // 4. 결석 확정 버튼 + 보강 버튼 + 데모 버튼 모두 제거
+  card.querySelectorAll('button.absent-btn, button[onclick*="openBogangModal"], button[onclick*="simulateLateArrival"]').forEach(function(btn){
+    btn.remove();
+  });
+
+  // 5. 오늘 진도 정보 업데이트 (결석 → ORT3-1-5 진행중)
+  const progItems = card.querySelectorAll('.sc-prog-item .val');
+  if(progItems.length >= 2){
+    progItems[1].innerHTML = 'ORT3-1-5 <span class="live-tag" style="font-size:9px;background:var(--green);color:white;padding:2px 6px;border-radius:5px;margin-left:4px">진행중</span>';
+    progItems[1].style.color = 'var(--text)';
+  }
+
+  // 6. 카드를 14시 시간대에서 제거하고 16시 시간대로 이동시키지 않음 (현재 시간대 표시)
+  // 대신 카드에 "타시간대 등원" 뱃지 추가
+  const earlyBadge = document.createElement('div');
+  earlyBadge.className = 'late-badge';
+  earlyBadge.style.cssText = 'background:linear-gradient(135deg,var(--orange),#f59e0b);color:white;font-size:10px;font-weight:800;padding:4px 10px;border-radius:7px;display:inline-block;margin-bottom:8px;box-shadow:0 2px 8px rgba(251,146,60,0.3)';
+  earlyBadge.innerHTML = '⏰ 늦게 등원 · 14시 → 현재';
+  // 헤더 다음에 삽입
+  const header = card.querySelector('.sc-header');
+  if(header) header.parentNode.insertBefore(earlyBadge, header.nextSibling);
+
+  // 7. 펄스 애니메이션
+  card.style.transition = 'all 0.5s';
+  card.style.transform = 'scale(1.03)';
+  card.style.boxShadow = '0 0 0 4px var(--green-light)';
+  setTimeout(function(){
+    card.style.transform = '';
+    setTimeout(function(){ card.style.boxShadow = ''; }, 500);
+  }, 300);
+
+  // 8. 알림 표시
+  showLateArrivalNotice(studentName);
+
+  // 9. KPI 카드 갱신 (결석 -1, 등원 +1)
+  updateKpiAfterLateArrival();
+}
+
+function showLateArrivalNotice(studentName){
+  // 화면 상단에 토스트 알림
+  const toast = document.createElement('div');
+  toast.style.cssText = 'position:fixed;top:80px;right:20px;background:linear-gradient(135deg,#22c55e,#16a34a);color:white;padding:14px 18px;border-radius:13px;box-shadow:0 8px 24px rgba(34,197,94,0.4);z-index:9999;font-family:inherit;font-weight:700;font-size:13px;max-width:320px;animation:slideIn .3s ease;display:flex;align-items:center;gap:10px';
+  toast.innerHTML =
+    '<div style="font-size:24px">✨</div>' +
+    '<div>' +
+    '<div style="font-size:13px;font-weight:800;margin-bottom:3px">' + studentName + ' 학생 등원!</div>' +
+    '<div style="font-size:11px;opacity:0.9;font-weight:600">학생 페이지에서 학습 시작했어요. 결석 → 학습중으로 자동 전환됨</div>' +
+    '</div>' +
+    '<button onclick="this.parentNode.remove()" style="background:rgba(255,255,255,0.2);border:none;color:white;width:24px;height:24px;border-radius:6px;font-size:14px;font-weight:800;cursor:pointer">✕</button>';
+  document.body.appendChild(toast);
+  setTimeout(function(){
+    toast.style.transition = 'all 0.3s';
+    toast.style.opacity = '0';
+    toast.style.transform = 'translateX(20px)';
+    setTimeout(function(){ toast.remove(); }, 300);
+  }, 5000);
+}
+
+function updateKpiAfterLateArrival(){
+  // 결석 카운트 -1, 등원 카운트 +1
+  const kpis = document.querySelectorAll('.kpi-card .kpi-val');
+  if(kpis.length >= 2){
+    // 첫 번째: 출석 (등원 +1)
+    const attendVal = kpis[0].textContent.trim();
+    const m = attendVal.match(/(\d+)\/(\d+)/);
+    if(m){ kpis[0].innerHTML = (parseInt(m[1])+1) + '<span class="kpi-unit">/' + m[2] + '</span>'; }
+  }
+}
+
+// ============ 학생 카드 ⚙️ 메뉴 ============
+let openMenuName = null;
+
+function toggleMenu(btn, studentName){
+  // 기존 메뉴 모두 닫기
+  document.querySelectorAll('.sc-menu-dropdown').forEach(d=>d.remove());
+  if(openMenuName === studentName){
+    openMenuName = null;
+    return;
+  }
+  openMenuName = studentName;
+  const card = btn.closest('.student-card');
+  const dropdown = document.createElement('div');
+  dropdown.className = 'sc-menu-dropdown show';
+  dropdown.innerHTML = `
+    <div class="sc-menu-item" onclick="openBogangModal('${studentName}')">
+      <i class="ti ti-calendar-plus"></i> 보강 추가
+    </div>
+    <div class="sc-menu-item" onclick="event.stopPropagation();alert('오늘 시간 변경 - 추후 구현')">
+      <i class="ti ti-clock-edit"></i> 오늘 시간 변경
+    </div>
+    <div class="sc-menu-item" onclick="event.stopPropagation();openSidePanel('${studentName}')">
+      <i class="ti ti-eye"></i> 학생 화면 보기
+    </div>
+    <div class="sc-menu-item" onclick="event.stopPropagation();alert('학생 상세 페이지 - 다음 작업')">
+      <i class="ti ti-settings"></i> 상세 설정
+    </div>
+  `;
+  card.appendChild(dropdown);
+}
+
+// 다른 곳 클릭 시 메뉴 닫기
+document.addEventListener('click', function(e){
+  if(!e.target.closest('.sc-menu-btn') && !e.target.closest('.sc-menu-dropdown')){
+    document.querySelectorAll('.sc-menu-dropdown').forEach(d=>d.remove());
+    openMenuName = null;
+  }
+});
+
+// ============ 보강 모달 ============
+let currentBogangStudent = '';
+
+function openBogangModal(name){
+  currentBogangStudent = name;
+  document.getElementById('bogangStudentName').textContent = name;
+  document.getElementById('bogangModal').classList.add('show');
+  // 메뉴 닫기
+  document.querySelectorAll('.sc-menu-dropdown').forEach(d=>d.remove());
+  openMenuName = null;
+}
+function closeBogangModal(){
+  document.getElementById('bogangModal').classList.remove('show');
+}
+
+function addBogang(){
+  const date = document.getElementById('bogangDate').value;
+  const time = document.getElementById('bogangTime').value;
+  const reason = document.getElementById('bogangReason').value;
+
+  // 알림에 보강 일정 추가
+  const noticeList = document.querySelector('.notice-list');
+  if(noticeList){
+    const noticeItem = document.createElement('div');
+    noticeItem.className = 'notice-item';
+    noticeItem.style.borderLeftColor = '#a855f7';
+    noticeItem.style.background = '#faf5ff';
+    noticeItem.innerHTML = `
+      <div class="notice-icon" style="color:#a855f7"><i class="ti ti-calendar-plus"></i></div>
+      <div class="notice-body">
+        <div class="notice-title">🩹 ${currentBogangStudent} 보강 예정</div>
+        <div class="notice-desc">${date} ${time}${reason ? ' · '+reason : ''}</div>
+        <div class="notice-time">방금</div>
+      </div>
+    `;
+    noticeList.insertBefore(noticeItem, noticeList.firstChild);
+
+    // 알림 카운트 증가
+    const badges = document.querySelectorAll('.icon-btn .badge');
+    badges.forEach(b=>{
+      const cur = parseInt(b.textContent)||0;
+      b.textContent = cur+1;
+    });
+  }
+
+  closeBogangModal();
+  alert(`✅ ${currentBogangStudent} 학생의 보강이 등록되었습니다!\n📅 ${date} ${time}\n\n보강 시간이 되면 시간표에 자동으로 표시됩니다.`);
+}
+
+// ============ 검색 가능한 학생 목록 ============
+const allStudents = [
+  { name: '김민준', level: 'ORT2 · 초3', time: '14:00반', section: 't14' },
+  { name: '이지우', level: 'ORT3 · 초3', time: '14:00반', section: 't14' },
+  { name: '박서연', level: 'ORT2 · 초2', time: '14:00반 (보강중)', section: 't14' },
+  { name: '최도윤', level: 'ORT4 · 초4', time: '14:00반', section: 't14' },
+  { name: '강민호', level: 'ORT3 · 초3', time: '14:00반 (지각)', section: 't14' },
+  { name: '정유나', level: 'ORT3 · 초3', time: '14:00반 (결석)', section: 't14' },
+  { name: '윤하은', level: 'ORT5 · 초5', time: '16:00반', section: 't16' },
+  { name: '강시현', level: 'ORT4 · 초4', time: '16:00반', section: 't16' },
+  { name: '조예린', level: '중1 내신', time: '16:00반', section: 't16' },
+  { name: '장유민', level: 'ORT5 · 초5', time: '16:00반 (늦은 등원)', section: 't16' },
+  { name: '한주원', level: 'ORT3 · 초4', time: '16:00반 (대기)', section: 't16' },
+  { name: '임현우', level: '중2 내신', time: '18:00반', section: 't18' }
+];
+
+function searchStudent(query){
+  const clear = document.getElementById('searchClear');
+  const results = document.getElementById('searchResults');
+  clear.style.display = query ? 'block' : 'none';
+  if(!query){ results.style.display = 'none'; return; }
+  const matched = allStudents.filter(s => s.name.includes(query) || s.level.includes(query));
+  if(matched.length === 0){
+    results.innerHTML = `<div style="padding:16px;text-align:center;font-size:12px;color:var(--muted);font-weight:600">검색 결과 없음</div>`;
+  } else {
+    results.innerHTML = matched.map(s => `
+      <div onclick="jumpToStudent('${s.name}','${s.section}')" style="display:flex;align-items:center;gap:10px;padding:10px 14px;cursor:pointer;border-bottom:1px solid #f3f4f6;transition:.12s" onmouseover="this.style.background='var(--teal-soft)'" onmouseout="this.style.background='white'">
+        <div style="width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,var(--teal),#4dd4c0);display:flex;align-items:center;justify-content:center;color:white;font-size:12px;font-weight:800;flex-shrink:0">${s.name.substring(1)}</div>
+        <div style="flex:1;min-width:0">
+          <div style="font-size:13px;font-weight:800;color:var(--text)">${s.name}</div>
+          <div style="font-size:10px;color:var(--muted);font-weight:600;margin-top:1px">${s.level} · ${s.time}</div>
+        </div>
+        <span style="font-size:11px;color:var(--teal-d);font-weight:700">→</span>
+      </div>
+    `).join('');
+  }
+  results.style.display = 'block';
+}
+
+function jumpToStudent(name, sectionId){
+  // 1) 해당 시간대로 스크롤
+  const section = document.getElementById(sectionId);
+  if(section){
+    section.scrollIntoView({behavior:'smooth', block:'start'});
+  }
+  // 2) 학생 카드 강조 효과
+  setTimeout(() => {
+    const cards = document.querySelectorAll('.student-card');
+    cards.forEach(c => {
+      const cardName = c.querySelector('.sc-name');
+      if(cardName && cardName.textContent.trim() === name){
+        c.classList.remove('search-highlight');
+        void c.offsetWidth;
+        c.classList.add('search-highlight');
+        c.scrollIntoView({behavior:'smooth', block:'center'});
+      }
+    });
+  }, 400);
+  // 3) 검색창 닫기
+  document.getElementById('searchResults').style.display = 'none';
+  document.getElementById('studentSearch').value = name;
+  document.getElementById('searchClear').style.display = 'block';
+}
+
+function showSearchResults(){
+  const q = document.getElementById('studentSearch').value;
+  if(q) searchStudent(q);
+}
+function hideSearchResults(){
+  document.getElementById('searchResults').style.display = 'none';
+}
+function clearSearch(){
+  document.getElementById('studentSearch').value = '';
+  document.getElementById('searchResults').style.display = 'none';
+  document.getElementById('searchClear').style.display = 'none';
+}
+
+function jumpToTime(sectionId){
+  const el = document.getElementById(sectionId);
+  if(!el) return;
+  el.scrollIntoView({behavior:'smooth', block:'start'});
+  // 강조 효과
+  el.classList.remove('flash');
+  void el.offsetWidth; // reflow
+  el.classList.add('flash');
+}
+
+function openSidePanel(name){
+  document.getElementById('spName').textContent = name;
+  document.getElementById('spAvatar').textContent = name.substring(1);
+  document.getElementById('sidePanel').classList.add('show');
+  document.getElementById('sidePanelOverlay').classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+function closeSidePanel(){
+  document.getElementById('sidePanel').classList.remove('show');
+  document.getElementById('sidePanelOverlay').classList.remove('show');
+  document.body.style.overflow = '';
+}
+function openInNewTab(){
+  window.open('el_student_dashboard_v7.html', '_blank');
+}
+
+function selHw(btn){
+  btn.parentElement.querySelectorAll('.sc-hw-btn').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  // 메모란 표시/숨김
+  const card = btn.closest('.student-card');
+  let memo = card.querySelector('.sc-hw-memo');
+  const isTri = btn.classList.contains('tri');
+  const isX = btn.classList.contains('x');
+  if(isTri || isX){
+    // 메모란이 없으면 생성
+    if(!memo){
+      memo = document.createElement('div');
+      memo.className = 'sc-hw-memo show';
+      memo.innerHTML = `
+        <div class="sc-hw-memo-tag">📝 안 한 과제 · 시키고 보낼 것</div>
+        <textarea class="sc-hw-memo-input" placeholder="예) 단어 5개 미완료, 클카 녹음 안 함" onclick="event.stopPropagation()"></textarea>
+      `;
+      btn.closest('.sc-hw-section').appendChild(memo);
+    } else {
+      memo.classList.add('show');
+    }
+  } else {
+    if(memo) memo.classList.remove('show');
+  }
+}
+
+function calcVocab(inp){
+  const row = inp.closest('.sc-vocab-row');
+  const inputs = row.querySelectorAll('input');
+  const c = parseInt(inputs[0].value)||0;
+  const t = parseInt(inputs[1].value)||20;
+  const p = t>0 ? Math.round(c/t*100) : 0;
+  const pctEl = row.querySelector('.sc-vocab-pct');
+  pctEl.textContent = (inputs[0].value==='' ? '—%' : p+'%');
+  pctEl.classList.remove('high','mid','low');
+  if(inputs[0].value!==''){
+    if(p>=80) pctEl.classList.add('high');
+    else if(p>=60) pctEl.classList.add('mid');
+    else pctEl.classList.add('low');
+  }
+}
+
+function confirmAbsent(btn){
+  const card = btn.closest('.student-card');
+  const studentName = card.querySelector('.sc-name').textContent.trim();
+
+  if(confirm(`${studentName} 학생을 결석으로 처리하시겠습니까?`)){
+    // 결석 처리
+    card.classList.remove('late');
+    card.classList.add('absent');
+    card.querySelector('.sc-status').className = 'sc-status absent';
+    card.querySelector('.sc-status').textContent = '결석';
+    btn.textContent = '✓ 결석 확정됨';
+    btn.classList.add('confirmed');
+
+    // 보강 여부 확인
+    setTimeout(() => {
+      if(confirm(`📅 ${studentName} 학생의 보강 일정을 등록하시겠습니까?`)){
+        openBogangModal(studentName);
+        // 보강 사유 자동 입력
+        setTimeout(() => {
+          const today = new Date();
+          const month = today.getMonth()+1;
+          const day = today.getDate();
+          const reasonInput = document.getElementById('bogangReason');
+          if(reasonInput) reasonInput.value = `${month}/${day} 결석 보강`;
+        }, 100);
+      }
+    }, 300);
+  }
+}
+</script>
+</body>
+</html>

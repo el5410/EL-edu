@@ -1,0 +1,1369 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EL 영어학원 · 학부모 페이지</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Sans+KR:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --teal: #14b8a6; --teal-d: #0d9488; --teal-l: #5eead4; --teal-soft: #f0fdfa; --teal-light: #ccfbf1;
+  --purple: #8b5cf6; --purple-light: #ede9fe;
+  --orange: #fb923c; --orange-light: #ffedd5; --orange-soft: #fff7ed;
+  --pink: #ec4899; --pink-light: #fce7f3;
+  --blue: #3b82f6; --blue-light: #dbeafe;
+  --green: #22c55e; --green-light: #dcfce7; --green-soft: #f0fdf4;
+  --red: #ef4444; --red-light: #fee2e2;
+  --yellow-light: #fef3c7;
+  --text: #0f172a; --text2: #334155; --muted: #64748b;
+  --bg: #f8fafc; --card: #ffffff; --border: #e2e8f0;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Plus Jakarta Sans', 'Noto Sans KR', sans-serif;
+  background: linear-gradient(135deg, #f0fdfa 0%, #f8fafc 50%, #fce7f3 100%);
+  min-height: 100vh;
+  color: var(--text);
+  font-weight: 600;
+  padding: 0;
+}
+
+/* 헤더 */
+.header {
+  background: linear-gradient(135deg, var(--teal) 0%, var(--purple) 100%);
+  padding: 24px 20px;
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+.header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle at 20% 30%, rgba(255,255,255,0.1) 0%, transparent 50%),
+                    radial-gradient(circle at 80% 70%, rgba(255,255,255,0.1) 0%, transparent 50%);
+  pointer-events: none;
+}
+.header-content { position: relative; max-width: 900px; margin: 0 auto; }
+.header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+.header-logo { font-size: 14px; font-weight: 800; display: flex; align-items: center; gap: 6px; }
+.header-mode { font-size: 11px; background: rgba(255,255,255,0.2); padding: 4px 10px; border-radius: 99px; font-weight: 700; backdrop-filter: blur(8px); }
+.student-info { display: flex; align-items: center; gap: 14px; }
+.student-avatar {
+  width: 62px; height: 62px; border-radius: 50%;
+  background: white; color: var(--teal-d);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px; font-weight: 800;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+}
+.student-name { font-size: 22px; font-weight: 800; margin-bottom: 2px; }
+.student-meta { font-size: 12px; opacity: 0.9; font-weight: 600; }
+
+/* 컨테이너 */
+.container { max-width: 900px; margin: 0 auto; padding: 16px; }
+
+/* 카드 */
+.card {
+  background: var(--card);
+  border-radius: 18px;
+  padding: 18px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+  margin-bottom: 14px;
+}
+.card-title {
+  font-size: 15px; font-weight: 800; margin-bottom: 12px;
+  display: flex; align-items: center; gap: 6px;
+}
+.card-title .badge {
+  font-size: 10px; font-weight: 700; color: var(--muted);
+  background: var(--bg); padding: 3px 8px; border-radius: 7px;
+}
+
+/* 오늘 한눈에 보기 */
+.today-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.today-stat {
+  background: white;
+  border-radius: 13px;
+  padding: 12px;
+  text-align: center;
+  border: 1.5px solid var(--border);
+}
+.today-stat.attend { background: linear-gradient(135deg, var(--green-soft), white); border-color: var(--green-light); }
+.today-stat.hw { background: linear-gradient(135deg, #fffbeb, white); border-color: #fde68a; }
+.today-stat.study { background: linear-gradient(135deg, var(--blue-light), white); border-color: #bfdbfe; }
+.today-stat.avg { background: linear-gradient(135deg, var(--teal-soft), white); border-color: var(--teal-light); }
+.today-stat .ico { font-size: 22px; margin-bottom: 4px; }
+.today-stat .lbl { font-size: 10px; color: var(--muted); font-weight: 700; margin-bottom: 3px; }
+.today-stat .val { font-size: 18px; font-weight: 800; font-family: 'Plus Jakarta Sans', sans-serif; }
+.today-stat .sub { font-size: 9px; color: var(--muted); font-weight: 600; margin-top: 2px; }
+
+/* 숙제 상태 카드 */
+.hw-status-card {
+  background: linear-gradient(135deg, #fef3c7 0%, #fed7aa 100%);
+  border-radius: 14px;
+  padding: 16px;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.hw-status-card .ico { font-size: 36px; }
+.hw-status-card .info { flex: 1; }
+.hw-status-card .title { font-size: 14px; font-weight: 800; color: #92400e; margin-bottom: 3px; }
+.hw-status-card .desc { font-size: 11px; color: #92400e; font-weight: 600; }
+.hw-status-card .badge { font-size: 11px; font-weight: 800; padding: 4px 10px; border-radius: 8px; }
+.hw-status-card.done .badge { background: var(--green); color: white; }
+.hw-status-card.partial .badge { background: #f59e0b; color: white; }
+.hw-status-card.missed .badge { background: var(--red); color: white; }
+.hw-status-card.exempt .badge { background: #ec4899; color: white; }
+
+/* 교재 카드 */
+.book-card-p {
+  background: white;
+  border-radius: 12px;
+  padding: 12px 14px;
+  margin-bottom: 8px;
+  border: 1.5px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.book-card-p:last-child { margin-bottom: 0; }
+.book-ico {
+  width: 40px; height: 40px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; font-weight: 800; color: white;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  flex-shrink: 0;
+}
+.book-ico.ort { background: var(--teal); }
+.book-ico.dadok { background: var(--orange); }
+.book-ico.word { background: var(--blue); }
+.book-ico.rg { background: var(--purple); }
+.book-info { flex: 1; min-width: 0; }
+.book-name { font-size: 13px; font-weight: 800; margin-bottom: 3px; }
+.book-progress { font-size: 10px; color: var(--muted); font-weight: 600; }
+.book-scores {
+  display: flex;
+  gap: 4px;
+  flex-shrink: 0;
+}
+.book-score {
+  font-size: 10px;
+  font-weight: 800;
+  padding: 4px 8px;
+  border-radius: 7px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+.book-score.w { background: var(--blue-light); color: var(--blue); }
+.book-score.p { background: var(--purple-light); color: var(--purple); }
+.book-score.q { background: var(--green-light); color: var(--green); }
+.book-score.t { background: #fef3c7; color: #92400e; }
+
+/* 기간 탭 */
+.period-tabs {
+  display: flex;
+  gap: 4px;
+  background: var(--bg);
+  padding: 3px;
+  border-radius: 10px;
+  margin-bottom: 12px;
+}
+.period-tab {
+  flex: 1;
+  padding: 8px;
+  border-radius: 8px;
+  border: none;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+  font-family: inherit;
+  background: transparent;
+  color: var(--muted);
+  transition: .15s;
+}
+.period-tab.active {
+  background: white;
+  color: var(--teal-d);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+
+/* 학습 기록 (타임라인) */
+.timeline-item {
+  display: flex;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+}
+.timeline-item:last-child { border-bottom: none; }
+.timeline-date {
+  flex-shrink: 0;
+  width: 56px;
+  text-align: center;
+}
+.timeline-date .day {
+  font-size: 18px; font-weight: 800;
+  color: var(--teal-d);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+.timeline-date .wd {
+  font-size: 10px; color: var(--muted); font-weight: 700;
+}
+.timeline-content { flex: 1; min-width: 0; }
+.timeline-title {
+  font-size: 13px; font-weight: 800;
+  margin-bottom: 6px;
+}
+.timeline-meta {
+  display: flex; flex-wrap: wrap; gap: 5px;
+  font-size: 10px;
+}
+.timeline-meta span {
+  background: var(--bg);
+  padding: 3px 7px;
+  border-radius: 6px;
+  font-weight: 700;
+  color: var(--text2);
+}
+.timeline-item.absent .timeline-date .day { color: var(--red); }
+.timeline-item.absent .timeline-title { color: var(--red); }
+
+/* 한 달 캘린더 */
+.cal-mini {
+  background: white;
+  border-radius: 11px;
+  padding: 12px;
+}
+.cal-mini-head {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 3px;
+  margin-bottom: 4px;
+}
+.cal-mini-head > div {
+  font-size: 10px; font-weight: 800;
+  color: var(--text2); text-align: center;
+}
+.cal-mini-head > div:first-child { color: var(--red); }
+.cal-mini-head > div:last-child { color: var(--blue); }
+.cal-mini-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 3px;
+}
+.cal-day {
+  background: #fafafa;
+  border-radius: 7px;
+  padding: 4px 2px;
+  text-align: center;
+}
+.cal-day .num {
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--text2);
+  margin-bottom: 2px;
+}
+.cal-day .sym {
+  height: 22px;
+  line-height: 22px;
+  border-radius: 5px;
+  font-size: 11px;
+  font-weight: 800;
+}
+.cal-day .sym.o { background: var(--green); color: white; }
+.cal-day .sym.t { background: #fef3c7; color: #92400e; border: 1px solid #fde68a; }
+.cal-day .sym.x { background: var(--red-light); color: var(--red); border: 1px solid #fecaca; }
+.cal-day .sym.p { background: var(--pink-light); color: #9f1239; border: 1px solid #fbcfe8; }
+
+/* 진행률 바 */
+.progress-row {
+  margin-bottom: 12px;
+}
+.progress-row:last-child { margin-bottom: 0; }
+.progress-row .lbl {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+.progress-row .lbl .name { color: var(--text2); }
+.progress-row .lbl .val { font-weight: 800; }
+.progress-bar {
+  background: var(--bg);
+  height: 8px;
+  border-radius: 99px;
+  overflow: hidden;
+}
+.progress-bar > div {
+  height: 100%;
+  border-radius: 99px;
+}
+.progress-bar.w > div { background: var(--blue); }
+.progress-bar.p > div { background: var(--purple); }
+.progress-bar.q > div { background: var(--green); }
+
+/* 선생님 메시지 */
+.teacher-msg {
+  background: linear-gradient(135deg, #fef3c7 0%, #fef9c3 100%);
+  border: 1.5px solid #fde68a;
+  border-radius: 13px;
+  padding: 14px 16px;
+}
+.teacher-msg-head {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 12px; font-weight: 800; color: #92400e;
+  margin-bottom: 6px;
+}
+.teacher-msg-body {
+  font-size: 12px; color: #92400e; line-height: 1.6; font-weight: 600;
+}
+
+/* 안내 */
+.notice-card {
+  background: linear-gradient(135deg, var(--blue-light), #e0e7ff);
+  border-radius: 13px;
+  padding: 14px 16px;
+  margin-bottom: 14px;
+}
+.notice-card-head { font-size: 12px; font-weight: 800; color: #1e40af; margin-bottom: 4px; display: flex; align-items: center; gap: 5px; }
+.notice-card-body { font-size: 11px; color: #1e40af; font-weight: 600; line-height: 1.5; }
+
+@media (max-width: 600px) {
+  .today-grid { grid-template-columns: repeat(2, 1fr); }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-content">
+    <div class="header-top">
+      <div class="header-logo">✨ EL 영어학원</div>
+      <div class="header-mode">👨‍👩‍👧 학부모 페이지</div>
+    </div>
+    <div class="student-info">
+      <div class="student-avatar">민</div>
+      <div>
+        <div class="student-name">김민준</div>
+        <div class="student-meta">초3 · 한솔초 · ID: el3264</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- 안내 -->
+  <div class="notice-card">
+    <div class="notice-card-head">💌 학부모님께</div>
+    <div class="notice-card-body">민준이의 학원 학습 현황을 확인하실 수 있습니다. 궁금한 점은 학원으로 연락 주세요. 📱 <b id="academyPhoneTop">010-3006-5410</b></div>
+  </div>
+
+  <!-- 오늘 한눈에 -->
+  <div class="card">
+    <div class="card-title">📅 이번 달 한눈에 보기</div>
+    <div class="today-grid">
+      <div class="today-stat attend">
+        <div class="ico">📆</div>
+        <div class="lbl">출석</div>
+        <div class="val">18 / 20</div>
+        <div class="sub">90%</div>
+      </div>
+      <div class="today-stat hw" onclick="scrollToSection('hwCalSection')" style="cursor:pointer">
+        <div class="ico">🏠</div>
+        <div class="lbl">숙제 완료 →</div>
+        <div class="val">17 / 20</div>
+        <div class="sub">85% · 🎫 1장</div>
+      </div>
+      <div class="today-stat avg" onclick="scrollToSection('growthSection')" style="cursor:pointer">
+        <div class="ico">🎯</div>
+        <div class="lbl">평균 점수 →</div>
+        <div class="val">88점</div>
+        <div class="sub">↑ 5점 · 클릭</div>
+      </div>
+      <div class="today-stat" onclick="scrollToSection('timelineSection')" style="cursor:pointer;background:linear-gradient(135deg,#fce7f3,white);border-color:#fbcfe8">
+        <div class="ico">📜</div>
+        <div class="lbl">학습 기록 →</div>
+        <div class="val" style="font-size:14px;color:#9f1239">기간별 보기</div>
+        <div class="sub">1주/1달/3개월</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 오늘 숙제 상태 -->
+  <div class="card">
+    <div class="card-title">🏠 오늘 숙제 상태</div>
+    <div class="hw-status-card done">
+      <div class="ico">✓</div>
+      <div class="info">
+        <div class="title">숙제 완료</div>
+        <div class="desc">단어 20개 · 클래스카드 5개 · RG 1p · 문법 1p 모두 완료</div>
+      </div>
+      <span class="badge">○ 완료</span>
+    </div>
+  </div>
+
+  <!-- 숙제 캘린더 -->
+  <div class="card" id="hwCalSection">
+    <div onclick="toggleHwCal()" style="cursor:pointer;display:flex;justify-content:space-between;align-items:center">
+      <div class="card-title" style="margin-bottom:0">📅 이번 달 숙제 기록 <span class="badge">날짜 클릭 → 상세보기</span></div>
+      <div id="hwCalArrow" style="font-size:14px;color:var(--muted);font-weight:800">▼</div>
+    </div>
+
+    <div id="hwCalContent" style="display:none;margin-top:14px">
+    <div class="cal-mini">
+      <div class="cal-mini-head">
+        <div>일</div><div>월</div><div>화</div><div>수</div><div>목</div><div>금</div><div>토</div>
+      </div>
+      <div class="cal-mini-grid" id="parentCal"></div>
+      <div style="display:flex;gap:10px;margin-top:12px;flex-wrap:wrap;font-size:10px;font-weight:700">
+        <div style="display:flex;align-items:center;gap:4px"><span style="display:inline-block;width:16px;height:16px;background:var(--green);border-radius:4px;color:white;text-align:center;font-weight:800;line-height:16px;font-size:9px">O</span> 완료</div>
+        <div style="display:flex;align-items:center;gap:4px"><span style="display:inline-block;width:16px;height:16px;background:#fef3c7;border:1px solid #fde68a;border-radius:4px;color:#92400e;text-align:center;font-weight:800;line-height:14px;font-size:9px">△</span> 일부</div>
+        <div style="display:flex;align-items:center;gap:4px"><span style="display:inline-block;width:16px;height:16px;background:#fee2e2;border:1px solid #fecaca;border-radius:4px;color:#dc2626;text-align:center;font-weight:800;line-height:14px;font-size:9px">×</span> 미완</div>
+        <div style="display:flex;align-items:center;gap:4px"><span style="display:inline-block;width:16px;height:16px;background:#fce7f3;border:1px solid #fbcfe8;border-radius:4px;text-align:center;line-height:14px;font-size:9px">🎫</span> 면제권</div>
+      </div>
+    </div>
+    </div><!-- /hwCalContent -->
+  </div>
+
+  <!-- 학습 기록 (기간 선택) -->
+  <div class="card" id="timelineSection">
+    <div class="card-title">📜 학습 기록</div>
+
+    <div class="period-tabs">
+      <button class="period-tab active" onclick="switchPeriod(this, 'week')">📅 최근 1주일</button>
+      <button class="period-tab" onclick="switchPeriod(this, 'month')">🗓 최근 1달</button>
+      <button class="period-tab" onclick="switchPeriod(this, '3months')">📆 최근 3개월</button>
+    </div>
+
+    <div id="timelineContainer"></div>
+  </div>
+
+  <!-- 현재 사용 중인 교재 -->
+  <div class="card">
+    <div class="card-title">📖 현재 학습 중인 교재 <span class="badge">클릭하여 상세 보기</span></div>
+
+    <div class="book-card-p" onclick="toggleBookDetail(this)" style="cursor:pointer">
+      <div class="book-ico ort">O</div>
+      <div class="book-info">
+        <div class="book-name">ORT2 (옥스포드 리딩 트리)</div>
+        <div class="book-progress">17 / 36권 · 47% 진행 · 클릭해서 점수 보기</div>
+      </div>
+      <div class="book-scores">
+        <div class="book-score t">T 95</div>
+        <div class="book-score w">W 88%</div>
+        <div class="book-score p">P 92%</div>
+        <div class="book-score q">Q 86</div>
+      </div>
+    </div>
+    <div class="book-detail" style="display:none;background:var(--teal-soft);border-radius:11px;padding:12px;margin:-4px 0 8px 0">
+      <div style="font-size:11px;font-weight:800;color:var(--teal-d);margin-bottom:8px">📊 ORT2 학습 점수</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+        <div style="background:white;padding:8px 10px;border-radius:8px">
+          <div style="font-size:10px;color:var(--muted);font-weight:700;margin-bottom:2px">📘 W 단어 정답률</div>
+          <div style="font-size:13px;font-weight:800;color:var(--blue)">218 / 248 단어 (88%)</div>
+        </div>
+        <div style="background:white;padding:8px 10px;border-radius:8px">
+          <div style="font-size:10px;color:var(--muted);font-weight:700;margin-bottom:2px">🧩 P 퍼즐 정답률</div>
+          <div style="font-size:13px;font-weight:800;color:var(--purple)">72 / 78 문제 (92%)</div>
+        </div>
+        <div style="background:white;padding:8px 10px;border-radius:8px">
+          <div style="font-size:10px;color:var(--muted);font-weight:700;margin-bottom:2px">🎯 Q 퀴즈</div>
+          <div style="font-size:13px;font-weight:800;color:var(--green)">86점 (평균)</div>
+        </div>
+        <div style="background:white;padding:8px 10px;border-radius:8px">
+          <div style="font-size:10px;color:var(--muted);font-weight:700;margin-bottom:2px">📋 T 지면 시험</div>
+          <div style="font-size:13px;font-weight:800;color:#92400e">95점</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="book-card-p" onclick="toggleBookDetail(this)" style="cursor:pointer">
+      <div class="book-ico dadok">F</div>
+      <div class="book-info">
+        <div class="book-name">Fly Guy (다독)</div>
+        <div class="book-progress">14 / 15권 · 93% 진행 · 클릭해서 점수 보기</div>
+      </div>
+      <div class="book-scores">
+        <div class="book-score w">W 89%</div>
+        <div class="book-score p">P 89%</div>
+        <div class="book-score q">Q 86</div>
+      </div>
+    </div>
+    <div class="book-detail" style="display:none;background:var(--orange-soft);border-radius:11px;padding:12px;margin:-4px 0 8px 0">
+      <div style="font-size:11px;font-weight:800;color:var(--orange);margin-bottom:8px">📊 Fly Guy 학습 점수</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px">
+        <div style="background:white;padding:8px 10px;border-radius:8px">
+          <div style="font-size:10px;color:var(--muted);font-weight:700;margin-bottom:2px">📘 W 단어</div>
+          <div style="font-size:13px;font-weight:800;color:var(--blue)">156 / 175 (89%)</div>
+        </div>
+        <div style="background:white;padding:8px 10px;border-radius:8px">
+          <div style="font-size:10px;color:var(--muted);font-weight:700;margin-bottom:2px">🧩 P 퍼즐</div>
+          <div style="font-size:13px;font-weight:800;color:var(--purple)">50 / 56 (89%)</div>
+        </div>
+        <div style="background:white;padding:8px 10px;border-radius:8px">
+          <div style="font-size:10px;color:var(--muted);font-weight:700;margin-bottom:2px">🎯 Q 퀴즈</div>
+          <div style="font-size:13px;font-weight:800;color:var(--green)">86점</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="book-card-p" onclick="toggleBookDetail(this)" style="cursor:pointer">
+      <div class="book-ico word">단</div>
+      <div class="book-info">
+        <div class="book-name">단어 800</div>
+        <div class="book-progress">240 / 800단어 · 30% 진행</div>
+      </div>
+      <div class="book-scores">
+        <div class="book-score w">85점</div>
+      </div>
+    </div>
+    <div class="book-detail" style="display:none;background:var(--blue-light);border-radius:11px;padding:12px;margin:-4px 0 8px 0">
+      <div style="font-size:11px;font-weight:800;color:var(--blue);margin-bottom:8px">📊 단어 800 상세</div>
+      <div style="background:white;padding:8px 10px;border-radius:8px">
+        <div style="font-size:10px;color:var(--muted);font-weight:700;margin-bottom:2px">📘 누적 학습 단어</div>
+        <div style="font-size:13px;font-weight:800;color:var(--blue)">240 / 800개 · 평균 점수 85점</div>
+      </div>
+    </div>
+
+    <div class="book-card-p" onclick="toggleBookDetail(this)" style="cursor:pointer">
+      <div class="book-ico rg">R1</div>
+      <div class="book-info">
+        <div class="book-name">RG1 (리딩 그레이드)</div>
+        <div class="book-progress">5 / 10 Unit · 50% 진행</div>
+      </div>
+      <div class="book-scores">
+        <div class="book-score t">진행중</div>
+      </div>
+    </div>
+    <div class="book-detail" style="display:none;background:var(--purple-light);border-radius:11px;padding:12px;margin:-4px 0 8px 0">
+      <div style="font-size:11px;font-weight:800;color:var(--purple);margin-bottom:8px">📊 RG1 상세</div>
+      <div style="background:white;padding:8px 10px;border-radius:8px">
+        <div style="font-size:10px;color:var(--muted);font-weight:700;margin-bottom:2px">📋 진행 상황</div>
+        <div style="font-size:13px;font-weight:800;color:var(--purple)">5 / 10 Unit · 단계 종료 후 지면 시험 예정</div>
+      </div>
+    </div>
+
+    <!-- 지금까지 누적 학습 -->
+    <div style="background:linear-gradient(135deg,var(--teal-soft),var(--purple-light));border-radius:13px;padding:14px;margin-top:12px">
+      <div style="font-size:12px;font-weight:800;color:var(--teal-d);margin-bottom:8px">🏆 지금까지 누적 학습</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+        <div style="background:white;padding:9px 11px;border-radius:9px">
+          <div style="font-size:10px;color:var(--muted);font-weight:700">총 학습 권수</div>
+          <div style="font-size:16px;font-weight:800;color:var(--teal-d);font-family:'Plus Jakarta Sans',sans-serif">71권</div>
+        </div>
+        <div style="background:white;padding:9px 11px;border-radius:9px">
+          <div style="font-size:10px;color:var(--muted);font-weight:700">총 학습 단어</div>
+          <div style="font-size:16px;font-weight:800;color:var(--blue);font-family:'Plus Jakarta Sans',sans-serif">1,422개</div>
+          <div style="font-size:8px;color:var(--muted);font-weight:600;margin-top:2px">교재 + 단어장 포함</div>
+        </div>
+        <div style="background:white;padding:9px 11px;border-radius:9px">
+          <div style="font-size:10px;color:var(--muted);font-weight:700">총 학습 문장</div>
+          <div style="font-size:16px;font-weight:800;color:var(--purple);font-family:'Plus Jakarta Sans',sans-serif">368개</div>
+        </div>
+        <div style="background:white;padding:9px 11px;border-radius:9px">
+          <div style="font-size:10px;color:var(--muted);font-weight:700">총 학습 일수</div>
+          <div style="font-size:16px;font-weight:800;color:var(--orange);font-family:'Plus Jakarta Sans',sans-serif">94일</div>
+        </div>
+      </div>
+      <div style="margin-top:8px;font-size:9px;color:var(--muted);font-weight:600;text-align:center">💡 ORT/다독 누적 단어 1,182개 + 단어 800 학습 240개</div>
+    </div>
+  </div>
+
+  <!-- 지금까지 학습한 교재 (펼침) -->
+  <div class="card">
+    <div onclick="togglePastBooks()" style="cursor:pointer;display:flex;justify-content:space-between;align-items:center">
+      <div class="card-title" style="margin-bottom:0">📚 지금까지 학습한 교재 <span class="badge">총 4종</span></div>
+      <div id="pastBooksArrow" style="font-size:14px;color:var(--muted);font-weight:800">▼</div>
+    </div>
+
+    <div id="pastBooksSection" style="display:none;margin-top:14px">
+      <!-- ORT 완료 -->
+      <div class="book-card-p" onclick="toggleBookDetail(this)" style="cursor:pointer;border-color:var(--green-light);background:var(--green-soft)">
+        <div class="book-ico" style="background:var(--green)">O</div>
+        <div class="book-info">
+          <div class="book-name">ORT1 ✓ 완료 <span style="font-size:9px;background:var(--green);color:white;padding:2px 6px;border-radius:5px;margin-left:4px">완료</span></div>
+          <div class="book-progress">36권 · 2025.12 ~ 2026.02 · 누적 단어 559개 · 문장 162개</div>
+        </div>
+        <div class="book-scores">
+          <div class="book-score t">T 95</div>
+        </div>
+      </div>
+      <div class="book-detail" style="display:none;background:var(--green-soft);border-radius:11px;padding:12px;margin:-4px 0 8px 0">
+        <div style="font-size:11px;font-weight:800;color:var(--green);margin-bottom:8px">📊 ORT1 최종 점수</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+          <div style="background:white;padding:8px 10px;border-radius:8px">
+            <div style="font-size:10px;color:var(--muted);font-weight:700;margin-bottom:2px">📘 W 단어 정답률</div>
+            <div style="font-size:13px;font-weight:800;color:var(--blue)">528 / 559 단어 (94%)</div>
+          </div>
+          <div style="background:white;padding:8px 10px;border-radius:8px">
+            <div style="font-size:10px;color:var(--muted);font-weight:700;margin-bottom:2px">🧩 P 퍼즐 정답률</div>
+            <div style="font-size:13px;font-weight:800;color:var(--purple)">142 / 162 문제 (88%)</div>
+          </div>
+          <div style="background:white;padding:8px 10px;border-radius:8px">
+            <div style="font-size:10px;color:var(--muted);font-weight:700;margin-bottom:2px">🎯 Q 퀴즈</div>
+            <div style="font-size:13px;font-weight:800;color:var(--green)">89점</div>
+          </div>
+          <div style="background:white;padding:8px 10px;border-radius:8px">
+            <div style="font-size:10px;color:var(--muted);font-weight:700;margin-bottom:2px">📋 T 지면 시험</div>
+            <div style="font-size:13px;font-weight:800;color:#92400e">95점</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Biscuit 완료 -->
+      <div class="book-card-p" onclick="toggleBookDetail(this)" style="cursor:pointer;border-color:var(--green-light);background:var(--green-soft)">
+        <div class="book-ico" style="background:var(--green)">B</div>
+        <div class="book-info">
+          <div class="book-name">Biscuit ✓ 완료 <span style="font-size:9px;background:var(--green);color:white;padding:2px 6px;border-radius:5px;margin-left:4px">완료</span></div>
+          <div class="book-progress">18권 · 2026.03 · 누적 단어 200개 · 문장 72개</div>
+        </div>
+        <div class="book-scores">
+          <div class="book-score w">W 90%</div>
+          <div class="book-score p">P 83%</div>
+          <div class="book-score q">Q 89</div>
+        </div>
+      </div>
+      <div class="book-detail" style="display:none;background:var(--green-soft);border-radius:11px;padding:12px;margin:-4px 0 8px 0">
+        <!-- 교재 살펴보기 -->
+        <div style="font-size:11px;font-weight:800;color:var(--green);margin-bottom:10px;display:flex;align-items:center;gap:5px">🔍 교재 살펴보기</div>
+        <div style="background:white;border-radius:10px;padding:12px;margin-bottom:10px">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+            <div>
+              <div style="font-size:9px;color:var(--muted);font-weight:700;margin-bottom:2px">📊 AR 지수</div>
+              <div style="font-size:13px;font-weight:800;color:var(--green)">1.0 ~ 1.5</div>
+              <div style="font-size:9px;color:var(--muted);font-weight:600;margin-top:2px">초1 ~ 초2</div>
+            </div>
+            <div>
+              <div style="font-size:9px;color:var(--muted);font-weight:700;margin-bottom:2px">📚 Lexile 지수</div>
+              <div style="font-size:13px;font-weight:800;color:var(--green)">140L ~ 410L</div>
+            </div>
+            <div>
+              <div style="font-size:9px;color:var(--muted);font-weight:700;margin-bottom:2px">📝 단어 수준</div>
+              <div style="font-size:13px;font-weight:800;color:var(--blue)">기초 ~ 200개</div>
+              <div style="font-size:9px;color:var(--muted);font-weight:600;margin-top:2px">반복 어휘 위주</div>
+            </div>
+            <div>
+              <div style="font-size:9px;color:var(--muted);font-weight:700;margin-bottom:2px">📄 글의 양 (권당)</div>
+              <div style="font-size:13px;font-weight:800;color:var(--purple)">150~250 단어</div>
+              <div style="font-size:9px;color:var(--muted);font-weight:600;margin-top:2px">My First I Can Read 시리즈</div>
+            </div>
+          </div>
+          <div style="margin-top:10px;padding:8px 10px;background:var(--green-soft);border-radius:8px;font-size:10px;color:var(--green);font-weight:700;line-height:1.5">
+            💡 <b>Biscuit 특징</b>: 강아지 비스킷의 일상 이야기 · 그림 풍부 · 짧은 대화. 다독 시작에 좋고 영어 동화책 입문용으로 인기 있어요.
+          </div>
+        </div>
+
+        <!-- 최종 점수 -->
+        <div style="font-size:11px;font-weight:800;color:var(--green);margin-bottom:8px">📊 Biscuit 최종 점수</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px">
+          <div style="background:white;padding:8px 10px;border-radius:8px">
+            <div style="font-size:10px;color:var(--muted);font-weight:700;margin-bottom:2px">📘 W 단어</div>
+            <div style="font-size:13px;font-weight:800;color:var(--blue)">180 / 200 (90%)</div>
+          </div>
+          <div style="background:white;padding:8px 10px;border-radius:8px">
+            <div style="font-size:10px;color:var(--muted);font-weight:700;margin-bottom:2px">🧩 P 퍼즐</div>
+            <div style="font-size:13px;font-weight:800;color:var(--purple)">60 / 72 (83%)</div>
+          </div>
+          <div style="background:white;padding:8px 10px;border-radius:8px">
+            <div style="font-size:10px;color:var(--muted);font-weight:700;margin-bottom:2px">🎯 Q 퀴즈</div>
+            <div style="font-size:13px;font-weight:800;color:var(--green)">89점</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 총 누적 박스는 현재 학습 중인 교재 카드로 이동됨 -->
+    </div>
+  </div>
+
+  <!-- 영역별 평균 (월별 비교 그래프) - 학생 화면과 동일 -->
+  <div class="card" id="growthSection">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+      <div style="font-size:15px;font-weight:800;display:flex;align-items:center;gap:6px">📈 <span id="growthAreaName">전체 평균</span> 성장 그래프</div>
+      <div style="display:flex;gap:4px;background:var(--bg);padding:3px;border-radius:8px">
+        <button class="period-tab-mini" onclick="switchPeriodGrowth(this,'week')" style="padding:5px 10px;border-radius:6px;border:none;font-size:11px;font-weight:800;cursor:pointer;font-family:inherit;background:transparent;color:var(--muted)">주</button>
+        <button class="period-tab-mini active" onclick="switchPeriodGrowth(this,'month')" style="padding:5px 10px;border-radius:6px;border:none;font-size:11px;font-weight:800;cursor:pointer;font-family:inherit;background:white;color:var(--teal-d);box-shadow:0 1px 3px rgba(0,0,0,0.08)">월</button>
+        <button class="period-tab-mini" onclick="switchPeriodGrowth(this,'3months')" style="padding:5px 10px;border-radius:6px;border:none;font-size:11px;font-weight:800;cursor:pointer;font-family:inherit;background:transparent;color:var(--muted)">3개월</button>
+      </div>
+    </div>
+
+    <!-- 영역 선택 탭 -->
+    <div style="display:flex;gap:5px;margin-bottom:14px">
+      <button class="pg-tab active" data-area="all" onclick="switchPGraph(this,'all')" style="flex:1;padding:7px;border-radius:9px;border:1.5px solid var(--teal);background:var(--teal);color:white;font-size:11px;font-weight:800;cursor:pointer;font-family:inherit">전체 평균</button>
+      <button class="pg-tab" data-area="w" onclick="switchPGraph(this,'w')" style="flex:1;padding:7px;border-radius:9px;border:1.5px solid #f3f4f6;background:white;color:var(--blue);font-size:11px;font-weight:800;cursor:pointer;font-family:inherit">W 단어</button>
+      <button class="pg-tab" data-area="p" onclick="switchPGraph(this,'p')" style="flex:1;padding:7px;border-radius:9px;border:1.5px solid #f3f4f6;background:white;color:var(--purple);font-size:11px;font-weight:800;cursor:pointer;font-family:inherit">P 퍼즐</button>
+      <button class="pg-tab" data-area="q" onclick="switchPGraph(this,'q')" style="flex:1;padding:7px;border-radius:9px;border:1.5px solid #f3f4f6;background:white;color:var(--green);font-size:11px;font-weight:800;cursor:pointer;font-family:inherit">Q 퀴즈</button>
+    </div>
+
+    <!-- 큰 점수 + 변화 -->
+    <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:12px">
+      <div><span id="growthVal" style="font-size:42px;font-weight:800;color:var(--teal-d);font-family:'Plus Jakarta Sans',sans-serif">88</span><span style="font-size:20px;color:var(--muted);font-weight:600;margin-left:3px">점</span></div>
+      <span id="growthTrend" style="background:var(--green-light);color:var(--green);padding:4px 10px;border-radius:7px;font-size:12px;font-weight:800">+12점</span>
+    </div>
+
+    <!-- 그래프 -->
+    <div style="position:relative;height:200px">
+      <!-- Y축 점수 -->
+      <div style="position:absolute;left:0;top:0;bottom:24px;display:flex;flex-direction:column;justify-content:space-between;font-size:10px;color:var(--muted);font-weight:700;width:28px;text-align:right;padding-right:4px">
+        <span>100</span><span>90</span><span>80</span><span>70</span><span>60</span><span>50</span>
+      </div>
+      <svg viewBox="0 0 320 160" preserveAspectRatio="none" style="position:absolute;left:32px;right:0;top:0;bottom:0;width:calc(100% - 32px);height:100%">
+        <g class="chart-grid">
+          <line x1="0" y1="0" x2="320" y2="0" stroke="#e5e7eb" stroke-dasharray="2,3"/>
+          <line x1="0" y1="28" x2="320" y2="28" stroke="#f3f4f6"/>
+          <line x1="0" y1="56" x2="320" y2="56" stroke="#f3f4f6"/>
+          <line x1="0" y1="84" x2="320" y2="84" stroke="#f3f4f6"/>
+          <line x1="0" y1="112" x2="320" y2="112" stroke="#f3f4f6"/>
+          <line x1="0" y1="140" x2="320" y2="140" stroke="#e5e7eb"/>
+        </g>
+        <g id="pgBars"></g>
+        <g id="pgVals"></g>
+      </svg>
+      <div id="pgLabels" style="position:absolute;bottom:4px;left:32px;right:0;display:flex;justify-content:space-around;font-size:10px;font-weight:700;color:var(--muted)">
+        <span>5/3</span><span>5/10</span><span>5/17</span><span>5/24</span><span>오늘</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 🎯 영역별 점수 (학생 화면과 동일) -->
+  <div class="card">
+    <div class="card-title">🎯 영역별 점수 <span class="badge">ORT2 단계 · 클릭해서 그래프 보기</span></div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">
+      <div onclick="switchAreaFromCard('w')" style="background:var(--blue-light);border-radius:14px;padding:16px;text-align:center;cursor:pointer;transition:.2s" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+        <div style="width:48px;height:48px;background:var(--blue);color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:800;font-family:'Plus Jakarta Sans',sans-serif;margin:0 auto 10px">W</div>
+        <div style="font-size:11px;color:var(--blue);font-weight:700;margin-bottom:4px">단어 Word</div>
+        <div style="font-size:24px;font-weight:800;color:var(--blue);font-family:'Plus Jakarta Sans',sans-serif">88점</div>
+        <div style="font-size:11px;color:var(--green);font-weight:800;margin-top:3px">+22%</div>
+      </div>
+      <div onclick="switchAreaFromCard('p')" style="background:var(--purple-light);border-radius:14px;padding:16px;text-align:center;cursor:pointer;transition:.2s" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+        <div style="width:48px;height:48px;background:var(--purple);color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:800;font-family:'Plus Jakarta Sans',sans-serif;margin:0 auto 10px">P</div>
+        <div style="font-size:11px;color:var(--purple);font-weight:700;margin-bottom:4px">퍼즐 Puzzle</div>
+        <div style="font-size:24px;font-weight:800;color:var(--purple);font-family:'Plus Jakarta Sans',sans-serif">92점</div>
+        <div style="font-size:11px;color:var(--green);font-weight:800;margin-top:3px">+18%</div>
+      </div>
+      <div onclick="switchAreaFromCard('q')" style="background:var(--green-light);border-radius:14px;padding:16px;text-align:center;cursor:pointer;transition:.2s" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+        <div style="width:48px;height:48px;background:var(--green);color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:800;font-family:'Plus Jakarta Sans',sans-serif;margin:0 auto 10px">Q</div>
+        <div style="font-size:11px;color:var(--green);font-weight:700;margin-bottom:4px">퀴즈 Quiz</div>
+        <div style="font-size:24px;font-weight:800;color:var(--green);font-family:'Plus Jakarta Sans',sans-serif">85점</div>
+        <div style="font-size:11px;color:var(--green);font-weight:800;margin-top:3px">+35%</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 보강 일정 알림 -->
+  <div class="card" style="background:linear-gradient(135deg,#ede9fe 0%,#f5f3ff 100%);border:1.5px solid var(--purple-light)">
+    <div class="card-title" style="color:var(--purple)">📅 보강 일정 <span class="badge" style="background:var(--purple);color:white">민준이 예정</span></div>
+
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <!-- 예정 보강 -->
+      <div style="background:white;border-left:4px solid var(--purple);border-radius:11px;padding:12px 14px;display:flex;align-items:center;gap:12px">
+        <div style="background:var(--purple-light);width:50px;height:50px;border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0">
+          <div style="font-size:9px;font-weight:800;color:var(--purple)">6월</div>
+          <div style="font-size:18px;font-weight:800;color:var(--purple);line-height:1;font-family:'Plus Jakarta Sans',sans-serif">2</div>
+        </div>
+        <div style="flex:1;min-width:0">
+          <div style="font-size:13px;font-weight:800;margin-bottom:3px">월요일 오후 2시 (14:00)</div>
+          <div style="font-size:11px;color:var(--muted);font-weight:600">사유: 5/31(토) 결석 보강</div>
+        </div>
+        <span style="background:var(--purple);color:white;font-size:10px;font-weight:800;padding:4px 10px;border-radius:7px">예정</span>
+      </div>
+
+      <!-- 완료된 보강 -->
+      <div style="background:white;border-left:4px solid var(--green);border-radius:11px;padding:12px 14px;display:flex;align-items:center;gap:12px;opacity:0.85">
+        <div style="background:var(--green-light);width:50px;height:50px;border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0">
+          <div style="font-size:9px;font-weight:800;color:var(--green)">5월</div>
+          <div style="font-size:18px;font-weight:800;color:var(--green);line-height:1;font-family:'Plus Jakarta Sans',sans-serif">15</div>
+        </div>
+        <div style="flex:1;min-width:0">
+          <div style="font-size:13px;font-weight:800;margin-bottom:3px">목요일 오후 3시 (15:00)</div>
+          <div style="font-size:11px;color:var(--muted);font-weight:600">5/13 결석 보강 · 완료 ✓</div>
+        </div>
+        <span style="background:var(--green);color:white;font-size:10px;font-weight:800;padding:4px 10px;border-radius:7px">완료</span>
+      </div>
+    </div>
+
+    <div style="margin-top:10px;background:rgba(255,255,255,0.7);border-radius:9px;padding:8px 12px;font-size:11px;color:var(--purple);font-weight:700;display:flex;align-items:center;gap:6px">
+      💡 보강 일정 변경이 필요하시면 학원으로 문의해주세요
+    </div>
+  </div>
+
+  <!-- 학원 전달사항 -->
+  <div class="card">
+    <div class="card-title">📢 학원 전달사항 <span class="badge">공지</span></div>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <!-- 중요 공지 -->
+      <div style="background:linear-gradient(135deg,#fef3c7,#fde68a);border-left:4px solid #f59e0b;border-radius:11px;padding:12px 14px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+          <div style="font-size:12px;font-weight:800;color:#92400e;display:flex;align-items:center;gap:5px">📌 6월 휴원 안내</div>
+          <span style="font-size:9px;background:#f59e0b;color:white;padding:2px 7px;border-radius:5px;font-weight:800">중요</span>
+        </div>
+        <div style="font-size:12px;color:#92400e;font-weight:600;line-height:1.5">6월 6일(현충일)은 휴원입니다. 보강은 6월 7일(토)에 진행 예정이니 참고해주세요.</div>
+        <div style="font-size:9px;color:#92400e;font-weight:700;margin-top:6px;opacity:0.8">📅 2026.05.30</div>
+      </div>
+
+      <!-- 일반 공지 -->
+      <div style="background:white;border:1.5px solid var(--border);border-radius:11px;padding:12px 14px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+          <div style="font-size:12px;font-weight:800;color:var(--text);display:flex;align-items:center;gap:5px">📚 ORT2 단계 진급 안내</div>
+          <span style="font-size:9px;background:var(--blue-light);color:var(--blue);padding:2px 7px;border-radius:5px;font-weight:800">학습</span>
+        </div>
+        <div style="font-size:12px;color:var(--text2);font-weight:600;line-height:1.5">민준이가 다음 주 ORT2 3단계 마무리 예정입니다. 클래스카드 녹음 꾸준히 도와주시면 좋습니다.</div>
+        <div style="font-size:9px;color:var(--muted);font-weight:700;margin-top:6px">📅 2026.05.28</div>
+      </div>
+
+      <!-- 이벤트 -->
+      <div style="background:white;border:1.5px solid var(--border);border-radius:11px;padding:12px 14px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+          <div style="font-size:12px;font-weight:800;color:var(--text);display:flex;align-items:center;gap:5px">🎉 영어 골든벨 대회</div>
+          <span style="font-size:9px;background:var(--pink-light);color:var(--pink);padding:2px 7px;border-radius:5px;font-weight:800">이벤트</span>
+        </div>
+        <div style="font-size:12px;color:var(--text2);font-weight:600;line-height:1.5">6월 셋째 주에 학원 내 영어 골든벨 대회를 개최합니다. 단어 700개 범위로 출제 예정이며, 우승자에게는 상품을 드립니다!</div>
+        <div style="font-size:9px;color:var(--muted);font-weight:700;margin-top:6px">📅 2026.05.20</div>
+      </div>
+
+      <!-- 일반 안내 -->
+      <div style="background:white;border:1.5px solid var(--border);border-radius:11px;padding:12px 14px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+          <div style="font-size:12px;font-weight:800;color:var(--text);display:flex;align-items:center;gap:5px">📝 단어 시험 안내</div>
+          <span style="font-size:9px;background:var(--green-light);color:var(--green);padding:2px 7px;border-radius:5px;font-weight:800">일반</span>
+        </div>
+        <div style="font-size:12px;color:var(--text2);font-weight:600;line-height:1.5">매주 금요일에 그 주에 학습한 단어 시험을 봅니다. 가정에서 복습 함께 해주시면 큰 도움이 됩니다.</div>
+        <div style="font-size:9px;color:var(--muted);font-weight:700;margin-top:6px">📅 2026.05.15</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 선생님께 메시지 보내기 -->
+  <div class="card" id="messageSection">
+    <div class="card-title">💬 선생님께 메시지 보내기</div>
+    <div style="font-size:11px;color:var(--muted);font-weight:600;margin-bottom:12px">민준이의 학습이나 학원 생활에 대해 궁금한 점 · 전달사항을 자유롭게 적어주세요</div>
+
+    <!-- 빠른 선택 -->
+    <div style="margin-bottom:12px">
+      <div style="font-size:11px;font-weight:800;color:var(--text2);margin-bottom:6px">⚡ 빠른 선택</div>
+      <div style="display:flex;flex-wrap:wrap;gap:6px">
+        <button onclick="quickMessage(this)" style="background:var(--blue-light);color:var(--blue);border:none;padding:6px 12px;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit">📅 결석 알림</button>
+        <button onclick="quickMessage(this)" style="background:var(--orange-light);color:var(--orange);border:none;padding:6px 12px;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit">⏰ 지각 예정</button>
+        <button onclick="quickMessage(this)" style="background:var(--purple-light);color:var(--purple);border:none;padding:6px 12px;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit">📞 상담 요청</button>
+        <button onclick="quickMessage(this)" style="background:var(--green-light);color:var(--green);border:none;padding:6px 12px;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit">❓ 학습 질문</button>
+        <button onclick="quickMessage(this)" style="background:var(--pink-light);color:var(--pink);border:none;padding:6px 12px;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit">💝 감사 인사</button>
+      </div>
+    </div>
+
+    <!-- 메시지 입력 -->
+    <div style="position:relative">
+      <textarea id="parentMessage" placeholder="예) 다음 주 화요일에 가족 행사로 결석 예정입니다. 보강 가능할까요?" style="width:100%;min-height:120px;padding:14px;border:1.5px solid var(--border);border-radius:13px;font-family:inherit;font-size:13px;font-weight:600;color:var(--text);outline:none;resize:vertical;background:var(--bg)" onfocus="this.style.borderColor='var(--teal)';this.style.background='white'" onblur="this.style.borderColor='var(--border)';this.style.background='var(--bg)'"></textarea>
+    </div>
+
+    <!-- 첨부 + 전송 -->
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px;gap:8px">
+      <button onclick="alert('📎 사진/파일 첨부 기능')" style="background:var(--bg);color:var(--text2);border:none;padding:10px 14px;border-radius:10px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:5px">📎 첨부</button>
+      <button onclick="sendParentMessage()" style="flex:1;background:linear-gradient(135deg,var(--teal),var(--teal-d));color:white;border:none;padding:12px;border-radius:12px;font-size:13px;font-weight:800;cursor:pointer;font-family:inherit;box-shadow:0 4px 12px rgba(20,184,166,0.3)">
+        💬 메시지 보내기
+      </button>
+    </div>
+  </div>
+
+  <!-- 학원 전달사항이 위에 있음 -->
+
+</div>
+
+<!-- 숙제 상세 모달 -->
+<div id="hwDetailModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1100;align-items:center;justify-content:center;backdrop-filter:blur(3px);padding:16px">
+  <div style="background:white;border-radius:20px;padding:22px;max-width:400px;width:100%;max-height:80vh;overflow-y:auto">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+      <h3 id="hwDetailTitle" style="font-size:16px;font-weight:800;margin:0">5월 22일 (목)</h3>
+      <button onclick="closeHwDetail()" style="background:var(--bg);border:none;width:30px;height:30px;border-radius:8px;font-size:16px;font-weight:800;cursor:pointer;font-family:inherit">✕</button>
+    </div>
+    <div id="hwDetailContent"></div>
+  </div>
+</div>
+
+<!-- 학습 권수 모달 -->
+<div id="booksModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1100;align-items:center;justify-content:center;backdrop-filter:blur(3px);padding:16px">
+  <div style="background:white;border-radius:20px;padding:22px;max-width:420px;width:100%;max-height:80vh;overflow-y:auto">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+      <h3 style="font-size:16px;font-weight:800;margin:0">📚 학습 권수 상세</h3>
+      <button onclick="closeBooksModal()" style="background:var(--bg);border:none;width:30px;height:30px;border-radius:8px;font-size:16px;font-weight:800;cursor:pointer;font-family:inherit">✕</button>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px">
+      <div style="background:linear-gradient(135deg,var(--teal-soft),var(--teal-light));border-radius:13px;padding:14px;display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <div style="font-size:11px;color:var(--teal-d);font-weight:800">이번 달 (5월)</div>
+          <div style="font-size:9px;color:var(--muted);font-weight:600;margin-top:2px">ORT2 + Fly Guy</div>
+        </div>
+        <div style="font-size:26px;font-weight:800;color:var(--teal-d);font-family:'Plus Jakarta Sans',sans-serif">17권</div>
+      </div>
+
+      <div style="background:var(--bg);border-radius:13px;padding:14px;display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <div style="font-size:11px;color:var(--text2);font-weight:800">지난 달 (4월)</div>
+          <div style="font-size:9px;color:var(--muted);font-weight:600;margin-top:2px">ORT2 시작 + Fly Guy</div>
+        </div>
+        <div style="font-size:22px;font-weight:800;color:var(--text2);font-family:'Plus Jakarta Sans',sans-serif">22권</div>
+      </div>
+
+      <div style="background:var(--bg);border-radius:13px;padding:14px;display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <div style="font-size:11px;color:var(--text2);font-weight:800">3개월 전 (3월)</div>
+          <div style="font-size:9px;color:var(--muted);font-weight:600;margin-top:2px">ORT1 완료 + Biscuit</div>
+        </div>
+        <div style="font-size:22px;font-weight:800;color:var(--text2);font-family:'Plus Jakarta Sans',sans-serif">18권</div>
+      </div>
+
+      <div style="background:var(--bg);border-radius:13px;padding:14px;display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <div style="font-size:11px;color:var(--text2);font-weight:800">2월</div>
+          <div style="font-size:9px;color:var(--muted);font-weight:600;margin-top:2px">ORT1 마무리</div>
+        </div>
+        <div style="font-size:22px;font-weight:800;color:var(--text2);font-family:'Plus Jakarta Sans',sans-serif">14권</div>
+      </div>
+    </div>
+
+    <div style="background:linear-gradient(135deg,#fef3c7,var(--orange-soft));border:1.5px solid #fde68a;border-radius:13px;padding:14px;text-align:center">
+      <div style="font-size:11px;color:#92400e;font-weight:800;margin-bottom:4px">🏆 누적 학습 권수</div>
+      <div style="font-size:32px;font-weight:800;color:#92400e;font-family:'Plus Jakarta Sans',sans-serif">71권</div>
+      <div style="font-size:10px;color:#92400e;font-weight:700;margin-top:4px">2025.12 ~ 현재</div>
+    </div>
+  </div>
+</div>
+
+<script>
+// 한 달 숙제 데이터 + 상세 내용
+const parentHwData = {
+  1:'O', 2:'O', 3:'',
+  4:'', 5:'O', 6:'O', 7:'O', 8:'T', 9:'O', 10:'',
+  11:'', 12:'O', 13:'O', 14:'O', 15:'O', 16:'X', 17:'',
+  18:'', 19:'O', 20:'P', 21:'O', 22:'T', 23:'O', 24:'',
+  25:'', 26:'O', 27:'O', 28:'O', 29:'T', 30:'O', 31:''
+};
+
+// 각 날짜의 숙제 상세
+const hwDetailsMap = {
+  1:  { done: ['단어 20개 암기', '클래스카드 5개 녹음', 'RG 1p', '문법 1p'], missed: [] },
+  2:  { done: ['단어 20개 암기', '클래스카드 5개 녹음', 'RG 1p', '문법 1p'], missed: [] },
+  5:  { done: ['단어 20개', '클카 5개', 'RG 1p', '문법 1p'], missed: [] },
+  6:  { done: ['단어 20개', '클카 5개', 'RG 1p', '문법 1p'], missed: [] },
+  7:  { done: ['단어 20개', '클카 5개', 'RG 1p', '문법 1p'], missed: [] },
+  8:  { done: ['단어 20개', '클카 5개'], missed: ['RG 1p (절반만)', '문법 1p (미완)'] },
+  9:  { done: ['단어 20개', '클카 5개', 'RG 1p', '문법 1p'], missed: [] },
+  12: { done: ['단어 20개', '클카 5개', 'RG 1p', '문법 1p'], missed: [] },
+  13: { done: ['단어 20개', '클카 5개', 'RG 1p', '문법 1p'], missed: [] },
+  14: { done: ['단어 20개', '클카 5개', 'RG 1p', '문법 1p'], missed: [] },
+  15: { done: ['단어 20개', '클카 5개', 'RG 1p', '문법 1p'], missed: [] },
+  16: { done: [], missed: ['단어 20개 (미완)', '클카 5개 (미완)', 'RG 1p (미완)', '문법 1p (미완)'] },
+  19: { done: ['단어 20개', '클카 5개', 'RG 1p', '문법 1p'], missed: [] },
+  20: { done: [], missed: [], exempt: true },
+  21: { done: ['단어 20개', '클카 5개', 'RG 1p', '문법 1p'], missed: [] },
+  22: { done: ['단어 20개', '클카 5개', 'RG 1p'], missed: ['문법 1p (어려워서 못 풀음)'] },
+  23: { done: ['단어 20개', '클카 5개', 'RG 1p', '문법 1p'], missed: [] },
+  26: { done: ['단어 20개', '클카 5개', 'RG 1p', '문법 1p'], missed: [] },
+  27: { done: ['단어 20개', '클카 5개', 'RG 1p', '문법 1p'], missed: [] },
+  28: { done: ['단어 20개', '클카 5개', 'RG 1p', '문법 1p'], missed: [] },
+  29: { done: ['단어 20개', '클카 5개'], missed: ['RG 1p (반만)', '문법 1p (미완)'] },
+  30: { done: ['단어 20개', '클카 5개', 'RG 1p', '문법 1p'], missed: [] }
+};
+
+const weekdayKo = ['일','월','화','수','목','금','토'];
+
+function renderParentCal(){
+  const cal = document.getElementById('parentCal');
+  const firstDayOfWeek = 4; // 5/1 목
+  const daysInMonth = 31;
+  let html = '';
+  for(let i=0; i<firstDayOfWeek; i++) html += '<div></div>';
+  for(let d=1; d<=daysInMonth; d++){
+    const status = parentHwData[d] || '';
+    const dayOfWeek = (firstDayOfWeek + d - 1) % 7;
+    const dayColor = dayOfWeek === 0 ? '#dc2626' : (dayOfWeek === 6 ? '#2563eb' : '#475569');
+    let symClass = '', symbol = '';
+    if(status === 'O'){ symClass = 'o'; symbol = 'O'; }
+    else if(status === 'T'){ symClass = 't'; symbol = '△'; }
+    else if(status === 'X'){ symClass = 'x'; symbol = '×'; }
+    else if(status === 'P'){ symClass = 'p'; symbol = '🎫'; }
+
+    const clickable = status ? 'onclick="openHwDetail(' + d + ')" style="cursor:pointer"' : '';
+    html += '<div class="cal-day" ' + clickable + '>'
+      + '<div class="num" style="color:' + dayColor + '">' + d + '</div>'
+      + '<div class="sym ' + symClass + '">' + symbol + '</div>'
+      + '</div>';
+  }
+  cal.innerHTML = html;
+}
+
+// 숙제 상세 모달
+function openHwDetail(day){
+  const data = hwDetailsMap[day];
+  if(!data) return;
+  const status = parentHwData[day];
+  const dayOfWeek = (4 + day - 1) % 7;
+  document.getElementById('hwDetailTitle').textContent = '5월 ' + day + '일 (' + weekdayKo[dayOfWeek] + ')';
+
+  let html = '';
+  // 상태 표시
+  let statusBg = '', statusText = '', statusIcon = '';
+  if(status === 'O'){ statusBg = 'linear-gradient(135deg,var(--green-light),var(--green-soft))'; statusText = '✓ 숙제 완료'; statusIcon = 'O'; }
+  else if(status === 'T'){ statusBg = 'linear-gradient(135deg,#fef3c7,#fffbeb)'; statusText = '△ 일부 완료'; statusIcon = '△'; }
+  else if(status === 'X'){ statusBg = 'linear-gradient(135deg,var(--red-light),#fef2f2)'; statusText = '× 숙제 미완'; statusIcon = '×'; }
+  else if(status === 'P'){ statusBg = 'linear-gradient(135deg,var(--pink-light),#fdf2f8)'; statusText = '🎫 면제권 사용'; statusIcon = '🎫'; }
+
+  html += '<div style="background:' + statusBg + ';border-radius:13px;padding:14px;margin-bottom:12px;text-align:center">'
+    + '<div style="font-size:36px;margin-bottom:4px">' + statusIcon + '</div>'
+    + '<div style="font-size:14px;font-weight:800">' + statusText + '</div>'
+    + '</div>';
+
+  if(data.exempt){
+    html += '<div style="background:var(--pink-light);border-radius:11px;padding:14px;text-align:center;font-size:12px;color:#9f1239;font-weight:700">🎫 면제권을 사용해서 숙제가 없었던 날입니다 ✨</div>';
+  } else {
+    // 한 숙제
+    if(data.done && data.done.length > 0){
+      html += '<div style="margin-bottom:10px">'
+        + '<div style="font-size:12px;font-weight:800;color:var(--green);margin-bottom:6px;display:flex;align-items:center;gap:4px">✓ 한 숙제 (' + data.done.length + '개)</div>';
+      data.done.forEach(function(item){
+        html += '<div style="background:var(--green-soft);border-radius:9px;padding:9px 12px;margin-bottom:5px;font-size:12px;color:#15803d;font-weight:700;border-left:3px solid var(--green)">○ ' + item + '</div>';
+      });
+      html += '</div>';
+    }
+    // 안 한 숙제
+    if(data.missed && data.missed.length > 0){
+      html += '<div>'
+        + '<div style="font-size:12px;font-weight:800;color:var(--red);margin-bottom:6px;display:flex;align-items:center;gap:4px">× 안 한 숙제 (' + data.missed.length + '개)</div>';
+      data.missed.forEach(function(item){
+        html += '<div style="background:var(--red-light);border-radius:9px;padding:9px 12px;margin-bottom:5px;font-size:12px;color:#991b1b;font-weight:700;border-left:3px solid var(--red)">× ' + item + '</div>';
+      });
+      html += '</div>';
+    }
+  }
+
+  document.getElementById('hwDetailContent').innerHTML = html;
+  document.getElementById('hwDetailModal').style.display = 'flex';
+}
+
+function closeHwDetail(){
+  document.getElementById('hwDetailModal').style.display = 'none';
+}
+
+// 학습 권수 모달
+function openBooksModal(){
+  document.getElementById('booksModal').style.display = 'flex';
+}
+function closeBooksModal(){
+  document.getElementById('booksModal').style.display = 'none';
+}
+
+// 교재 상세 토글
+function toggleBookDetail(card){
+  const detail = card.nextElementSibling;
+  if(detail && detail.classList.contains('book-detail')){
+    detail.style.display = detail.style.display === 'none' ? 'block' : 'none';
+  }
+}
+
+// 지금까지 학습한 교재 펼침
+function togglePastBooks(){
+  const sec = document.getElementById('pastBooksSection');
+  const arrow = document.getElementById('pastBooksArrow');
+  if(sec.style.display === 'none'){
+    sec.style.display = 'block';
+    arrow.textContent = '▲';
+  } else {
+    sec.style.display = 'none';
+    arrow.textContent = '▼';
+  }
+}
+
+// 빠른 선택 메시지
+function quickMessage(btn){
+  const templates = {
+    '📅 결석 알림': '📅 결석 알림: __월 __일(요일) 사유로 결석 예정입니다. 보강 부탁드립니다.',
+    '⏰ 지각 예정': '⏰ 오늘 __시쯤 도착 예정입니다. 양해 부탁드려요.',
+    '📞 상담 요청': '📞 학습 상담을 요청드립니다. 가능하신 시간 알려주세요.',
+    '❓ 학습 질문': '❓ 민준이의 학습에 대해 궁금한 점이 있습니다:\n\n',
+    '💝 감사 인사': '💝 항상 민준이를 잘 가르쳐주셔서 감사합니다.'
+  };
+  const txt = templates[btn.textContent.trim()];
+  if(txt){
+    const ta = document.getElementById('parentMessage');
+    ta.value = txt;
+    ta.focus();
+    // 빠른 버튼 강조
+    document.querySelectorAll('button[onclick="quickMessage(this)"]').forEach(function(b){
+      b.style.opacity = '0.5';
+    });
+    btn.style.opacity = '1';
+    btn.style.transform = 'scale(1.05)';
+    setTimeout(function(){
+      btn.style.transform = 'scale(1)';
+    }, 200);
+  }
+}
+
+// 메시지 전송
+function sendParentMessage(){
+  const ta = document.getElementById('parentMessage');
+  const msg = ta.value.trim();
+  if(!msg){
+    alert('메시지를 입력해주세요');
+    ta.focus();
+    return;
+  }
+  if(!confirm('선생님께 메시지를 보내시겠습니까?\n\n"' + msg.substring(0, 50) + (msg.length > 50 ? '...' : '') + '"')) return;
+
+  // 새 메시지를 보낸 목록 맨 위에 추가
+  const now = new Date();
+  const m = now.getMonth() + 1;
+  const d = now.getDate();
+  const hh = String(now.getHours()).padStart(2, '0');
+  const mm = String(now.getMinutes()).padStart(2, '0');
+  const wd = ['일','월','화','수','목','금','토'][now.getDay()];
+
+  const list = document.getElementById('sentMessagesList');
+  const newItem = document.createElement('div');
+  newItem.style.cssText = 'background:linear-gradient(135deg,var(--teal-soft),var(--teal-light));border-radius:11px;padding:11px 13px;margin-bottom:8px;border:1.5px solid var(--teal-light)';
+  newItem.innerHTML =
+    '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px">'
+    + '<span style="font-size:10px;font-weight:800;color:var(--teal-d)">' + m + '/' + d + ' (' + wd + ') ' + hh + ':' + mm + '</span>'
+    + '<span style="font-size:9px;font-weight:800;background:var(--orange-light);color:var(--orange);padding:2px 7px;border-radius:5px">📨 전송됨</span>'
+    + '</div>'
+    + '<div style="font-size:12px;color:var(--text2);font-weight:600;line-height:1.5;white-space:pre-wrap">' + msg + '</div>';
+
+  list.insertBefore(newItem, list.firstChild);
+
+  // 입력란 초기화
+  ta.value = '';
+  // 빠른 버튼 원래대로
+  document.querySelectorAll('button[onclick="quickMessage(this)"]').forEach(function(b){
+    b.style.opacity = '1';
+  });
+
+  alert('✅ 메시지가 전송되었습니다!\n선생님이 확인 후 답변드리겠습니다.');
+}
+
+// 숙제 캘린더 펼침
+function toggleHwCal(){
+  const sec = document.getElementById('hwCalContent');
+  const arrow = document.getElementById('hwCalArrow');
+  if(sec.style.display === 'none'){
+    sec.style.display = 'block';
+    arrow.textContent = '▲';
+    renderParentCal(); // 펼칠 때 렌더
+  } else {
+    sec.style.display = 'none';
+    arrow.textContent = '▼';
+  }
+}
+
+// 섹션 스크롤
+function scrollToSection(id){
+  const el = document.getElementById(id);
+  if(!el) return;
+  // 숙제 캘린더 자동 펼침
+  if(id === 'hwCalSection'){
+    const sec = document.getElementById('hwCalContent');
+    if(sec && sec.style.display === 'none'){
+      toggleHwCal();
+    }
+  }
+  el.scrollIntoView({behavior:'smooth', block:'start'});
+  el.style.transition = 'box-shadow 0.4s';
+  el.style.boxShadow = '0 0 0 3px var(--teal-light)';
+  setTimeout(function(){ el.style.boxShadow = ''; }, 1500);
+}
+
+// 영역별 평균 추이 그래프 (기간 + 영역)
+let currentPGPeriod = 'month';
+let currentPGArea = 'all';
+
+const pgDataAll = {
+  week: {
+    all: { vals:[80, 82, 84, 86, 88], color:'#14b8a6', name:'전체 평균', trend:'+8점' },
+    w:   { vals:[78, 80, 82, 85, 88], color:'#3b82f6', name:'W 단어', trend:'+10점' },
+    p:   { vals:[82, 84, 87, 89, 92], color:'#8b5cf6', name:'P 퍼즐', trend:'+10점' },
+    q:   { vals:[68, 72, 76, 80, 85], color:'#22c55e', name:'Q 퀴즈', trend:'+17점' }
+  },
+  month: {
+    all: { vals:[72, 78, 80, 85, 88], color:'#14b8a6', name:'전체 평균', trend:'+12점' },
+    w:   { vals:[66, 72, 78, 82, 88], color:'#3b82f6', name:'W 단어', trend:'+22점' },
+    p:   { vals:[74, 80, 85, 88, 92], color:'#8b5cf6', name:'P 퍼즐', trend:'+18점' },
+    q:   { vals:[50, 62, 70, 78, 85], color:'#22c55e', name:'Q 퀴즈', trend:'+35점' }
+  },
+  '3months': {
+    all: { vals:[60, 68, 75, 82, 88], color:'#14b8a6', name:'전체 평균', trend:'+28점' },
+    w:   { vals:[55, 65, 72, 80, 88], color:'#3b82f6', name:'W 단어', trend:'+33점' },
+    p:   { vals:[62, 70, 78, 85, 92], color:'#8b5cf6', name:'P 퍼즐', trend:'+30점' },
+    q:   { vals:[40, 55, 65, 75, 85], color:'#22c55e', name:'Q 퀴즈', trend:'+45점' }
+  }
+};
+
+const pgLabelsMap = {
+  week:     ['월','화','수','목','금'],
+  month:    ['5/3','5/10','5/17','5/24','오늘'],
+  '3months':['3월','3월말','4월','4월말','5월']
+};
+
+function switchPGraph(btn, area){
+  document.querySelectorAll('.pg-tab').forEach(function(t){
+    t.style.background = 'white';
+    t.style.borderColor = '#f3f4f6';
+    const a = t.getAttribute('data-area');
+    if(a === 'all') t.style.color = 'var(--teal-d)';
+    else if(a === 'w') t.style.color = 'var(--blue)';
+    else if(a === 'p') t.style.color = 'var(--purple)';
+    else if(a === 'q') t.style.color = 'var(--green)';
+    t.classList.remove('active');
+  });
+  const d = pgDataAll[currentPGPeriod][area];
+  btn.style.background = d.color;
+  btn.style.borderColor = d.color;
+  btn.style.color = 'white';
+  btn.classList.add('active');
+  currentPGArea = area;
+  renderPGraph();
+}
+
+function switchPeriodGrowth(btn, period){
+  document.querySelectorAll('.period-tab-mini').forEach(function(t){
+    t.style.background = 'transparent';
+    t.style.color = 'var(--muted)';
+    t.style.boxShadow = 'none';
+  });
+  btn.style.background = 'white';
+  btn.style.color = 'var(--teal-d)';
+  btn.style.boxShadow = '0 1px 3px rgba(0,0,0,0.08)';
+  currentPGPeriod = period;
+  // X축 라벨 갱신
+  const labels = pgLabelsMap[period];
+  const lblEl = document.getElementById('pgLabels');
+  if(lblEl && labels){
+    lblEl.innerHTML = labels.map(function(l){ return '<span>' + l + '</span>'; }).join('');
+  }
+  renderPGraph();
+}
+
+function switchAreaFromCard(area){
+  const tab = document.querySelector('.pg-tab[data-area="' + area + '"]');
+  if(tab) switchPGraph(tab, area);
+  // 그래프 카드로 스크롤
+  const graphCard = document.querySelector('#growthAreaName');
+  if(graphCard){
+    const card = graphCard.closest('.card');
+    if(card) card.scrollIntoView({behavior:'smooth', block:'start'});
+  }
+}
+
+function renderPGraph(){
+  const d = pgDataAll[currentPGPeriod][currentPGArea];
+  if(!d) return;
+  // 5개 막대 - viewBox 320x160
+  const barWidth = 40;
+  const barGap = (320 - barWidth * 5) / 6;
+  let barsHtml = '';
+  let valsHtml = '';
+  d.vals.forEach(function(v, i){
+    const x = barGap + i * (barWidth + barGap);
+    const y = 140 - ((v - 50) / 50) * 140;
+    const h = 140 - y;
+    const isLast = (i === d.vals.length - 1);
+    const opacity = isLast ? '1' : '0.65';
+    barsHtml += '<rect x="' + x + '" y="' + y + '" width="' + barWidth + '" height="' + h + '" rx="6" fill="' + d.color + '" opacity="' + opacity + '"/>';
+    valsHtml += '<text x="' + (x + barWidth/2) + '" y="' + (y - 6) + '" text-anchor="middle" font-size="11" font-weight="800" fill="' + d.color + '" font-family="Plus Jakarta Sans,sans-serif">' + v + '</text>';
+  });
+  document.getElementById('pgBars').innerHTML = barsHtml;
+  document.getElementById('pgVals').innerHTML = valsHtml;
+
+  // 큰 점수 + 변화량 + 이름 갱신
+  document.getElementById('growthVal').textContent = d.vals[d.vals.length - 1];
+  document.getElementById('growthVal').style.color = d.color;
+  document.getElementById('growthAreaName').textContent = d.name;
+  document.getElementById('growthTrend').textContent = d.trend;
+  document.getElementById('growthTrend').style.background = d.color + '22';
+  document.getElementById('growthTrend').style.color = d.color;
+}
+
+// 학습 기록 데이터 (3개월치)
+const timelineData = {
+  week: [
+    { date: '5/30', wd: '금', title: '📚 ORT2-3-3', meta: ['1시간 28분', '단어 17/20', 'W 88', 'P 92', 'Q 90', '🙂 만족'] },
+    { date: '5/29', wd: '목', title: '📖 Fly Guy 13 (다독)', meta: ['1시간 35분', '단어 19/20', 'W 92', 'P 88', 'Q 85', '😄 매우만족'] },
+    { date: '5/28', wd: '수', title: '🎧 듣기평가 (중3 2025-1)', meta: ['50분', '듣기 85점', '오답 딕테이션', '🙂 만족'] },
+    { date: '5/27', wd: '화', title: '📚 ORT2-3-1 + 단어시험', meta: ['1시간 42분', '단어 18/20', 'W 90', 'P 85', 'Q 92'] },
+    { date: '5/26', wd: '월', title: '❌ 결석', meta: ['보강: 5/29'], absent: true }
+  ],
+  month: [
+    { date: '5/30', wd: '금', title: '📚 ORT2-3-3', meta: ['1시간 28분', '단어 17/20', 'W 88', 'P 92', 'Q 90'] },
+    { date: '5/27', wd: '화', title: '📚 ORT2-3-1', meta: ['1시간 42분', '단어 18/20', 'W 90', 'P 85', 'Q 92'] },
+    { date: '5/22', wd: '목', title: '📖 Fly Guy 12', meta: ['1시간 30분', '단어 18/20', 'W 88', 'P 90'] },
+    { date: '5/18', wd: '일', title: '📚 ORT2-2-6', meta: ['1시간 25분', 'W 85', 'P 88', 'Q 80'] },
+    { date: '5/15', wd: '목', title: '🎧 듣기평가', meta: ['듣기 82점', 'CC 문법'] },
+    { date: '5/12', wd: '월', title: '📚 ORT2-2-4', meta: ['1시간 30분', '단어 16/20', 'W 80', 'P 85'] },
+    { date: '5/8', wd: '목', title: '📖 Fly Guy 10', meta: ['1시간 20분', 'W 78', 'P 82', 'Q 80'] },
+    { date: '5/5', wd: '월', title: '🏖 어린이날 (휴원)', meta: [], absent: true },
+    { date: '5/2', wd: '금', title: '📚 ORT2-2-1', meta: ['1시간 30분', '단어 15/20', 'W 75', 'P 80'] }
+  ],
+  '3months': [
+    { date: '5/30', wd: '금', title: '📚 ORT2-3-3 · 최근 학습', meta: ['W 88', 'P 92', 'Q 90'] },
+    { date: '5/15', wd: '목', title: '📚 ORT2 중간 점검', meta: ['지면시험 85점'] },
+    { date: '5/1', wd: '목', title: '📚 ORT2 시작', meta: ['새 단계 시작'] },
+    { date: '4/20', wd: '월', title: '📖 Fly Guy 시작', meta: ['다독 진도 변경'] },
+    { date: '4/15', wd: '수', title: '📚 ORT1 완료 🎉', meta: ['지면 95점', 'W 94', 'P 88', 'Q 89'] },
+    { date: '4/5', wd: '토', title: '📝 단어 800 시작', meta: ['새 교재 추가'] },
+    { date: '3/15', wd: '토', title: '📖 Biscuit 완료', meta: ['다독 W 90', 'P 83', 'Q 89'] },
+    { date: '3/1', wd: '토', title: '📖 Biscuit 시작', meta: ['첫 다독 시작'] },
+    { date: '2/28', wd: '금', title: '📚 ORT1 시작 시점', meta: ['초3 처음 등원'] }
+  ]
+};
+
+function renderTimeline(period){
+  const container = document.getElementById('timelineContainer');
+  const data = timelineData[period] || [];
+  let html = '';
+  data.forEach(function(item){
+    const absClass = item.absent ? ' absent' : '';
+    let metaHtml = '';
+    item.meta.forEach(function(m){
+      // 점수 컬러 처리
+      let style = '';
+      if(m.startsWith('W ')) style = 'background:var(--blue-light);color:var(--blue)';
+      else if(m.startsWith('P ')) style = 'background:var(--purple-light);color:var(--purple)';
+      else if(m.startsWith('Q ')) style = 'background:var(--green-light);color:var(--green)';
+      else if(m.includes('듣기')) style = 'background:var(--purple-light);color:var(--purple)';
+      metaHtml += '<span style="' + style + '">' + m + '</span>';
+    });
+    html += '<div class="timeline-item' + absClass + '">'
+      + '<div class="timeline-date">'
+      + '<div class="day">' + item.date + '</div>'
+      + '<div class="wd">' + item.wd + '</div>'
+      + '</div>'
+      + '<div class="timeline-content">'
+      + '<div class="timeline-title">' + item.title + '</div>'
+      + '<div class="timeline-meta">' + metaHtml + '</div>'
+      + '</div>'
+      + '</div>';
+  });
+  if(!html) html = '<div style="text-align:center;padding:20px;color:var(--muted);font-weight:600">기록이 없습니다</div>';
+  container.innerHTML = html;
+}
+
+function switchPeriod(btn, period){
+  document.querySelectorAll('.period-tab').forEach(function(t){ t.classList.remove('active'); });
+  btn.classList.add('active');
+  renderTimeline(period);
+}
+
+// 초기화
+renderTimeline('week');
+setTimeout(function(){
+  renderPGraph();
+}, 100);
+</script>
+
+</body>
+</html>
