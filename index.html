@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EL 영어학원</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family:'Plus Jakarta Sans','Noto Sans KR',sans-serif;
+    background:linear-gradient(160deg,#f0fdfa 0%,#faf5ff 55%,#fff7ed 100%);
+    min-height:100vh; color:#1f2937;
+    display:flex; flex-direction:column; align-items:center;
+    padding:48px 20px;
+  }
+  .logo { font-size:52px; margin-bottom:8px; }
+  h1 { font-size:30px; font-weight:800; letter-spacing:-.5px; }
+  h1 .el { color:#14b8a6; }
+  .sub { margin-top:8px; color:#6b7280; font-weight:500; font-size:15px; }
+  .grid {
+    margin-top:40px; width:100%; max-width:720px;
+    display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:18px;
+  }
+  a.card {
+    display:flex; align-items:center; gap:16px;
+    background:#fff; border:2px solid transparent; border-radius:20px;
+    padding:22px 24px; text-decoration:none; color:inherit;
+    box-shadow:0 6px 20px rgba(0,0,0,.06);
+    transition:transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+  }
+  a.card:hover { transform:translateY(-4px); box-shadow:0 12px 28px rgba(0,0,0,.12); }
+  .ico { font-size:34px; width:58px; height:58px; flex-shrink:0;
+         border-radius:16px; display:flex; align-items:center; justify-content:center; }
+  .t-title { font-weight:700; font-size:18px; }
+  .t-desc { font-size:13px; color:#6b7280; margin-top:3px; }
+  .c-student .ico { background:#ccfbf1; }   .c-student:hover { border-color:#14b8a6; }
+  .c-pc .ico      { background:#ede9fe; }    .c-pc:hover      { border-color:#8b5cf6; }
+  .c-parent .ico  { background:#ffedd5; }    .c-parent:hover  { border-color:#fb923c; }
+  .c-teacher .ico { background:#dbeafe; }    .c-teacher:hover { border-color:#3b82f6; }
+  footer { margin-top:44px; color:#9ca3af; font-size:12px; text-align:center; line-height:1.7; }
+</style>
+</head>
+<body>
+  <div class="logo">👼📖</div>
+  <h1><span class="el">EL</span> 영어학원</h1>
+  <p class="sub">Eternal Life · 김해시 · 010-3006-5410</p>
+
+  <div class="grid">
+    <a class="card c-student" href="el_student_mobile_v1.html">
+      <div class="ico">🧒</div>
+      <div><div class="t-title">학생 (휴대폰)</div>
+        <div class="t-desc">내 진도·숙제·성장 확인하기</div></div>
+    </a>
+    <a class="card c-pc" href="el_student_dashboard_v8.html">
+      <div class="ico">💻</div>
+      <div><div class="t-title">학생 (학원 PC)</div>
+        <div class="t-desc">학원에서 큰 화면으로</div></div>
+    </a>
+    <a class="card c-parent" href="el_parent_mobile_v1.html">
+      <div class="ico">👨‍👩‍👧</div>
+      <div><div class="t-title">학부모</div>
+        <div class="t-desc">자녀 학습 현황 조회</div></div>
+    </a>
+    <a class="card c-teacher" href="el_teacher_dashboard_v2.html">
+      <div class="ico">👩‍🏫</div>
+      <div><div class="t-title">선생님</div>
+        <div class="t-desc">대시보드·관리 (로그인 필요)</div></div>
+    </a>
+  </div>
+
+  <footer>
+    © EL 영어학원 · 카카오톡 @EL영어학원<br>
+    로그인이 필요한 화면입니다.
+  </footer>
+</body>
+</html>

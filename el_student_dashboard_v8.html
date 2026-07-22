@@ -1,0 +1,2586 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EL 영어학원 · 학생</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --teal: #14b8a6; --teal-d: #0d9488; --teal-light: #ccfbf1; --teal-soft: #f0fdfa;
+  --purple: #8b5cf6; --purple-light: #ede9fe; --purple-soft: #f5f3ff;
+  --orange: #fb923c; --orange-light: #ffedd5; --orange-soft: #fff7ed;
+  --pink: #f472b6; --pink-light: #fce7f3;
+  --green: #22c55e; --green-light: #dcfce7; --green-soft: #f0fdf4;
+  --blue: #3b82f6; --blue-light: #dbeafe;
+  --yellow: #facc15; --yellow-light: #fef3c7;
+  --red: #ef4444; --red-light: #fee2e2;
+  --text: #111827; --text2: #4b5563; --muted: #9ca3af;
+  --bg: #fafafa; --card: #ffffff;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Noto Sans KR','Plus Jakarta Sans',sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+.app { max-width: 480px; margin: 0 auto; background: var(--bg); min-height: 100vh; padding-bottom: 100px; position: relative; }
+@media (min-width: 900px) {
+  body { background: linear-gradient(135deg, #f0fdfa 0%, #faf5ff 100%); padding: 20px 0; }
+  .app { max-width: 1280px; padding-bottom: 24px; border-radius: 28px; box-shadow: 0 30px 100px rgba(0,0,0,0.06); overflow: hidden; }
+}
+
+/* 헤더 */
+.app-header { background: white; padding: 18px 20px; position: sticky; top: 0; z-index: 50; display: flex; align-items: center; justify-content: space-between; }
+.user-greet { display: flex; align-items: center; gap: 12px; }
+.user-avatar { width: 44px; height: 44px; border-radius: 14px; background: linear-gradient(135deg, var(--teal) 0%, #4dd4c0 100%); display: flex; align-items: center; justify-content: center; color: white; font-weight: 800; font-size: 18px; position: relative; }
+.user-avatar::after { content: ''; position: absolute; bottom: -2px; right: -2px; width: 14px; height: 14px; background: var(--green); border-radius: 50%; border: 2.5px solid white; }
+.user-text h1 { font-size: 16px; font-weight: 800; color: var(--text); line-height: 1.2; }
+.user-text p { font-size: 11px; color: var(--muted); margin-top: 2px; }
+.user-text p .month-prog { color: var(--teal-d); font-weight: 700; }
+
+.header-icons { display: flex; gap: 8px; }
+.icon-btn { width: 38px; height: 38px; background: var(--bg); border: none; border-radius: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 17px; color: var(--text2); position: relative; }
+.icon-btn .badge { position: absolute; top: 5px; right: 6px; background: var(--red); color: white; font-size: 8px; font-weight: 700; width: 16px; height: 16px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid white; }
+
+.body { padding: 16px 20px; display: flex; flex-direction: column; gap: 16px; }
+@media (min-width: 900px) {
+  .body { padding: 20px 24px; display: grid; grid-template-columns: 1fr 1fr 360px; gap: 20px; align-items: start; }
+  .body > * { min-width: 0; }
+  .col-1, .col-2 { display: flex; flex-direction: column; gap: 16px; }
+  .col-3 { display: flex; flex-direction: column; gap: 16px; position: sticky; top: 80px; }
+}
+
+.card { background: var(--card); border-radius: 20px; padding: 18px; }
+.card-shadow { box-shadow: 0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.03); }
+.card-title-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+.card-title { font-size: 14px; font-weight: 800; color: var(--text); display: flex; align-items: center; gap: 7px; }
+.card-title i { font-size: 16px; }
+.card-link { font-size: 11px; color: var(--muted); font-weight: 600; display: flex; align-items: center; gap: 2px; cursor: pointer; }
+
+/* 히어로 카드 */
+.hero-card { background: linear-gradient(135deg, #14b8a6 0%, #0891b2 50%, #6366f1 100%); border-radius: 24px; padding: 22px; color: white; position: relative; overflow: hidden; }
+.hero-card::before { content: ''; position: absolute; top: -50px; right: -50px; width: 180px; height: 180px; background: rgba(255,255,255,.1); border-radius: 50%; }
+.hero-card::after { content: ''; position: absolute; bottom: -80px; left: -40px; width: 200px; height: 200px; background: rgba(255,255,255,.06); border-radius: 50%; }
+.hero-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; position: relative; z-index: 2; }
+.hero-label { font-size: 11px; color: rgba(255,255,255,.8); font-weight: 600; display: flex; align-items: center; gap: 4px; }
+.hero-badge { background: rgba(255,255,255,.2); backdrop-filter: blur(10px); padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; display: flex; align-items: center; gap: 4px; }
+.hero-time-row { display: flex; align-items: baseline; gap: 8px; position: relative; z-index: 2; }
+.hero-num { font-size: 48px; font-weight: 800; letter-spacing: -2px; line-height: 1; font-family: 'Plus Jakarta Sans',sans-serif; }
+.hero-target { font-size: 13px; color: rgba(255,255,255,.7); font-weight: 600; }
+.hero-progress { margin-top: 14px; position: relative; z-index: 2; }
+.hero-bar { height: 8px; background: rgba(255,255,255,.2); border-radius: 4px; overflow: hidden; }
+.hero-bar-f { height: 100%; background: white; border-radius: 4px; transition: width .5s; box-shadow: 0 0 12px rgba(255,255,255,.6); }
+.hero-progress-labels { display: flex; justify-content: space-between; margin-top: 6px; font-size: 10px; color: rgba(255,255,255,.7); font-weight: 500; }
+.hero-actions { display: flex; gap: 6px; margin-top: 14px; position: relative; z-index: 2; }
+.hero-btn { flex: 1; padding: 9px; background: rgba(255,255,255,.18); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,.25); border-radius: 12px; color: white; font-size: 11px; font-weight: 700; cursor: pointer; font-family: inherit; transition: .15s; display: flex; align-items: center; justify-content: center; gap: 4px; }
+.hero-btn.on { background: white; color: var(--teal-d); border-color: white; }
+.hero-attend { display: flex; gap: 8px; margin-top: 14px; padding-top: 14px; border-top: 1px solid rgba(255,255,255,.2); position: relative; z-index: 2; }
+.hero-attend-chip { flex: 1; background: rgba(255,255,255,.15); border-radius: 12px; padding: 8px 10px; display: flex; align-items: center; gap: 6px; }
+.hero-attend-chip i { font-size: 14px; opacity: .8; }
+.hero-attend-chip-text { flex: 1; }
+.hero-attend-chip-lbl { font-size: 9px; opacity: .7; font-weight: 600; }
+.hero-attend-chip-val { font-size: 12px; font-weight: 800; }
+.hero-leave-btn { background: white; color: var(--teal-d); border: none; border-radius: 10px; font-size: 11px; font-weight: 800; padding: 6px 14px; cursor: pointer; display: flex; align-items: center; gap: 4px; }
+
+/* 빠른 스탯 */
+.quick-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.qs-card { background: white; border-radius: 18px; padding: 14px 16px; display: flex; flex-direction: column; gap: 4px; position: relative; overflow: hidden; }
+.qs-card::after { content: ''; position: absolute; top: -10px; right: -10px; width: 60px; height: 60px; border-radius: 50%; opacity: .4; }
+.qs-card.month::after { background: var(--teal-light); }
+.qs-card.score::after { background: var(--purple-light); }
+.qs-icon { width: 32px; height: 32px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 15px; position: relative; z-index: 2; }
+.qs-card.month .qs-icon { background: var(--teal-light); color: var(--teal-d); }
+.qs-card.score .qs-icon { background: var(--purple-light); color: var(--purple); }
+.qs-label { font-size: 10px; color: var(--muted); font-weight: 600; margin-top: 8px; position: relative; z-index: 2; }
+.qs-row { display: flex; align-items: baseline; gap: 4px; position: relative; z-index: 2; }
+.qs-val { font-size: 24px; font-weight: 800; letter-spacing: -1px; font-family: 'Plus Jakarta Sans',sans-serif; line-height: 1; }
+.qs-unit { font-size: 11px; color: var(--muted); font-weight: 600; }
+.qs-sub { font-size: 10px; color: var(--muted); margin-top: 4px; display: flex; align-items: center; gap: 5px; position: relative; z-index: 2; }
+.qs-mini-stats { display: flex; gap: 6px; margin-top: 6px; position: relative; z-index: 2; }
+.qs-mini { font-size: 9px; padding: 2px 7px; border-radius: 6px; font-weight: 700; }
+.qs-mini.ort { background: var(--teal-light); color: var(--teal-d); }
+.qs-mini.dadok { background: var(--orange-light); color: var(--orange); }
+
+/* 학습 진도 */
+.duo-progress-card { padding: 0; overflow: hidden; }
+.duo-prog-row { display: flex; align-items: center; gap: 14px; padding: 16px 18px; }
+.duo-prog-row + .duo-prog-row { border-top: 1px solid #f3f4f6; }
+.duo-icon-wrap { width: 56px; height: 56px; border-radius: 18px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; position: relative; font-size: 24px; }
+.duo-icon-wrap.ort { background: linear-gradient(135deg, #ccfbf1 0%, #99f6e4 100%); color: var(--teal-d); box-shadow: 0 4px 12px rgba(20,184,166,.15); }
+.duo-icon-wrap.dadok { background: linear-gradient(135deg, #ffedd5 0%, #fed7aa 100%); color: var(--orange); box-shadow: 0 4px 12px rgba(251,146,60,.15); }
+.duo-ring { position: absolute; inset: -4px; border-radius: 22px; border: 3px solid rgba(20,184,166,.2); }
+.duo-icon-wrap.dadok .duo-ring { border-color: rgba(251,146,60,.2); }
+.duo-prog-info { flex: 1; min-width: 0; }
+.duo-prog-type { font-size: 10px; color: var(--muted); font-weight: 700; margin-bottom: 3px; display: flex; align-items: center; gap: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+.duo-prog-curr { font-size: 16px; font-weight: 800; color: var(--text); font-family: 'Plus Jakarta Sans',sans-serif; letter-spacing: -0.5px; }
+.duo-prog-curr .live-tag { background: var(--green); color: white; font-size: 9px; font-weight: 700; padding: 2px 7px; border-radius: 8px; margin-left: 6px; vertical-align: middle; }
+.duo-prog-next { font-size: 11px; color: var(--muted); margin-top: 2px; }
+.duo-prog-pct { font-size: 22px; font-weight: 800; font-family: 'Plus Jakarta Sans',sans-serif; text-align: right; flex-shrink: 0; letter-spacing: -1px; }
+.duo-prog-pct .pct-lbl { font-size: 10px; color: var(--muted); display: block; font-weight: 600; margin-top: 2px; letter-spacing: 0; }
+
+/* 성장 그래프 */
+.growth-card { padding: 18px; }
+.growth-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
+.growth-title { font-size: 14px; font-weight: 800; color: var(--text); }
+.growth-tabs { display: flex; gap: 4px; background: var(--bg); padding: 3px; border-radius: 9px; }
+.growth-tab { padding: 5px 12px; border-radius: 7px; font-size: 11px; font-weight: 700; color: var(--muted); cursor: pointer; transition: .15s; border: none; background: transparent; }
+.growth-tab.active { background: white; color: var(--text); box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+.growth-stats { display: flex; align-items: baseline; gap: 10px; margin-bottom: 16px; }
+.growth-main { font-size: 32px; font-weight: 800; font-family: 'Plus Jakarta Sans',sans-serif; letter-spacing: -1.5px; line-height: 1; }
+.growth-trend { background: var(--green-light); color: var(--green); font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 10px; display: inline-flex; align-items: center; gap: 3px; }
+.chart-wrap { position: relative; height: 140px; margin: 0 -4px; }
+.chart-svg { width: 100%; height: 100%; overflow: visible; }
+.chart-grid line { stroke: #f3f4f6; stroke-width: 1; }
+.chart-area path { fill: url(#gradTeal); opacity: 0.18; }
+.chart-line { fill: none; stroke: var(--teal); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+.chart-dot { fill: white; stroke: var(--teal); stroke-width: 3; transition: .2s; }
+.chart-dot.highlight { r: 6; fill: var(--teal); stroke: white; stroke-width: 3; filter: drop-shadow(0 4px 8px rgba(20,184,166,.4)); }
+.chart-labels { display: flex; justify-content: space-between; margin-top: 8px; padding: 0 2px; }
+.chart-labels span { font-size: 10px; color: var(--muted); font-weight: 600; }
+
+/* 영역별 스킬 */
+.skills-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+.skill-card { padding: 14px; border-radius: 16px; position: relative; overflow: hidden; transition: .15s; cursor: pointer; }
+.skill-card:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,0.08); }
+.skill-card.w { background: var(--blue-light); }
+.skill-card.p { background: var(--purple-light); }
+.skill-card.q { background: var(--green-light); }
+.skill-circle { width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 17px; color: white; font-family: 'Plus Jakarta Sans',sans-serif; margin-bottom: 10px; }
+.skill-card.w .skill-circle { background: var(--blue); box-shadow: 0 4px 12px rgba(59,130,246,.3); }
+.skill-card.p .skill-circle { background: var(--purple); box-shadow: 0 4px 12px rgba(139,92,246,.3); }
+.skill-card.q .skill-circle { background: var(--green); box-shadow: 0 4px 12px rgba(34,197,94,.3); }
+.skill-name { font-size: 11px; font-weight: 700; color: var(--text2); margin-bottom: 4px; }
+.skill-val { font-size: 22px; font-weight: 800; font-family: 'Plus Jakarta Sans',sans-serif; letter-spacing: -1px; line-height: 1; }
+.skill-card.w .skill-val { color: var(--blue); }
+.skill-card.p .skill-val { color: var(--purple); }
+.skill-card.q .skill-val { color: var(--green); }
+.skill-trend { font-size: 10px; font-weight: 700; color: var(--green); margin-top: 4px; display: flex; align-items: center; gap: 2px; }
+
+/* 과제 점검 */
+.hw-section { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 8px; }
+.hw-big-btn { padding: 14px 8px; border-radius: 16px; border: 2px solid transparent; background: white; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 4px; transition: .15s; font-family: inherit; }
+.hw-big-btn:hover { transform: translateY(-2px); }
+.hw-big-btn-icon { width: 36px; height: 36px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 800; transition: .15s; }
+.hw-big-btn.o .hw-big-btn-icon { background: var(--green-light); color: var(--green); }
+.hw-big-btn.tri .hw-big-btn-icon { background: var(--orange-light); color: var(--orange); }
+.hw-big-btn.x .hw-big-btn-icon { background: var(--red-light); color: var(--red); }
+.hw-big-btn.exempt .hw-big-btn-icon { background: var(--purple-light); color: var(--purple); }
+.hw-big-btn-lbl { font-size: 10px; font-weight: 700; color: var(--text2); }
+.hw-big-btn.on { background: var(--bg); }
+.hw-big-btn.o.on { background: var(--green); } .hw-big-btn.o.on .hw-big-btn-icon { background: rgba(255,255,255,.25); color: white; } .hw-big-btn.o.on .hw-big-btn-lbl { color: white; }
+.hw-big-btn.tri.on { background: var(--orange); } .hw-big-btn.tri.on .hw-big-btn-icon { background: rgba(255,255,255,.25); color: white; } .hw-big-btn.tri.on .hw-big-btn-lbl { color: white; }
+.hw-big-btn.x.on { background: var(--red); } .hw-big-btn.x.on .hw-big-btn-icon { background: rgba(255,255,255,.25); color: white; } .hw-big-btn.x.on .hw-big-btn-lbl { color: white; }
+.hw-big-btn.exempt.on { background: var(--purple); } .hw-big-btn.exempt.on .hw-big-btn-icon { background: rgba(255,255,255,.25); color: white; } .hw-big-btn.exempt.on .hw-big-btn-lbl { color: white; }
+
+/* 단어시험 */
+.vocab-row { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+.vocab-input-grp { display: flex; align-items: center; gap: 6px; background: var(--bg); padding: 8px 12px; border-radius: 12px; flex: 1; }
+.vocab-input-grp label { font-size: 11px; color: var(--muted); font-weight: 600; }
+.vocab-input-grp input { width: 42px; text-align: center; padding: 4px; border: none; background: white; border-radius: 8px; font-size: 16px; font-weight: 800; color: var(--text); outline: none; font-family: 'Plus Jakarta Sans',sans-serif; }
+.vocab-input-grp input:focus { box-shadow: 0 0 0 2px var(--teal); }
+.vocab-input-grp span { font-size: 11px; color: var(--muted); }
+.vocab-result-big { width: 80px; height: 50px; display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 14px; border: 2px solid var(--bg); flex-shrink: 0; }
+.vocab-result-big.high { background: var(--green-light); border-color: var(--green-light); }
+.vocab-result-big.mid { background: var(--orange-light); border-color: var(--orange-light); }
+.vocab-result-big.low { background: var(--red-light); border-color: var(--red-light); }
+.vocab-pct-big { font-size: 18px; font-weight: 800; font-family: 'Plus Jakarta Sans',sans-serif; }
+.vocab-result-big.high .vocab-pct-big { color: var(--green); }
+.vocab-result-big.mid .vocab-pct-big { color: var(--orange); }
+.vocab-result-big.low .vocab-pct-big { color: var(--red); }
+.vocab-frac-sm { font-size: 9px; color: var(--muted); font-weight: 600; }
+
+/* 어제 진도 단계 뱃지 */
+.yday-step { padding: 5px 9px; border-radius: 7px; font-size: 11px; font-weight: 800; font-family: 'Plus Jakarta Sans',sans-serif; }
+.yday-step.done { background: #16a34a; color: white; }
+.yday-step.next { background: #f59e0b; color: white; animation: pulseYday 1.8s ease-in-out infinite; box-shadow: 0 0 0 3px rgba(245,158,11,0.2); }
+.yday-step.todo { background: #f3f4f6; color: #9ca3af; }
+@keyframes pulseYday {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+}
+
+/* 진도 입력 */
+.input-row-1 { display: flex; gap: 8px; margin-bottom: 10px; }
+.prog-sel, .prog-text { padding: 11px 14px; border: 2px solid #f3f4f6; border-radius: 12px; font-size: 12px; color: var(--text); background: white; outline: none; font-family: inherit; font-weight: 600; transition: .15s; }
+.prog-sel { flex: 1; }
+.prog-text { flex: 1.4; }
+.prog-sel:focus, .prog-text:focus { border-color: var(--teal); background: var(--teal-soft); }
+.prog-text.filled { border-color: var(--teal); background: var(--teal-soft); color: var(--teal-d); }
+.dadok-wrap { background: linear-gradient(135deg, var(--orange-soft) 0%, #fef3c7 100%); border-radius: 12px; padding: 10px 12px; margin-bottom: 10px; }
+.dadok-hint { font-size: 10px; color: var(--orange); font-weight: 700; margin-bottom: 5px; display: flex; align-items: center; gap: 4px; }
+.dadok-book-sel { width: 100%; padding: 8px 10px; border: 2px solid #fed7aa; border-radius: 9px; font-size: 11px; color: var(--text); background: white; outline: none; font-family: inherit; font-weight: 600; }
+.continue-btn { width: 100%; padding: 13px; background: var(--teal-soft); border: 2px solid var(--teal-light); border-radius: 14px; font-size: 12px; font-weight: 700; color: var(--teal-d); cursor: pointer; display: flex; align-items: center; gap: 10px; transition: .15s; text-align: left; font-family: inherit; }
+.continue-btn:hover { background: var(--teal); color: white; border-color: var(--teal); }
+.continue-btn.on { background: var(--teal); color: white; border-color: var(--teal); box-shadow: 0 6px 16px rgba(20,184,166,.3); }
+.continue-btn-icon-big { width: 32px; height: 32px; background: white; color: var(--teal); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 15px; flex-shrink: 0; }
+.continue-btn.on .continue-btn-icon-big { background: rgba(255,255,255,.25); color: white; }
+.continue-btn-body { flex: 1; }
+.continue-btn-title { font-size: 12px; font-weight: 800; }
+.continue-btn-sub { font-size: 10px; opacity: .8; margin-top: 1px; font-weight: 600; }
+.done-list-wrap { margin-top: 14px; }
+.done-list-head { font-size: 11px; font-weight: 700; color: var(--text2); margin-bottom: 8px; display: flex; align-items: center; gap: 5px; }
+.done-cnt { background: var(--green); color: white; font-size: 9px; padding: 1px 7px; border-radius: 7px; font-weight: 800; }
+.done-chip { display: flex; align-items: center; gap: 6px; background: var(--green-soft); border: 1.5px solid var(--green-light); border-radius: 12px; padding: 8px 12px; margin-bottom: 5px; }
+.done-tag { background: var(--green); color: white; font-size: 9px; font-weight: 800; padding: 2px 7px; border-radius: 6px; flex-shrink: 0; }
+.done-label { font-size: 12px; font-weight: 700; color: var(--green); flex: 1; }
+.done-del { background: none; border: none; color: var(--muted); cursor: pointer; font-size: 13px; }
+
+/* 학습 단계 - 일렬로 (탭 없음) */
+.step-items-modern { display: flex; flex-direction: column; gap: 8px; }
+.si-modern { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 14px; background: var(--bg); border: 2px solid transparent; cursor: pointer; transition: .12s; }
+.si-modern:hover { background: white; border-color: var(--teal-light); }
+.si-modern.done { background: var(--teal-soft); border-color: var(--teal); }
+.si-modern .check { width: 22px; height: 22px; border-radius: 50%; border: 2.5px solid var(--muted); display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: .15s; background: white; }
+.si-modern.done .check { background: var(--teal); border-color: var(--teal); }
+.si-modern.done .check::after { content: '✓'; color: white; font-size: 12px; font-weight: 800; }
+.si-modern .si-emoji { width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 800; flex-shrink: 0; font-family: 'Plus Jakarta Sans',sans-serif; background: var(--blue-light); color: var(--blue); }
+.si-modern.done .si-emoji { background: var(--teal); color: white; }
+.si-modern.cc .si-emoji { background: var(--orange-light); color: var(--orange); font-size: 18px; }
+.si-modern.cc.done .si-emoji { background: var(--orange); color: white; }
+.si-modern.cc.done { background: var(--orange-soft); border-color: var(--orange); }
+.si-modern.cc.done .check { background: var(--orange); border-color: var(--orange); }
+.si-modern .si-info { flex: 1; min-width: 0; }
+.si-modern .si-name { font-size: 13px; font-weight: 700; color: var(--text); }
+.si-modern.done .si-name { color: var(--teal-d); }
+.si-modern.cc.done .si-name { color: var(--orange); }
+
+/* 점수 입력 - 단어시험과 같은 사이즈 */
+.si-modern .si-score-modern {
+  flex: 0 0 50px;
+  height: 30px; padding: 0 6px;
+  border: 1.5px solid #e5e7eb;
+  background: white;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 13px; font-weight: 800;
+  color: var(--text);
+  outline: none;
+  font-family: 'Plus Jakarta Sans',sans-serif;
+}
+.si-modern .si-score-modern:focus { border-color: var(--teal); }
+
+.wb-modern { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 14px; background: white; border: 2px dashed var(--teal-light); cursor: pointer; transition: .12s; margin-top: 4px; }
+.wb-modern:hover { background: var(--teal-soft); border-color: var(--teal); }
+.wb-modern.done { background: var(--teal-soft); border: 2px solid var(--teal); }
+.wb-modern .check { width: 22px; height: 22px; border-radius: 50%; border: 2.5px solid var(--muted); flex-shrink: 0; background: white; display: flex; align-items: center; justify-content: center; }
+.wb-modern.done .check { background: var(--teal); border-color: var(--teal); }
+.wb-modern.done .check::after { content: '✓'; color: white; font-size: 12px; font-weight: 800; }
+.wb-modern .wb-ico { width: 40px; height: 40px; border-radius: 12px; background: var(--teal-light); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+.wb-modern.done .wb-ico { background: var(--teal); }
+.wb-modern .wb-name { font-size: 13px; font-weight: 700; color: var(--text); flex: 1; }
+.wb-modern.done .wb-name { color: var(--teal-d); }
+
+.complete-btn-modern { width: 100%; padding: 16px; margin-top: 14px; background: linear-gradient(135deg, var(--teal) 0%, var(--teal-d) 100%); border: none; border-radius: 16px; font-size: 14px; font-weight: 800; color: white; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: .15s; font-family: inherit; box-shadow: 0 8px 24px rgba(20,184,166,.35); letter-spacing: -0.3px; }
+.complete-btn-modern:hover { transform: translateY(-2px); box-shadow: 0 12px 28px rgba(20,184,166,.45); }
+.complete-btn-modern:disabled { background: #e5e7eb; color: var(--muted); cursor: not-allowed; box-shadow: none; transform: none; }
+
+/* 미션 */
+.mission-card { background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); border-radius: 20px; padding: 18px; color: white; position: relative; overflow: hidden; }
+.mission-card::before { content: ''; position: absolute; top: -40px; right: -40px; width: 120px; height: 120px; background: radial-gradient(circle, rgba(139,92,246,.4) 0%, transparent 70%); border-radius: 50%; }
+.mission-head { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; position: relative; z-index: 2; }
+.mission-icon { width: 36px; height: 36px; background: rgba(139,92,246,.3); backdrop-filter: blur(10px); border-radius: 11px; display: flex; align-items: center; justify-content: center; font-size: 17px; }
+.mission-head-text h3 { font-size: 13px; font-weight: 800; }
+.mission-head-text p { font-size: 10px; opacity: .7; font-weight: 600; margin-top: 1px; }
+.mission-content { position: relative; z-index: 2; margin-bottom: 14px; }
+.mission-label { font-size: 10px; opacity: .65; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+.mission-text { font-size: 13px; font-weight: 700; }
+.mission-links { display: flex; gap: 8px; position: relative; z-index: 2; }
+.mission-link { flex: 1; padding: 10px; background: rgba(255,255,255,.1); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,.15); border-radius: 12px; color: white; text-decoration: none; display: flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 700; }
+.mission-link-ico { width: 24px; height: 24px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 800; }
+
+/* 숙제 */
+.hw-template-modern { background: linear-gradient(135deg, var(--purple-soft) 0%, #fdf4ff 100%); border-radius: 16px; padding: 14px; margin-bottom: 10px; }
+.hw-template-head-modern { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+.hw-template-title-modern { font-size: 11px; font-weight: 800; color: var(--purple); display: flex; align-items: center; gap: 5px; }
+.hw-same-btn-modern { background: var(--purple); color: white; border: none; border-radius: 9px; font-size: 10px; font-weight: 800; padding: 5px 10px; cursor: pointer; display: flex; align-items: center; gap: 3px; font-family: inherit; transition: .15s; }
+.hw-same-btn-modern:hover { background: #7c3aed; transform: translateY(-1px); }
+.hw-item-modern { font-size: 11px; color: var(--text); display: flex; align-items: center; gap: 7px; padding: 4px 0; font-weight: 600; }
+.hw-item-modern .hw-check-icon { width: 16px; height: 16px; background: #6d28d9; border-radius: 5px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.hw-item-modern .hw-check-icon::after { content: '✓'; color: white; font-size: 11px; font-weight: 800; }
+.hw-edit-input { width: 100%; padding: 7px 10px; border: 1.5px solid #d4d4f5; border-radius: 9px; font-size: 11px; font-weight: 600; color: var(--text); background: white; outline: none; font-family: inherit; margin-bottom: 5px; }
+.hw-edit-input:focus { border-color: var(--purple); }
+.hw-edit-input:last-child { margin-bottom: 0; }
+.hw-extra-modern { background: white; border: 2px solid #f3f4f6; border-radius: 14px; padding: 12px; }
+.hw-extra-head-modern { font-size: 11px; font-weight: 700; color: var(--text2); margin-bottom: 6px; display: flex; align-items: center; gap: 4px; }
+.hw-extra-ta-modern { width: 100%; border: none; background: var(--bg); border-radius: 10px; padding: 8px 10px; font-size: 11px; color: var(--text); resize: none; height: 48px; outline: none; font-family: inherit; font-weight: 500; }
+.hw-extra-ta-modern:focus { background: white; box-shadow: 0 0 0 2px var(--teal); }
+
+/* 알림장 */
+.note-modern { width: 100%; background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%); border: 2px solid #fde68a; border-radius: 14px; padding: 12px; font-size: 12px; color: #78350f; resize: none; height: 80px; outline: none; font-family: inherit; font-weight: 500; }
+
+/* 선생님 전달사항 */
+.notice-card { background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%) !important; border: 2px solid #fde68a !important; }
+.teacher-notice { position: relative; }
+.notice-tag { display: inline-block; background: #d97706; color: white; font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 20px; margin-bottom: 8px; }
+.notice-text { font-size: 12px; color: #78350f; font-weight: 600; line-height: 1.6; padding: 4px 0; }
+
+/* ⭐ 학습 만족도 */
+.satisfaction-grid { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 8px; }
+.sat-btn {
+  padding: 12px 6px;
+  border-radius: 14px;
+  border: 2px solid var(--bg);
+  background: var(--bg);
+  cursor: pointer;
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  transition: .15s;
+  font-family: inherit;
+}
+.sat-btn:hover { transform: translateY(-3px); }
+.sat-emoji { font-size: 30px; line-height: 1; }
+.sat-lbl { font-size: 10px; font-weight: 700; color: var(--text2); }
+.sat-btn.on { background: white; }
+.sat-btn.on.sat1 { border-color: var(--red); background: var(--red-light); }
+.sat-btn.on.sat1 .sat-lbl { color: var(--red); }
+.sat-btn.on.sat2 { border-color: var(--orange); background: var(--orange-light); }
+.sat-btn.on.sat2 .sat-lbl { color: var(--orange); }
+.sat-btn.on.sat3 { border-color: var(--blue); background: var(--blue-light); }
+.sat-btn.on.sat3 .sat-lbl { color: var(--blue); }
+.sat-btn.on.sat4 { border-color: var(--green); background: var(--green-light); }
+.sat-btn.on.sat4 .sat-lbl { color: var(--green); }
+
+/* ⭐ 한마디 / 각오 */
+.resolve-ta {
+  width: 100%;
+  background: linear-gradient(135deg, var(--pink-light) 0%, #fef3c7 100%);
+  border: 2px solid #fbcfe8;
+  border-radius: 14px;
+  padding: 12px;
+  font-size: 12px;
+  color: #831843;
+  resize: none;
+  height: 70px;
+  outline: none;
+  font-family: inherit;
+  font-weight: 500;
+}
+.resolve-ta::placeholder { color: #be185d; opacity: 0.5; }
+
+/* 저장 */
+.fab-save { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); max-width: 440px; width: calc(100% - 40px); background: white; border-radius: 18px; padding: 10px 14px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 12px 32px rgba(0,0,0,0.12); z-index: 100; }
+@media (min-width: 900px) { .fab-save { left: auto; right: 24px; transform: none; max-width: 320px; bottom: 24px; } }
+.fab-save-info { display: flex; flex-direction: column; gap: 1px; }
+.fab-save-info small { font-size: 9px; color: var(--muted); font-weight: 600; }
+.fab-save-info b { font-size: 11px; color: var(--red); font-weight: 700; display: flex; align-items: center; gap: 3px; }
+.fab-save-info b i { animation: pulse 1.5s infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+.fab-save-btn { background: linear-gradient(135deg, var(--teal) 0%, var(--teal-d) 100%); color: white; border: none; border-radius: 12px; padding: 9px 20px; font-size: 13px; font-weight: 800; cursor: pointer; font-family: inherit; display: flex; align-items: center; gap: 5px; box-shadow: 0 4px 14px rgba(20,184,166,.4); }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+<div id="stuAuthOverlay" style="position:fixed;inset:0;z-index:99999;background:linear-gradient(135deg,#e0f2fe,#ede9fe);display:flex;align-items:center;justify-content:center;">
+  <div style="background:white;border-radius:20px;padding:34px;width:320px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.12);">
+    <div style="font-size:40px;">📚</div>
+    <div style="font-size:17px;font-weight:800;margin:6px 0 16px;">EL 영어학원 · 학생</div>
+    <input id="stuId" placeholder="아이디 (예: el1382)" autocomplete="username" style="width:100%;box-sizing:border-box;padding:11px;border:1.5px solid #e5e7eb;border-radius:10px;margin-bottom:8px;font-size:14px;font-family:inherit;"/>
+    <input id="stuPw" type="password" placeholder="비밀번호" autocomplete="current-password" onkeydown="if(event.key==='Enter')studentLogin()" style="width:100%;box-sizing:border-box;padding:11px;border:1.5px solid #e5e7eb;border-radius:10px;margin-bottom:10px;font-size:14px;font-family:inherit;"/>
+    <div id="stuAuthMsg" style="font-size:11px;color:#ef4444;font-weight:700;min-height:15px;margin-bottom:6px;"></div>
+    <button onclick="studentLogin()" style="width:100%;padding:12px;background:linear-gradient(135deg,#14b8a6,#0d9488);color:white;border:none;border-radius:11px;font-size:15px;font-weight:800;cursor:pointer;font-family:inherit;">로그인</button>
+  </div>
+</div>
+
+<div class="app">
+  <header class="app-header">
+    <div class="user-greet">
+      <div class="user-avatar" data-stu-avatar>민준</div>
+      <div class="user-text">
+        <h1 data-stu-greet>안녕, 김민준! 👋</h1>
+        <p>이번달 <span class="month-prog">17권</span> 학습중 · <span data-stu-level>ORT2</span></p>
+      </div>
+    </div>
+    <div class="header-icons">
+      <button class="icon-btn"><i class="ti ti-bell"></i><span class="badge">3</span></button>
+      <button class="icon-btn"><i class="ti ti-settings"></i></button>
+    </div>
+  </header>
+
+  <div class="body">
+
+    <!-- 컬럼 1: 핵심 카드 -->
+    <div class="col-1">
+
+      <!-- 히어로 -->
+      <div class="hero-card">
+        <div class="hero-row">
+          <div class="hero-label">⏰ 오늘의 학습</div>
+          <div class="hero-badge">✨ 진행중</div>
+        </div>
+        <div class="hero-time-row">
+          <div class="hero-num" id="timerNum">44:22</div>
+          <div class="hero-target">/ 120분</div>
+        </div>
+        <div class="hero-progress">
+          <div class="hero-bar"><div class="hero-bar-f" id="timerFill" style="width:38%"></div></div>
+          <div class="hero-progress-labels">
+            <span>0분</span>
+            <span style="color:#fca5a5;font-weight:700">⚠ 115분</span>
+            <span>120분 목표</span>
+          </div>
+        </div>
+        <div class="hero-actions">
+          <button class="hero-btn" onclick="setDur(60,this)">60분</button>
+          <button class="hero-btn" onclick="setDur(90,this)">90분</button>
+          <button class="hero-btn on" onclick="setDur(120,this)">직접</button>
+        </div>
+        <div class="hero-attend">
+          <div class="hero-attend-chip">
+            <div class="hero-attend-chip-text">
+              <div class="hero-attend-chip-lbl">등원</div>
+              <div class="hero-attend-chip-val">3:42 PM</div>
+            </div>
+          </div>
+          <button class="hero-leave-btn">하원 기록</button>
+        </div>
+      </div>
+
+      <!-- D-Day 미니카드 (항상 표시) -->
+      <div id="ddayMiniCard" onclick="openDdayModal()" style="background:linear-gradient(135deg,#1e293b,#0f172a);border-radius:16px;padding:14px 18px;color:white;margin-bottom:16px;display:flex;align-items:center;gap:14px;cursor:pointer;">
+        <div style="flex:1;min-width:0;">
+          <div style="font-size:10px;color:rgba(255,255,255,.6);font-weight:600;margin-bottom:2px;">📅 시험 D-Day</div>
+          <div style="font-size:15px;font-weight:800;" id="ddayMiniLabel">중3 1학기 중간고사</div>
+          <div style="font-size:11px;color:rgba(255,255,255,.5);font-weight:600;margin-top:2px;" id="ddayMiniDate">6/1 ~ 6/18 · 17일간</div>
+        </div>
+        <div style="text-align:right;flex-shrink:0;">
+          <div style="font-size:36px;font-weight:800;font-family:'Plus Jakarta Sans',sans-serif;letter-spacing:-2px;line-height:1;" id="ddayMiniNum">D-14</div>
+          <div style="font-size:10px;color:rgba(255,255,255,.45);margin-top:2px;">⚙️ 설정</div>
+        </div>
+      </div>
+
+      <!-- 시험범위 진행률 (내신 모드일 때만 표시) -->
+      <div class="card card-shadow" id="naesinRangeCard" style="display:none">
+        <div class="card-title-row" style="margin-bottom:14px">
+          <div class="card-title"><span style="font-size:18px">📚</span> 시험범위 진행률 <span id="naesinExamName" style="font-size:12px;font-weight:700;color:var(--muted);margin-left:4px"></span></div>
+          <div style="display:flex;align-items:baseline;gap:4px">
+            <span style="font-size:26px;font-weight:800;color:var(--orange);font-family:'Plus Jakarta Sans',sans-serif;letter-spacing:-1px" id="naesinPct">0%</span>
+            <span style="font-size:11px;color:var(--muted);font-weight:600" id="naesinFrac">0 / 0</span>
+          </div>
+        </div>
+
+        <!-- 전체 진행률 바 -->
+        <div style="height:10px;background:var(--bg);border-radius:5px;overflow:hidden;margin-bottom:16px">
+          <div id="naesinBar" style="height:100%;background:linear-gradient(90deg,var(--orange),#fbbf24);border-radius:5px;width:0%;transition:width .5s"></div>
+        </div>
+
+        <!-- 본문 / 대화 / 문법 / 추가 그룹 -->
+        <div id="naesinRangeList" style="display:flex;flex-direction:column;gap:12px"></div>
+
+        <div style="margin-top:12px;padding:8px 10px;background:var(--bg);border-radius:8px;font-size:10px;color:var(--muted);text-align:center">
+          💡 선생님이 설정한 시험범위 · 암기 완료 후 클릭하세요
+        </div>
+      </div>
+
+      <!-- 🏆 우리 학년 진행률 순위 (익명 top3) -->
+      <div class="card card-shadow" id="naesinRankCard" style="display:none">
+        <div class="card-title-row" style="margin-bottom:4px">
+          <div class="card-title"><span style="font-size:18px">🏆</span> 우리 학년 시험범위 진행률</div>
+        </div>
+        <div style="font-size:11px;color:var(--muted);font-weight:600;margin-bottom:14px">같은 학년 친구들이 얼마나 준비했는지 · 이름은 안 보여요</div>
+        <div id="naesinRankList" style="display:flex;flex-direction:column;gap:8px"></div>
+      </div>
+
+      <div class="quick-stats" id="quickStatsBlock">
+        <div class="qs-card month">
+          <div class="qs-icon" style="font-size:18px">📅</div>
+          <div class="qs-label">이번달 학습권수</div>
+          <div class="qs-row"><span class="qs-val">17</span><span class="qs-unit">권</span></div>
+          <div class="qs-mini-stats">
+            <span class="qs-mini ort">ORT 12</span>
+            <span class="qs-mini dadok">다독 5</span>
+          </div>
+        </div>
+        <div class="qs-card score">
+          <div class="qs-icon" style="font-size:18px">🎯</div>
+          <div class="qs-label">최근 7일 평균</div>
+          <div class="qs-row"><span class="qs-val">88</span><span class="qs-unit">점</span></div>
+          <div class="qs-sub">
+            <span style="color:var(--green);font-weight:700">↑ 5점</span> 지난주 대비
+          </div>
+        </div>
+      </div>
+
+      <div class="card card-shadow duo-progress-card" id="learningProgressCard">
+        <div style="padding:16px 18px 0;display:flex;align-items:center;justify-content:space-between">
+          <div class="card-title"><span style="font-size:18px">🗺️</span> 학습 진도</div>
+          <span class="card-link">전체보기 <i class="ti ti-chevron-right" style="font-size:12px"></i></span>
+        </div>
+        <div style="margin-top:8px">
+          <div class="duo-prog-row">
+            <div class="duo-icon-wrap ort"><span style="font-size:24px;font-weight:800;font-family:'Plus Jakarta Sans',sans-serif">O</span><div class="duo-ring"></div></div>
+            <div class="duo-prog-info">
+              <div class="duo-prog-type"><i class="ti ti-circle-filled" style="font-size:6px"></i> ORT 진도</div>
+              <div class="duo-prog-curr"><span data-stu-ort>ORT—</span> <span class="live-tag">진행중</span></div>
+            </div>
+          </div>
+          <div class="duo-prog-row" id="pcProgDadok">
+            <div class="duo-icon-wrap dadok"><span style="font-size:24px;font-weight:800;font-family:'Plus Jakarta Sans',sans-serif">D</span><div class="duo-ring"></div></div>
+            <div class="duo-prog-info">
+              <div class="duo-prog-type"><i class="ti ti-circle-filled" style="font-size:6px"></i> 다독 진도</div>
+              <div class="duo-prog-curr"><span data-stu-dadok>—</span> <span class="live-tag" style="background:var(--orange)">진행중</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card card-shadow growth-card">
+        <div class="growth-header">
+          <div class="growth-title">📈 <span id="growthAreaName">전체</span> 성장 그래프</div>
+          <div class="growth-tabs">
+            <button class="growth-tab" onclick="switchPeriod(this)">주</button>
+            <button class="growth-tab active" onclick="switchPeriod(this)">월</button>
+            <button class="growth-tab" onclick="switchPeriod(this)">3개월</button>
+          </div>
+        </div>
+
+        <!-- 영역 선택 탭 (전체/W/P/Q) -->
+        <div style="display:flex;gap:5px;margin-bottom:12px">
+          <button class="area-tab active" data-area="all" onclick="switchArea(this)" style="flex:1;padding:6px;border-radius:9px;border:1.5px solid var(--teal);background:var(--teal);color:white;font-size:10px;font-weight:700;cursor:pointer;font-family:inherit">전체 평균</button>
+          <button class="area-tab" data-area="w" onclick="switchArea(this)" style="flex:1;padding:6px;border-radius:9px;border:1.5px solid #f3f4f6;background:white;color:var(--blue);font-size:10px;font-weight:700;cursor:pointer;font-family:inherit">W 단어</button>
+          <button class="area-tab" data-area="p" onclick="switchArea(this)" style="flex:1;padding:6px;border-radius:9px;border:1.5px solid #f3f4f6;background:white;color:var(--purple);font-size:10px;font-weight:700;cursor:pointer;font-family:inherit">P 퍼즐</button>
+          <button class="area-tab" data-area="q" onclick="switchArea(this)" style="flex:1;padding:6px;border-radius:9px;border:1.5px solid #f3f4f6;background:white;color:var(--green);font-size:10px;font-weight:700;cursor:pointer;font-family:inherit">Q 퀴즈</button>
+        </div>
+
+        <div class="growth-stats">
+          <div class="growth-main"><span id="growthVal">88</span><span style="font-size:18px;color:var(--muted);font-weight:600;margin-left:3px">점</span></div>
+          <span class="growth-trend" id="growthTrend">+12점</span>
+        </div>
+        <div class="chart-wrap" style="position:relative;height:160px">
+          <!-- Y축 점수 -->
+          <div style="position:absolute;left:0;top:0;bottom:18px;display:flex;flex-direction:column;justify-content:space-between;font-size:8px;color:var(--muted);font-weight:700;width:24px;text-align:right;padding-right:3px">
+            <span>100</span><span>90</span><span>80</span><span>70</span><span>60</span><span>50</span>
+          </div>
+          <svg class="chart-svg" viewBox="0 0 320 160" preserveAspectRatio="none" style="position:absolute;left:26px;right:0;top:0;bottom:0;width:calc(100% - 26px);height:100%">
+            <defs>
+              <linearGradient id="gradTeal" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#14b8a6" stop-opacity="0.5"/>
+                <stop offset="100%" stop-color="#14b8a6" stop-opacity="0"/>
+              </linearGradient>
+              <linearGradient id="gradBlue" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.5"/>
+                <stop offset="100%" stop-color="#3b82f6" stop-opacity="0"/>
+              </linearGradient>
+              <linearGradient id="gradPurple" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#8b5cf6" stop-opacity="0.5"/>
+                <stop offset="100%" stop-color="#8b5cf6" stop-opacity="0"/>
+              </linearGradient>
+              <linearGradient id="gradGreen" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#22c55e" stop-opacity="0.5"/>
+                <stop offset="100%" stop-color="#22c55e" stop-opacity="0"/>
+              </linearGradient>
+            </defs>
+            <g class="chart-grid">
+              <line x1="0" y1="0" x2="320" y2="0" stroke="#e5e7eb" stroke-dasharray="2,3"/>
+              <line x1="0" y1="28" x2="320" y2="28" stroke="#f3f4f6"/>
+              <line x1="0" y1="56" x2="320" y2="56" stroke="#f3f4f6"/>
+              <line x1="0" y1="84" x2="320" y2="84" stroke="#f3f4f6"/>
+              <line x1="0" y1="112" x2="320" y2="112" stroke="#f3f4f6"/>
+              <line x1="0" y1="140" x2="320" y2="140" stroke="#e5e7eb"/>
+            </g>
+            <g id="chartArea">
+              <path id="chartAreaPath" d="" fill="url(#gradTeal)" opacity="0.18" style="display:none"/>
+            </g>
+            <path id="chartLinePath" class="chart-line" d="" style="display:none"/>
+            <g id="chartDots"></g>
+            <g id="chartValues"></g>
+          </svg>
+        </div>
+        <div class="chart-labels" id="chartXLabels" style="margin-left:26px;padding:0 12px"><span>5/3</span><span>5/10</span><span>5/17</span><span>5/24</span><span>오늘</span></div>
+      </div>
+
+      <div class="card card-shadow">
+        <div class="card-title-row">
+          <div class="card-title">🎯 영역별 점수 <span style="font-size:11px;color:var(--muted);font-weight:600;margin-left:6px">ORT2 단계 · 클릭해서 그래프 보기</span></div>
+        </div>
+        <div class="skills-grid">
+          <div class="skill-card w" onclick="switchAreaFromCard('w')"><div class="skill-circle">W</div><div class="skill-name">단어 Word</div><div class="skill-val" id="skW">—</div><div class="skill-trend" id="skWt"></div></div>
+          <div class="skill-card p" onclick="switchAreaFromCard('p')"><div class="skill-circle">P</div><div class="skill-name">퍼즐 Puzzle</div><div class="skill-val" id="skP">—</div><div class="skill-trend" id="skPt"></div></div>
+          <div class="skill-card q" onclick="switchAreaFromCard('q')"><div class="skill-circle">Q</div><div class="skill-name">퀴즈 Quiz</div><div class="skill-val" id="skQ">—</div><div class="skill-trend" id="skQt"></div></div>
+        </div>
+      </div>
+
+      <!-- 학습 기록 (교재 완료 시험) -->
+      <div class="card card-shadow">
+        <div onclick="toggleLearnRecord()" style="display:flex;justify-content:space-between;align-items:center;cursor:pointer">
+          <div class="card-title" style="margin:0"><span style="font-size:18px">📕</span> 학습 기록 <span style="font-size:11px;color:var(--muted);font-weight:600;margin-left:6px">완료한 책 · 시험 점수</span></div>
+          <span id="learnRecordArrow" style="font-size:14px;color:var(--muted);font-weight:800">▼</span>
+        </div>
+        <div id="learnRecordBody" style="display:none;flex-direction:column;gap:6px;margin-top:12px;max-height:320px;overflow-y:auto"></div>
+      </div>
+
+    </div>
+
+    <!-- 컬럼 2: 입력 영역 -->
+    <div class="col-2">
+
+      <div class="card card-shadow">
+        <div class="card-title" style="margin-bottom:14px"><span style="font-size:18px">✅</span> 과제 점검 <span style="font-size:10px;color:var(--muted);font-weight:600;margin-left:6px">👨‍🏫 선생님이 확인</span></div>
+
+        <!-- 학생용 안내 (선생님이 체크 전) -->
+        <div id="hwStatusReadonly" style="background:var(--bg);border-radius:11px;padding:14px;text-align:center">
+          <div style="font-size:13px;font-weight:800;color:var(--muted);margin-bottom:4px">📋 선생님과 함께 점검해주세요</div>
+          <div style="font-size:11px;color:var(--muted);font-weight:600">선생님이 점검 결과를 입력하면 여기에 표시됩니다</div>
+        </div>
+
+        <!-- 선생님이 입력한 결과 표시 (읽기 전용) -->
+        <div id="hwStatusResult" style="display:none">
+          <div class="hw-section" style="pointer-events:none;opacity:0.7">
+            <button class="hw-big-btn o" id="hwReadBtnO"><div class="hw-big-btn-icon">○</div><div class="hw-big-btn-lbl">완료</div></button>
+            <button class="hw-big-btn tri" id="hwReadBtnT"><div class="hw-big-btn-icon">△</div><div class="hw-big-btn-lbl">일부</div></button>
+            <button class="hw-big-btn x" id="hwReadBtnX"><div class="hw-big-btn-icon">×</div><div class="hw-big-btn-lbl">미완</div></button>
+          </div>
+        </div>
+
+        <!-- 안 한 과제 메모란 (선생님이 작성, 학생은 읽기) -->
+        <div id="hwMissedMemo" style="display:none;margin-top:12px">
+          <div style="font-size:11px;font-weight:800;color:var(--orange);display:flex;align-items:center;gap:5px;margin-bottom:6px">
+            <span>📝</span> 오늘 안 한 과제 · 다음 시간까지
+          </div>
+          <textarea id="hwMissedText" readonly placeholder="선생님이 작성하면 여기에 보입니다" style="width:100%;padding:10px 12px;border:1.5px dashed var(--orange);border-radius:11px;font-size:12px;font-weight:600;color:var(--text);background:var(--orange-soft);outline:none;font-family:inherit;resize:none;min-height:50px"></textarea>
+        </div>
+      </div>
+
+      <div class="card card-shadow">
+        <div class="card-title" style="margin-bottom:14px"><span style="font-size:18px">✏️</span> 단어 시험</div>
+        <div class="vocab-row">
+          <div class="vocab-input-grp">
+            <label>맞은 수</label>
+            <input type="number" id="vc" min="0" placeholder="0" oninput="calcAcc()"/>
+            <span>/</span>
+            <input type="number" id="vt" value="20" min="1" oninput="calcAcc()"/>
+            <span>개</span>
+          </div>
+          <div class="vocab-result-big" id="vocabResult">
+            <div class="vocab-pct-big" id="vocabPct">—%</div>
+            <div class="vocab-frac-sm" id="vocabFrac">— / 20</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 어제 어디까지 했지? -->
+      <div class="card card-shadow" style="background:linear-gradient(135deg,#dbeafe 0%,#e0e7ff 100%);border:none;margin-bottom:14px">
+        <div onclick="toggleYesterday()" style="cursor:pointer;display:flex;justify-content:space-between;align-items:center">
+          <div style="flex:1;min-width:0">
+            <div style="font-size:13px;font-weight:800;color:#1e40af;margin-bottom:6px">📌 어제 어디까지 했지?</div>
+            <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center">
+              <span style="background:white;padding:4px 10px;border-radius:8px;font-size:13px;font-weight:800;color:#1e40af;font-family:'Plus Jakarta Sans',sans-serif">ORT2-3-3 <span style="color:var(--purple);margin-left:2px">P 퍼즐</span></span>
+              <span style="font-size:10px;color:#1e40af;font-weight:700;background:rgba(255,255,255,0.6);padding:3px 8px;border-radius:6px">✅ 4/10 단계</span>
+            </div>
+          </div>
+          <div id="yesterdayArrow" style="font-size:14px;color:#1e40af;font-weight:800;flex-shrink:0;margin-left:8px">▼</div>
+        </div>
+
+        <!-- 펼침 영역 -->
+        <div id="yesterdaySection" style="display:none;margin-top:14px;padding-top:14px;border-top:1.5px dashed rgba(30,64,175,0.3)">
+          <div style="background:white;border-radius:11px;padding:12px;margin-bottom:10px">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+              <div style="font-size:11px;font-weight:800;color:#1e40af">📚 ORT2-3-3 학습 단계</div>
+              <span style="font-size:10px;color:var(--purple);background:var(--purple-light);padding:3px 8px;border-radius:6px;font-weight:800">마지막: P 퍼즐</span>
+            </div>
+
+            <!-- 학습 단계 진행 상황 (어제 했던 것) - ORT2 기준 -->
+            <div style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px">
+              <div class="yday-step done" title="W: 단어">W</div>
+              <div class="yday-step done" title="T: 텍스트">T</div>
+              <div class="yday-step done" title="C: 컨셉">C</div>
+              <div class="yday-step done" title="P: 퍼즐 (마지막)">P</div>
+              <div class="yday-step next" title="📓 앞바닥 필사">📓앞</div>
+              <div class="yday-step todo" title="D: 딕테이션">D</div>
+              <div class="yday-step todo" title="S: 사운드">S</div>
+              <div class="yday-step todo" title="Q: 퀴즈">Q</div>
+              <div class="yday-step todo" title="📔 뒷바닥">📔뒤</div>
+              <div class="yday-step todo" title="C: 클래스카드">C</div>
+            </div>
+            <div style="font-size:9px;color:var(--muted);font-weight:600;margin-bottom:10px">💡 ORT1~2 단계 (퀴즈까지)</div>
+
+            <!-- 미완 안내 -->
+            <div style="background:#fef3c7;border-radius:9px;padding:9px 11px;display:flex;align-items:center;gap:8px;margin-bottom:8px">
+              <div style="font-size:18px">⏰</div>
+              <div style="flex:1">
+                <div style="font-size:11px;font-weight:800;color:#92400e">다음에 할 단계</div>
+                <div style="font-size:10px;color:#92400e;font-weight:600;margin-top:2px"><b>📓 앞바닥 필사</b>부터 이어서 하면 돼요!</div>
+              </div>
+            </div>
+
+            <!-- 단어시험 결과 -->
+            <div style="background:var(--blue-light);border-radius:9px;padding:9px 11px;margin-bottom:8px">
+              <div style="font-size:10px;font-weight:800;color:var(--blue);margin-bottom:2px">📝 단어시험</div>
+              <div style="font-size:14px;font-weight:800;color:var(--blue);font-family:'Plus Jakarta Sans',sans-serif">17 / 20 (85%)</div>
+            </div>
+
+            <!-- 학습 시간 -->
+            <div style="display:flex;gap:6px">
+              <div style="flex:1;background:var(--bg);border-radius:9px;padding:9px 11px">
+                <div style="font-size:9px;font-weight:800;color:var(--muted);margin-bottom:2px">⏱ 학습 시간</div>
+                <div style="font-size:12px;font-weight:800;color:var(--text)">1시간 28분</div>
+              </div>
+              <div style="flex:1;background:var(--bg);border-radius:9px;padding:9px 11px">
+                <div style="font-size:9px;font-weight:800;color:var(--muted);margin-bottom:2px">😊 만족도</div>
+                <div style="font-size:12px;font-weight:800;color:var(--text)">🙂 만족</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 이어서 학습 버튼 -->
+          <button onclick="continueYesterday()" style="width:100%;padding:12px;background:linear-gradient(135deg,#3b82f6,#6366f1);color:white;border:none;border-radius:11px;font-size:13px;font-weight:800;cursor:pointer;font-family:inherit;box-shadow:0 4px 12px rgba(59,130,246,0.3)">
+            ⚡ 어제 이어서 학습 시작하기
+          </button>
+
+          <div style="margin-top:8px;text-align:center;font-size:10px;color:#1e40af;font-weight:600">
+            💡 ORT2-3-3 자동 입력 + 📓 앞바닥부터 시작!
+          </div>
+        </div>
+      </div>
+
+      <!-- 진도 입력 -->
+      <div class="card card-shadow">
+        <div class="card-title" style="margin-bottom:14px"><span style="font-size:18px">🚀</span> 진도 입력</div>
+        <div class="input-row-1">
+          <select class="prog-sel" id="progSel" onchange="updateProg()">
+            <option value="ORT진도">ORT 진도</option>
+            <option value="다독진도">다독 진도</option>
+            <option value="듣기평가">듣기평가</option>
+            <option value="내신">내신</option>
+            <option value="기타">기타</option>
+            <option value="ORT복습">ORT 복습 🔁</option>
+          </select>
+          <input class="prog-text" id="progDetail" type="text" placeholder="예) ORT2-3-4" oninput="onDetailInput()"/>
+        </div>
+        <div id="dadokWrap" style="display:none">
+          <div class="dadok-wrap">
+            <div class="dadok-hint"><i class="ti ti-filter" style="font-size:11px"></i> <span id="dadokHintText">ORT2 기준 추천 교재</span></div>
+            <select class="dadok-book-sel" id="dadokBookSel" onchange="onBookSelect(this.value)">
+              <option value="">— 추천 교재 선택 —</option>
+            </select>
+
+            <div style="display:flex;align-items:center;gap:6px;margin:8px 0 5px">
+              <div style="flex:1;height:1px;background:#fed7aa"></div>
+              <span style="font-size:9px;color:var(--orange);font-weight:700">또는</span>
+              <div style="flex:1;height:1px;background:#fed7aa"></div>
+            </div>
+
+            <div class="dadok-hint" style="margin-bottom:4px"><i class="ti ti-list" style="font-size:11px"></i> 전체 교재 (추천 외)</div>
+            <select class="dadok-book-sel" id="dadokAllBookSel" onchange="onBookSelect(this.value)">
+              <option value="">— 전체 다독 교재 선택 —</option>
+            </select>
+          </div>
+        </div>
+        <button class="continue-btn" id="continueBtn" onclick="useContinue()">
+          <div class="continue-btn-body">
+            <div class="continue-btn-title">지난 진도 이어서 학습하기</div>
+            <div class="continue-btn-sub" id="continueHint">ORT2-3-3 → ORT2-3-4</div>
+          </div>
+        </button>
+        <div class="done-list-wrap" id="doneListWrap" style="display:none">
+          <div class="done-list-head">
+            <i class="ti ti-checks" style="font-size:13px;color:var(--green)"></i>
+            오늘 완료 <span class="done-cnt" id="doneCount">0</span>
+          </div>
+          <div id="doneList"></div>
+        </div>
+      </div>
+
+      <!-- 학습 단계 -->
+      <div class="card card-shadow">
+        <div class="card-title" style="margin-bottom:14px"><span style="font-size:18px">⭐</span> 학습 단계 <span style="font-size:10px;color:var(--muted);font-weight:600;margin-left:6px" id="stepHint">필요한 것만 선택</span></div>
+
+        <!-- ORT 레벨별 안내 (ORT 진도 모드일 때만) -->
+        <div id="ortLevelNotice" style="display:none;background:linear-gradient(135deg,#dbeafe,#e0e7ff);border-radius:9px;padding:8px 11px;margin-bottom:10px;font-size:10px;font-weight:700;color:#1e40af">
+          💡 <span id="ortLevelNoticeText"></span>
+        </div>
+
+        <!-- ORT 진도 모드: 전체 단계 -->
+        <div class="step-items-modern" id="stepsORT" style="display:none">
+          <div class="si-modern" onclick="togSIM(this)" data-stage="W">
+            <div class="check"></div>
+            <div class="si-emoji" style="background:var(--blue-light);color:var(--blue)">W</div>
+            <div class="si-info"><div class="si-name">단어 (Word)</div></div>
+            <input class="si-score-modern" id="ort_sw" type="number" placeholder="—" onclick="event.stopPropagation()"/>
+          </div>
+          <div class="si-modern" onclick="togSIM(this)" data-stage="T">
+            <div class="check"></div>
+            <div class="si-emoji" style="background:var(--blue-light);color:var(--blue)">T</div>
+            <div class="si-info"><div class="si-name">텍스트 (Text)</div></div>
+          </div>
+          <div class="si-modern" onclick="togSIM(this)" data-stage="C">
+            <div class="check"></div>
+            <div class="si-emoji" style="background:var(--blue-light);color:var(--blue)">C</div>
+            <div class="si-info"><div class="si-name">컨셉 (Concept)</div></div>
+          </div>
+          <div class="si-modern" onclick="togSIM(this)" data-stage="P">
+            <div class="check"></div>
+            <div class="si-emoji" style="background:var(--purple-light);color:var(--purple)">P</div>
+            <div class="si-info"><div class="si-name">퍼즐 (Puzzle)</div></div>
+            <input class="si-score-modern" id="ort_sp" type="number" placeholder="—" onclick="event.stopPropagation()"/>
+          </div>
+          <div class="wb-modern" onclick="togWBM(this)" data-stage="WBF">
+            <div class="check"></div>
+            <div class="wb-ico">📓</div>
+            <div class="wb-name">워크북 앞바닥</div>
+          </div>
+          <div class="si-modern" onclick="togSIM(this)" data-stage="D">
+            <div class="check"></div>
+            <div class="si-emoji" style="background:var(--green-light);color:var(--green)">D</div>
+            <div class="si-info"><div class="si-name">딕테이션 (Dictation)</div></div>
+          </div>
+          <div class="si-modern" onclick="togSIM(this)" data-stage="S">
+            <div class="check"></div>
+            <div class="si-emoji" style="background:var(--green-light);color:var(--green)">S</div>
+            <div class="si-info"><div class="si-name">사운드 (Sound)</div></div>
+          </div>
+          <div class="si-modern" onclick="togSIM(this)" data-stage="Q">
+            <div class="check"></div>
+            <div class="si-emoji" style="background:var(--green-light);color:var(--green)">Q</div>
+            <div class="si-info"><div class="si-name">퀴즈 (Quiz)</div></div>
+            <input class="si-score-modern" id="ort_sq" type="number" placeholder="—" onclick="event.stopPropagation()"/>
+          </div>
+          <div class="si-modern ort-level-3-plus" onclick="togSIM(this)" data-stage="L" style="display:none">
+            <div class="check"></div>
+            <div class="si-emoji" style="background:var(--pink-light);color:var(--pink)">L</div>
+            <div class="si-info"><div class="si-name">라이팅 (Writing) <span style="font-size:9px;color:var(--pink);background:var(--pink-light);padding:2px 6px;border-radius:5px;margin-left:4px">ORT3+</span></div></div>
+          </div>
+          <div class="wb-modern" onclick="togWBM(this)" data-stage="WBB">
+            <div class="check"></div>
+            <div class="wb-ico">📔</div>
+            <div class="wb-name">워크북 뒷바닥</div>
+          </div>
+          <div class="si-modern cc" onclick="togSIM(this)" data-stage="CC">
+            <div class="check"></div>
+            <div class="si-emoji">C</div>
+            <div class="si-info"><div class="si-name">클래스카드 (CC)</div></div>
+          </div>
+          <div class="si-modern ort-level-4-plus" onclick="togSIM(this)" data-stage="R" style="display:none">
+            <div class="check"></div>
+            <div class="si-emoji" style="background:#fef3c7;color:#ca8a04">R</div>
+            <div class="si-info"><div class="si-name">ORT 리뷰 🔁 <span style="font-size:9px;color:#ca8a04;background:#fef3c7;padding:2px 6px;border-radius:5px;margin-left:4px">ORT4+</span></div></div>
+          </div>
+        </div>
+
+        <!-- ORT 복습 모드 -->
+        <div class="step-items-modern" id="stepsReview" style="display:none">
+          <div class="si-modern" onclick="togSIM(this)">
+            <div class="check"></div>
+            <div class="si-emoji" style="background:var(--blue-light);color:var(--blue)">W</div>
+            <div class="si-info"><div class="si-name">단어 (Word)</div></div>
+            <input class="si-score-modern" id="sw" type="number" placeholder="—" onclick="event.stopPropagation()"/>
+          </div>
+          <div class="si-modern" onclick="togSIM(this)">
+            <div class="check"></div>
+            <div class="si-emoji" style="background:var(--purple-light);color:var(--purple)">P</div>
+            <div class="si-info"><div class="si-name">퍼즐 (Puzzle)</div></div>
+            <input class="si-score-modern" id="sp" type="number" placeholder="—" onclick="event.stopPropagation()"/>
+          </div>
+          <div class="wb-modern" onclick="togWBM(this)">
+            <div class="check"></div>
+            <div class="wb-ico">📓</div>
+            <div class="wb-name">워크북 앞바닥</div>
+          </div>
+          <div class="si-modern" onclick="togSIM(this)">
+            <div class="check"></div>
+            <div class="si-emoji" style="background:var(--green-light);color:var(--green)">Q</div>
+            <div class="si-info"><div class="si-name">퀴즈 (Quiz)</div></div>
+            <input class="si-score-modern" id="sq" type="number" placeholder="—" onclick="event.stopPropagation()"/>
+          </div>
+          <div class="si-modern" onclick="togSIM(this)">
+            <div class="check"></div>
+            <div class="si-emoji" style="background:var(--pink-light);color:var(--pink)">L</div>
+            <div class="si-info"><div class="si-name">라이팅 (Writing)</div></div>
+          </div>
+          <div class="wb-modern" onclick="togWBM(this)">
+            <div class="check"></div>
+            <div class="wb-ico">📔</div>
+            <div class="wb-name">워크북 뒷바닥</div>
+          </div>
+          <div class="si-modern cc" onclick="togSIM(this)">
+            <div class="check"></div>
+            <div class="si-emoji">C</div>
+            <div class="si-info"><div class="si-name">클래스카드 (CC)</div></div>
+          </div>
+          <div class="si-modern" onclick="togSIM(this)">
+            <div class="check"></div>
+            <div class="si-emoji" style="background:#fef3c7;color:#ca8a04">R</div>
+            <div class="si-info"><div class="si-name">ORT 리뷰 🔁</div></div>
+          </div>
+        </div>
+
+        <!-- 다독 진도 모드 -->
+        <div class="step-items-modern" id="stepsDadok" style="display:none">
+          <div class="si-modern" onclick="togSIM(this)">
+            <div class="check"></div>
+            <div class="si-emoji" style="background:var(--blue-light);color:var(--blue)">W</div>
+            <div class="si-info"><div class="si-name">단어 (Word)</div></div>
+            <input class="si-score-modern" id="dd_sw" type="number" placeholder="—" onclick="event.stopPropagation()"/>
+          </div>
+          <div class="si-modern" onclick="togSIM(this)">
+            <div class="check"></div>
+            <div class="si-emoji" style="background:var(--blue-light);color:var(--blue)">T</div>
+            <div class="si-info"><div class="si-name">텍스트 (Text)</div></div>
+          </div>
+          <div class="si-modern" onclick="togSIM(this)">
+            <div class="check"></div>
+            <div class="si-emoji" style="background:var(--blue-light);color:var(--blue)">C</div>
+            <div class="si-info"><div class="si-name">컨셉 (Concept)</div></div>
+          </div>
+          <div class="si-modern" onclick="togSIM(this)">
+            <div class="check"></div>
+            <div class="si-emoji" style="background:var(--purple-light);color:var(--purple)">P</div>
+            <div class="si-info"><div class="si-name">퍼즐 (Puzzle)</div></div>
+            <input class="si-score-modern" id="dd_sp" type="number" placeholder="—" onclick="event.stopPropagation()"/>
+          </div>
+          <div class="wb-modern" onclick="togWBM(this)">
+            <div class="check"></div>
+            <div class="wb-ico">📓</div>
+            <div class="wb-name">워크북 앞바닥</div>
+          </div>
+          <div class="si-modern" onclick="togSIM(this)">
+            <div class="check"></div>
+            <div class="si-emoji" style="background:var(--green-light);color:var(--green)">D</div>
+            <div class="si-info"><div class="si-name">딕테이션 (Dictation)</div></div>
+          </div>
+          <div class="si-modern" onclick="togSIM(this)">
+            <div class="check"></div>
+            <div class="si-emoji" style="background:var(--green-light);color:var(--green)">S</div>
+            <div class="si-info"><div class="si-name">사운드 (Sound)</div></div>
+          </div>
+          <div class="si-modern" onclick="togSIM(this)">
+            <div class="check"></div>
+            <div class="si-emoji" style="background:var(--green-light);color:var(--green)">Q</div>
+            <div class="si-info"><div class="si-name">퀴즈 (Quiz)</div></div>
+            <input class="si-score-modern" id="dd_sq" type="number" placeholder="—" onclick="event.stopPropagation()"/>
+          </div>
+          <div class="wb-modern" onclick="togWBM(this)">
+            <div class="check"></div>
+            <div class="wb-ico">📔</div>
+            <div class="wb-name">워크북 뒷바닥</div>
+          </div>
+        </div>
+
+        <!-- 기타 모드: 세부사항 입력 -->
+        <div class="step-items-modern" id="stepsOther" style="display:none">
+          <div class="si-modern" onclick="togSIM(this)" style="gap:10px">
+            <div class="check"></div>
+            <div class="si-emoji" style="background:var(--purple-light);color:var(--purple)">T</div>
+            <div class="si-info" style="display:flex;align-items:center;gap:8px">
+              <div class="si-name" style="flex-shrink:0">기타</div>
+              <input type="text" id="otherDetail" placeholder="학습 세부사항을 입력하세요" onclick="event.stopPropagation()" oninput="checkComplete()" style="flex:1;min-width:0;padding:7px 10px;border:1.5px solid #e5e7eb;border-radius:8px;font-size:11px;font-weight:600;font-family:inherit;outline:none;background:white;color:var(--text)"/>
+            </div>
+          </div>
+        </div>
+
+        <!-- 듣기평가 모드 -->
+        <div class="step-items-modern" id="stepsListening" style="display:none">
+          <div class="si-modern" onclick="togSIM(this)" style="gap:10px">
+            <div class="check"></div>
+            <div class="si-emoji" style="background:var(--blue-light);color:var(--blue)">L</div>
+            <div class="si-info" style="display:flex;align-items:center;gap:8px">
+              <div class="si-name" style="flex-shrink:0">듣기평가</div>
+              <select class="prog-sel" id="listeningGrade" style="flex:1;padding:7px 10px;font-size:11px" onclick="event.stopPropagation()" onchange="checkComplete()">
+                <option value="">학년 선택</option>
+                <option value="중1">중1</option>
+                <option value="중2">중2</option>
+                <option value="중3">중3</option>
+                <option value="고1">고1</option>
+                <option value="고2">고2</option>
+                <option value="고3">고3</option>
+              </select>
+            </div>
+            <input class="si-score-modern" id="listeningScore" type="number" placeholder="점수" onclick="event.stopPropagation()" oninput="checkComplete()"/>
+          </div>
+
+          <!-- 오답 딕테이션 -->
+          <div class="si-modern" onclick="togSIM(this)">
+            <div class="check"></div>
+            <div class="si-emoji" style="background:var(--purple-light);color:var(--purple)">D</div>
+            <div class="si-info"><div class="si-name">오답 딕테이션</div></div>
+          </div>
+
+          <!-- 클래스카드 문법 -->
+          <div class="si-modern cc" onclick="togSIM(this)" style="gap:10px">
+            <div class="check"></div>
+            <div class="si-emoji">C</div>
+            <div class="si-info" style="display:flex;align-items:center;gap:8px">
+              <div class="si-name" style="flex-shrink:0">클래스카드 문법</div>
+              <input type="text" id="listeningCCDetail" placeholder="학습 세부사항 (예: 3과 to부정사)" onclick="event.stopPropagation()" style="flex:1;min-width:0;padding:7px 10px;border:1.5px solid #e5e7eb;border-radius:8px;font-size:11px;font-weight:600;font-family:inherit;outline:none;background:white;color:var(--text)"/>
+            </div>
+          </div>
+        </div>
+
+        <!-- 내신 모드: 학습 단계 -->
+        <div class="step-items-modern" id="stepsNaesin" style="display:none">
+
+          <!-- 강의 -->
+          <div class="si-modern" onclick="togSIM(this)" style="gap:10px">
+            <div class="check"></div>
+            <div class="si-emoji" style="background:var(--blue-light);color:var(--blue)">L</div>
+            <div class="si-info" style="display:flex;flex-direction:column;gap:5px">
+              <div class="si-name">강의</div>
+              <div style="display:flex;gap:5px">
+                <select onclick="event.stopPropagation()" style="width:70px;padding:5px;border:1.5px solid #e5e7eb;border-radius:7px;font-size:10px;font-weight:600;font-family:inherit;outline:none;background:white;color:var(--text)">
+                  <option value="">선택</option><option>본문</option><option>대화</option>
+                </select>
+                <input type="text" placeholder="예) 본문3과-1" onclick="event.stopPropagation()" style="flex:1;min-width:0;padding:5px 8px;border:1.5px solid #e5e7eb;border-radius:7px;font-size:10px;font-weight:600;font-family:inherit;outline:none;background:white;color:var(--text)"/>
+              </div>
+            </div>
+          </div>
+
+          <!-- 클카 배열/드릴 -->
+          <div class="si-modern cc" onclick="togSIM(this)">
+            <div class="check"></div>
+            <div class="si-emoji">C</div>
+            <div class="si-info"><div class="si-name">클카 배열 / 드릴</div></div>
+          </div>
+
+          <!-- 지면시험 (복수 추가) -->
+          <div id="deskJimyunList" style="display:flex;flex-direction:column;gap:6px;margin-top:4px;"></div>
+          <button onclick="addDeskNaesinItem('jimyun')" style="width:100%;margin-top:6px;padding:8px;background:var(--orange-soft);border:1.5px dashed var(--orange);border-radius:10px;font-size:11px;font-weight:800;color:var(--orange);cursor:pointer;font-family:inherit;">+ 지면시험 추가</button>
+
+          <!-- 문법 (복수 추가) -->
+          <div id="deskGrammarList" style="display:flex;flex-direction:column;gap:6px;margin-top:6px;"></div>
+          <button onclick="addDeskNaesinItem('grammar')" style="width:100%;margin-top:6px;padding:8px;background:var(--purple-soft);border:1.5px dashed var(--purple);border-radius:10px;font-size:11px;font-weight:800;color:var(--purple);cursor:pointer;font-family:inherit;">+ 문법 추가</button>
+
+          <!-- 문제 (복수 추가) -->
+          <div id="deskProblemList" style="display:flex;flex-direction:column;gap:6px;margin-top:6px;"></div>
+          <button onclick="addDeskNaesinItem('problem')" style="width:100%;margin-top:6px;padding:8px;background:var(--green-soft);border:1.5px dashed var(--green);border-radius:10px;font-size:11px;font-weight:800;color:var(--green);cursor:pointer;font-family:inherit;">+ 문제 추가</button>
+
+          <!-- 궁금한 부분 -->
+          <div class="si-modern" onclick="togSIM(this)" style="gap:10px;align-items:flex-start;padding:14px;margin-top:6px">
+            <div class="check" style="margin-top:4px"></div>
+            <div class="si-emoji" style="background:#fef3c7;color:#ca8a04">Q</div>
+            <div class="si-info" style="display:flex;flex-direction:column;gap:5px">
+              <div class="si-name">궁금한 부분 ❓</div>
+              <textarea placeholder="예) to부정사 설명이 필요해요" onclick="event.stopPropagation()" style="width:100%;padding:6px 9px;border:1.5px solid #e5e7eb;border-radius:7px;font-size:10px;font-weight:500;font-family:inherit;outline:none;background:white;color:var(--text);resize:none;height:42px"></textarea>
+            </div>
+          </div>
+
+        </div>
+
+        <button class="complete-btn-modern" id="completeBtn" disabled onclick="completeProgress()">
+          <span style="font-size:17px">🎉</span>
+          <span id="completeBtnLabel">진도 완료 — 1개 이상 선택하세요</span>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- 컬럼 3: 미션 + 숙제 + 만족도 + 한마디 -->
+    <div class="col-3">
+
+      <div class="mission-card">
+        <div class="mission-head">
+          <div class="mission-icon">🎯</div>
+          <div class="mission-head-text">
+            <h3>오늘의 미션</h3>
+            <p>5월 30일 (토)</p>
+          </div>
+        </div>
+        <div class="mission-content">
+          <div class="mission-label">교재</div>
+          <div class="mission-text" id="missionBooks" data-stu-books>ORT2 · Fly Guy</div>
+        </div>
+        <div class="mission-content">
+          <div class="mission-label">해올 숙제</div>
+          <div class="mission-text" id="missionHomework">단어 20개 암기 (영2, 한1) · 클래스카드 5개 녹음 · RG 1p · 문법 1p</div>
+        </div>
+        <div class="mission-links">
+          <a href="https://www.readandtalk.co.kr/elp_login.php" target="_blank" class="mission-link"><div class="mission-link-ico" style="background:var(--teal);color:white">RT</div><span>리드앤톡</span></a>
+          <a href="https://www.classcard.net/Login" target="_blank" class="mission-link"><div class="mission-link-ico" style="background:var(--orange);color:white">CC</div><span>클래스카드</span></a>
+        </div>
+      </div>
+
+      <!-- 📅 내 시간표 -->
+      <div class="card card-shadow">
+        <div class="card-title" style="margin-bottom:12px"><span style="font-size:18px">📅</span> 내 수업 시간표</div>
+        <div style="padding:16px;background:var(--teal-soft);border:2px solid var(--teal);border-radius:12px;text-align:center">
+          <div style="font-size:15px;font-weight:800;color:var(--teal-d);font-family:'Plus Jakarta Sans',sans-serif" data-stu-schedule>월화수목금</div>
+        </div>
+        <div style="margin-top:10px;padding:8px 10px;background:var(--bg);border-radius:9px;font-size:10px;color:var(--muted);font-weight:600;text-align:center">
+          💡 시간 변경은 선생님께 말씀해주세요
+        </div>
+      </div>
+
+      <!-- 💌 선생님 메시지 -->
+      <div class="card card-shadow notice-card">
+        <div class="card-title" style="margin-bottom:12px"><span style="font-size:18px">💌</span> <span data-stu-callname>민준아</span>, 기억하렴!</div>
+        <div class="teacher-notice">
+          <div class="notice-text" id="noticeText" data-stu-msg style="white-space:pre-wrap">아직 선생님 전달사항이 없어요 ✨</div>
+        </div>
+      </div>
+
+      <div class="card card-shadow" id="todayHwCard">
+        <div class="card-title" style="margin-bottom:14px"><span style="font-size:18px">🏠</span> 오늘 숙제 <span style="font-size:10px;color:var(--muted);font-weight:600;margin-left:6px">선생님이 지정한 숙제</span></div>
+
+        <div id="hwTemplateWrap">
+        <div class="hw-template-modern" id="hwTemplateBox">
+          <div class="hw-template-head-modern">
+            <div class="hw-template-title-modern"><span style="font-size:13px">📌</span> 기본 숙제 (선생님 지정)</div>
+            <div style="display:flex;gap:5px">
+              <button class="hw-same-btn-modern" id="sameBtn" onclick="toggleSame()">동일</button>
+              <button class="hw-same-btn-modern" id="editBtn" onclick="toggleEdit()" style="background:white;color:var(--purple);border:1.5px solid var(--purple)">수정</button>
+            </div>
+          </div>
+
+          <!-- 보기 모드 -->
+          <div id="hwViewMode">
+            <div class="hw-item-modern"><span class="hw-check-icon"></span> <span class="hw-text" data-idx="0">단어 20개 암기 (영2, 한1)</span></div>
+            <div class="hw-item-modern"><span class="hw-check-icon"></span> <span class="hw-text" data-idx="1">클래스카드 5개 녹음</span></div>
+            <div class="hw-item-modern"><span class="hw-check-icon"></span> <span class="hw-text" data-idx="2">RG 1p</span></div>
+            <div class="hw-item-modern"><span class="hw-check-icon"></span> <span class="hw-text" data-idx="3">문법 1p</span></div>
+          </div>
+
+          <!-- 수정 모드 -->
+          <div id="hwEditMode" style="display:none">
+            <input type="text" class="hw-edit-input" data-idx="0" value="단어 20개 암기 (영2, 한1)" oninput="syncHwToMission()"/>
+            <input type="text" class="hw-edit-input" data-idx="1" value="클래스카드 5개 녹음" oninput="syncHwToMission()"/>
+            <input type="text" class="hw-edit-input" data-idx="2" value="RG 1p" oninput="syncHwToMission()"/>
+            <input type="text" class="hw-edit-input" data-idx="3" value="문법 1p" oninput="syncHwToMission()"/>
+          </div>
+        </div>
+        <div class="hw-extra-modern" style="background:linear-gradient(135deg,#fef3c7 0%,#fffbeb 100%);border:2px solid #fde68a">
+          <div class="hw-extra-head-modern" style="color:#92400e"><span style="font-size:13px">💬</span> 선생님에게</div>
+          <textarea class="hw-extra-ta-modern" placeholder="질문이나 하고싶은 말을 적어주세요&#10;예) 문법 부분이 어려워요. 다시 설명해 주세요!" style="background:rgba(255,255,255,0.7);color:#78350f"></textarea>
+        </div>
+        </div><!-- /hwTemplateWrap -->
+      </div>
+
+      <!-- ⭐ 학습 만족도 -->
+      <div class="card card-shadow">
+        <div class="card-title" style="margin-bottom:14px"><span style="font-size:18px">😊</span> 오늘 학습 만족도</div>
+        <div class="satisfaction-grid">
+          <button class="sat-btn sat1" onclick="selSat(this)">
+            <div class="sat-emoji">😞</div>
+            <div class="sat-lbl">불만족</div>
+          </button>
+          <button class="sat-btn sat2" onclick="selSat(this)">
+            <div class="sat-emoji">😐</div>
+            <div class="sat-lbl">보통</div>
+          </button>
+          <button class="sat-btn sat3" onclick="selSat(this)">
+            <div class="sat-emoji">🙂</div>
+            <div class="sat-lbl">만족</div>
+          </button>
+          <button class="sat-btn sat4" onclick="selSat(this)">
+            <div class="sat-emoji">😄</div>
+            <div class="sat-lbl">매우만족</div>
+          </button>
+        </div>
+      </div>
+
+      <!-- ⭐ 한마디 / 각오 -->
+      <div class="card card-shadow">
+        <div class="card-title" style="margin-bottom:12px"><span style="font-size:18px">💝</span> 수고한 나에게 한마디</div>
+        <textarea class="resolve-ta" placeholder="오늘 수고했어! 내일은 더 잘 할 수 있어 💪&#10;각오나 다짐을 적어보세요"></textarea>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="fab-save">
+    <div class="fab-save-info">
+      <small>마지막 저장 · 오후 4:20</small>
+      <b><i class="ti ti-point-filled"></i> 미저장 변경사항</b>
+    </div>
+    <button class="fab-save-btn" onclick="showLogoutPopup()">🏠 하원하기</button>
+  </div>
+
+  <!-- 하원 팝업 -->
+  <div id="logoutPopup" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:999;align-items:center;justify-content:center;backdrop-filter:blur(4px)">
+    <div style="background:white;border-radius:24px;padding:36px 30px;max-width:340px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.3);animation:popIn 0.4s cubic-bezier(0.34,1.56,0.64,1)">
+      <div style="font-size:72px;margin-bottom:12px;animation:wave 1.5s ease-in-out infinite">👋</div>
+      <h2 style="font-size:24px;font-weight:800;color:var(--text);margin-bottom:8px;font-family:'Plus Jakarta Sans',sans-serif">오늘도 수고 많았어!</h2>
+      <p style="font-size:13px;color:var(--muted);font-weight:600;line-height:1.6;margin-bottom:20px"><span data-stu-callname>민준아</span>, 내일 또 만나요 🌟<br>오늘 학습이 저장되었어요</p>
+
+      <div style="background:linear-gradient(135deg,var(--teal-soft) 0%,var(--purple-soft) 100%);border-radius:14px;padding:14px;margin-bottom:24px">
+        <div style="font-size:11px;color:var(--muted);font-weight:700;margin-bottom:6px">오늘의 학습 기록</div>
+        <div style="display:flex;justify-content:space-around;gap:8px">
+          <div>
+            <div style="font-size:20px;font-weight:800;color:var(--teal-d);font-family:'Plus Jakarta Sans',sans-serif">44분</div>
+            <div style="font-size:9px;color:var(--muted);font-weight:600;margin-top:2px">학습 시간</div>
+          </div>
+          <div style="width:1px;background:var(--border)"></div>
+          <div>
+            <div style="font-size:20px;font-weight:800;color:var(--purple);font-family:'Plus Jakarta Sans',sans-serif">3개</div>
+            <div style="font-size:9px;color:var(--muted);font-weight:600;margin-top:2px">완료 진도</div>
+          </div>
+          <div style="width:1px;background:var(--border)"></div>
+          <div>
+            <div style="font-size:20px;font-weight:800;color:var(--orange);font-family:'Plus Jakarta Sans',sans-serif">88점</div>
+            <div style="font-size:9px;color:var(--muted);font-weight:600;margin-top:2px">평균 점수</div>
+          </div>
+        </div>
+      </div>
+
+      <button onclick="goToLogin()" style="width:100%;padding:14px;background:linear-gradient(135deg,var(--teal) 0%,var(--teal-d) 100%);color:white;border:none;border-radius:14px;font-size:14px;font-weight:800;cursor:pointer;font-family:inherit;box-shadow:0 6px 18px rgba(20,184,166,.3)">잘 가요 👋</button>
+    </div>
+  </div>
+
+  <!-- 로그인 화면 -->
+  <div id="loginScreen" style="display:none;position:fixed;inset:0;background:linear-gradient(135deg,#0d9488 0%,#6366f1 100%);z-index:1000;align-items:center;justify-content:center;padding:20px">
+    <div style="background:white;border-radius:28px;padding:36px 28px;max-width:360px;width:100%;box-shadow:0 30px 80px rgba(0,0,0,0.3)">
+
+      <!-- 로고 -->
+      <div style="text-align:center;margin-bottom:8px">
+        <img src="data:image/png;base64,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AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP//Z" alt="EL 영어학원" style="width:140px;height:auto;margin:0 auto;display:block"/>
+      </div>
+
+      <!-- 인사 -->
+      <div style="text-align:center;margin-bottom:24px">
+        <h2 style="font-size:24px;font-weight:800;color:var(--text);line-height:1.3;font-family:'Plus Jakarta Sans',sans-serif">Welcome to EL ✨</h2>
+        <p style="font-size:12px;color:var(--muted);font-weight:600;margin-top:14px">아이디로 로그인하세요</p>
+      </div>
+
+      <!-- 입력 -->
+      <div style="margin-bottom:16px">
+        <div style="font-size:11px;font-weight:700;color:var(--text2);margin-bottom:6px;display:flex;align-items:center;gap:5px"><span>🎓</span> 학생 아이디</div>
+        <input type="text" placeholder="예) el3264" style="width:100%;padding:14px 16px;border:2px solid #f3f4f6;border-radius:14px;font-size:14px;font-weight:600;color:var(--text);background:white;outline:none;font-family:inherit" onfocus="this.style.borderColor='var(--teal)'" onblur="this.style.borderColor='#f3f4f6'"/>
+      </div>
+
+      <button style="width:100%;padding:14px;background:linear-gradient(135deg,var(--teal) 0%,var(--teal-d) 100%);color:white;border:none;border-radius:14px;font-size:14px;font-weight:800;cursor:pointer;font-family:inherit;box-shadow:0 6px 18px rgba(20,184,166,.3);margin-bottom:14px">로그인 ✨</button>
+
+      <!-- 선생님/학부모 모드 -->
+      <div style="display:flex;gap:8px">
+        <button style="flex:1;padding:10px;background:var(--purple-light);color:var(--purple);border:none;border-radius:12px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit">👨‍🏫 선생님</button>
+        <button style="flex:1;padding:10px;background:var(--orange-light);color:var(--orange);border:none;border-radius:12px;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit">👨‍👩‍👧 학부모</button>
+      </div>
+
+      <p style="font-size:9px;color:var(--muted);text-align:center;margin-top:20px;font-weight:500">오늘도 즐거운 학습 되세요 🌟</p>
+    </div>
+  </div>
+
+  <style>
+    @keyframes popIn {
+      0% { opacity: 0; transform: scale(0.7); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+  </style>
+
+</div>
+
+<script>
+// ══════════ 학생 로그인 + 기록 저장 (Supabase) ══════════
+const STU_API = 'https://luthukvljefyaszrqrcr.supabase.co/functions/v1/student-api';
+const STU_APIKEY = 'sb_publishable_2wz9gruax1iEhka-mLa1_g_yZ-NmiVM';
+let stuCurrent = null;
+
+async function stuApi(action, extra){
+  const body = {
+    action,
+    login_id: stuCurrent?.login_id || document.getElementById('stuId').value.trim(),
+    pw: stuCurrent?.pw || document.getElementById('stuPw').value,
+    ...extra,
+  };
+  const res = await fetch(STU_API, { method:'POST', headers:{ 'Content-Type':'application/json', 'apikey':STU_APIKEY }, body: JSON.stringify(body) });
+  return res.json();
+}
+
+async function studentLogin(){
+  const msg = document.getElementById('stuAuthMsg');
+  msg.textContent = '';
+  const r = await stuApi('login', {}).catch(()=>({ok:false,error:'네트워크 오류'}));
+  if(!r.ok){ msg.textContent = r.error || '로그인 실패'; return; }
+  stuCurrent = { ...r.student, pw: document.getElementById('stuPw').value };
+  sessionStorage.setItem('stu', JSON.stringify(stuCurrent));
+  document.getElementById('stuAuthOverlay').style.display = 'none';
+  applyStudentIdentity();
+  loadTodayStages();
+  loadGraphData();
+  // 실제 학생 로그인 = 등원 → 등원 문자 발송(하루 1회, 선생님 미리보기는 제외)
+  if(!isTeacherView()){
+    stuApi('arrive', {}).then(res => { if(res && res.ok && res.sent && typeof showToast==='function') showToast('🏫 등원! 부모님께 문자 발송'); }).catch(()=>{});
+  }
+}
+
+function applyStudentIdentity(){
+  if(!stuCurrent) return;
+  const given = stuCurrent.name.length > 1 ? stuCurrent.name.substring(1) : stuCurrent.name;
+  const b = stuCurrent.current_books || {};
+  const booksSummary = [b.ort, b.dadok].filter(Boolean).join(' · ') || (stuCurrent.level || '');
+  document.querySelectorAll('[data-stu-name]').forEach(el => el.textContent = stuCurrent.name);
+  document.querySelectorAll('[data-stu-avatar]').forEach(el => el.textContent = stuCurrent.name.slice(-2));
+  document.querySelectorAll('[data-stu-greet]').forEach(el => el.textContent = '안녕, ' + stuCurrent.name + '! 👋');
+  document.querySelectorAll('[data-stu-given]').forEach(el => el.textContent = given);
+  const _lc = given.charCodeAt(given.length-1);
+  const _hasJong = _lc >= 0xAC00 && _lc <= 0xD7A3 && ((_lc - 0xAC00) % 28) !== 0;
+  const callname = given + (_hasJong ? '아' : '야');
+  document.querySelectorAll('[data-stu-callname]').forEach(el => el.textContent = callname);
+  document.querySelectorAll('[data-stu-level]').forEach(el => el.textContent = stuCurrent.level || '—');
+  document.querySelectorAll('[data-stu-books]').forEach(el => el.textContent = booksSummary);
+  document.querySelectorAll('[data-stu-schedule]').forEach(el => el.textContent = stuCurrent.class_time || '시간표 미입력');
+  // 학습 진도 = 실제 current_books (하드코딩 ORT2-3-4 제거)
+  document.querySelectorAll('[data-stu-ort]').forEach(el => el.textContent = b.ort || 'ORT—');
+  document.querySelectorAll('[data-stu-dadok]').forEach(el => el.textContent = b.dadok || '—');
+  const _pDadok = document.getElementById('pcProgDadok'); if(_pDadok) _pDadok.style.display = b.dadok ? '' : 'none';
+  // 선생님 전달사항 표시 + (선생님 뷰) 편집
+  const _msg = (stuCurrent.teacher_msg || '').trim();
+  document.querySelectorAll('[data-stu-msg]').forEach(el => el.textContent = _msg || '아직 선생님 전달사항이 없어요 ✨');
+  enableTeacherMsgEdit();
+  document.title = 'EL 영어학원 · ' + stuCurrent.name;
+}
+function isTeacherView(){ return document.body.getAttribute('data-teacher-view') === '1'; }
+const MSG_PLACEHOLDER = '아직 선생님 전달사항이 없어요 ✨';
+function enableTeacherMsgEdit(){
+  const el = document.getElementById('noticeText');
+  if(!el || !isTeacherView() || el.dataset.editable === '1') return;
+  el.dataset.editable = '1';
+  el.contentEditable = 'true';
+  el.style.outline = '1.5px dashed #f59e0b';
+  el.style.borderRadius = '7px';
+  el.style.padding = '6px 8px';
+  el.title = '선생님 전달사항 — 고친 뒤 밖을 누르면 저장돼요';
+  el.addEventListener('focus', () => { if(el.textContent.trim() === MSG_PLACEHOLDER) el.textContent = ''; });
+  el.addEventListener('blur', async () => {
+    const v = el.textContent.trim();
+    const r = await stuApi('set-msg', { payload: { msg: v } }).catch(() => ({ ok:false }));
+    if(stuCurrent) stuCurrent.teacher_msg = v;
+    if(typeof showToast === 'function') showToast(r.ok ? '✅ 전달사항 저장됨' : '⚠️ 저장 실패');
+    if(!v) el.textContent = MSG_PLACEHOLDER;
+  });
+}
+
+function collectTodayRecord(){
+  const rec = {};
+  // 단어시험 (학생 입력: 맞은수/총개수)
+  const vc = document.getElementById('vc')?.value;
+  const vt = document.getElementById('vt')?.value || '20';
+  if(vc !== undefined && vc !== '') rec.test_scores = { '단어': vc + '/' + vt };
+  // 진도 — 완료 목록(doneEntries) 우선, 없으면 입력창
+  let prog = '';
+  if(typeof doneEntries !== 'undefined' && doneEntries.length){
+    prog = doneEntries.map(e => e.label).join(', ');
+  } else {
+    const type = document.getElementById('progSel')?.value || '';
+    const detail = document.getElementById('progDetail')?.value?.trim() || '';
+    if(detail) prog = (type ? type + ' ' : '') + detail;
+  }
+  if(prog) rec.progress = prog;
+  // 학습 단계 완료 상태 + 단어/퍼즐/퀴즈 점수 (ORT진도 모드) → 선생님 대시보드/리포트에 반영
+  const stages = {};
+  const stageScores = {};
+  document.querySelectorAll('#stepsORT [data-stage]').forEach(el=>{
+    const k = el.dataset.stage;
+    if(el.classList.contains('done')) stages[k] = true;
+    const sc = el.querySelector('input.score-in, input.si-score-modern');
+    if(sc && String(sc.value).trim() !== '') stageScores[k] = String(sc.value).trim();
+  });
+  rec.stages = stages;
+  if(Object.keys(stageScores).length) rec.test_scores = Object.assign(rec.test_scores || {}, stageScores);
+  return rec;
+}
+// 저장된 오늘 단계를 화면에 반영 (선생님이 체크한 것도 보임)
+function applySavedStages(stages){
+  if(!stages) return;
+  document.querySelectorAll('#stepsORT [data-stage]').forEach(el=>{
+    if(stages[el.dataset.stage]) el.classList.add('done'); else el.classList.remove('done');
+  });
+  if(typeof checkComplete==='function') try{ checkComplete(); }catch(e){}
+}
+// 저장된 단어(W)/퍼즐(P)/퀴즈(Q) 점수를 점수칸에 복원
+function applyStageScores(ts){
+  if(!ts || typeof ts !== 'object') return;
+  document.querySelectorAll('#stepsORT [data-stage]').forEach(el=>{
+    const v = ts[el.dataset.stage];
+    const inp = el.querySelector('input.score-in, input.si-score-modern');
+    if(inp && v != null && String(v).trim() !== '') inp.value = String(v).trim();
+  });
+  // 단어 데일리테스트 점수(맞은/총)도 복원 → 재저장 시 test_scores 통째 덮어쓰기로 유실 방지
+  const w = ts['단어'];
+  if(w != null && String(w).includes('/')){
+    const [c,t] = String(w).split('/');
+    const vcEl = document.getElementById('vc'); const vtEl = document.getElementById('vt');
+    if(vcEl && String(c).trim()!=='') vcEl.value = String(c).trim();
+    if(vtEl && String(t).trim()!=='') vtEl.value = String(t).trim();
+    if(typeof calcAcc==='function') try{ calcAcc(); }catch(e){}
+  }
+}
+// 점수칸/단어시험 blur 시 즉시 저장 (하원 안 해도 유실 방지)
+let _ortSaveT = null;
+function scheduleOrtSave(){ clearTimeout(_ortSaveT); _ortSaveT = setTimeout(saveOrtNow, 400); }
+async function saveOrtNow(){
+  if(!stuCurrent && !isTeacherView()) return;
+  const rec = collectTodayRecord();
+  const payload = { log_date: new Date().toISOString().slice(0,10) };
+  if(rec.stages && Object.keys(rec.stages).length) payload.stages = rec.stages;
+  if(rec.test_scores) payload.test_scores = rec.test_scores;
+  if(!payload.stages && !payload.test_scores) return;
+  const r = await stuApi('save-daily', { payload }).catch(()=>({ok:false}));
+  if(typeof showToast==='function' && r && r.ok) showToast('✅ 점수 저장됨');
+}
+document.addEventListener('blur', function(e){
+  const t = e.target;
+  if(t && t.matches && (t.matches('#stepsORT input.score-in, #stepsORT input.si-score-modern') || t.id==='vc' || t.id==='vt')) scheduleOrtSave();
+}, true);
+async function loadTodayStages(){
+  const r = await stuApi('get-daily', {}).catch(()=>({ok:false}));
+  if(r && r.ok && r.daily){
+    if(r.daily.stages) applySavedStages(r.daily.stages);
+    applyStageScores(r.daily.test_scores);
+  }
+}
+
+async function saveTodayRecord(){
+  if(!stuCurrent) return;
+  const rec = collectTodayRecord();
+  const hasStages = rec.stages && Object.keys(rec.stages).length;
+  if(!rec.test_scores && !rec.progress && !hasStages) return; // 저장할 게 없으면 스킵
+  const r = await stuApi('save-daily', { payload: { ...rec, log_date: new Date().toISOString().slice(0,10) } }).catch(()=>({ok:false}));
+  if(typeof showToast==='function') showToast(r.ok ? '✅ 저장 완료! 선생님께 전달돼요' : '⚠️ 저장 실패, 다시 시도');
+}
+
+// 학습 기록(교재 완료 시험) 펼치기/불러오기
+let learnRecordLoaded = false;
+async function toggleLearnRecord(){
+  const body = document.getElementById('learnRecordBody');
+  const arrow = document.getElementById('learnRecordArrow');
+  const open = body.style.display === 'none' || !body.style.display;
+  body.style.display = open ? 'flex' : 'none';
+  arrow.textContent = open ? '▲' : '▼';
+  if(open && !learnRecordLoaded){
+    body.innerHTML = '<div style="color:var(--muted);font-size:12px;padding:8px;text-align:center">불러오는 중…</div>';
+    const r = await stuApi('get-scores', {}).catch(()=>({ok:false}));
+    learnRecordLoaded = true;
+    if(!r || !r.ok || !r.scores || !r.scores.length){
+      body.innerHTML = '<div style="color:var(--muted);font-size:12px;padding:12px;text-align:center">아직 완료한 교재 시험 기록이 없어요</div>';
+      return;
+    }
+    const catColor = {ORT:'#3b82f6', RG:'#8b5cf6', RS:'#14b8a6', '모의고사':'#ef4444', NELT:'#f59e0b', '기타':'#6b7280'};
+    const sorted = r.scores.slice().sort((a,b)=> b.test_date.localeCompare(a.test_date));
+    body.innerHTML = sorted.map(s=>{
+      const c = catColor[s.category] || '#6b7280';
+      return `<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 12px;background:var(--bg);border-radius:10px">
+        <div><div style="font-size:13px;font-weight:800">${s.level || s.category || ''}</div><div style="font-size:10px;color:var(--muted);font-weight:600">${s.test_date}</div></div>
+        <div style="font-size:16px;font-weight:800;color:${c};font-family:'Plus Jakarta Sans',sans-serif">${s.score!=null ? s.score+'점' : '—'}</div>
+      </div>`;
+    }).join('');
+  }
+}
+
+(async function initStu(){
+  // 선생님 미리보기: URL 파라미터 자동 로그인 (대시보드 임베드용)
+  const _tqp = new URLSearchParams(location.search);
+  const _tLogin = _tqp.get('tlogin'), _tPw = _tqp.get('tpw');
+  if(_tLogin && _tPw){
+    try { sessionStorage.removeItem('stu'); } catch(e){}
+    const idEl = document.getElementById('stuId'), pwEl = document.getElementById('stuPw');
+    if(idEl) idEl.value = _tLogin;
+    if(pwEl) pwEl.value = _tPw;
+    document.body.setAttribute('data-teacher-view','1');
+    studentLogin();
+    return;
+  }
+  const saved = sessionStorage.getItem('stu');
+  if(!saved) return;
+  try {
+    stuCurrent = JSON.parse(saved);
+    document.getElementById('stuAuthOverlay').style.display='none';
+    applyStudentIdentity();
+    // 최신 정보로 새로고침 (시간표 등 서버 스키마 변경 대응)
+    const r = await stuApi('login', {});
+    if(r.ok){ stuCurrent = { ...r.student, pw: stuCurrent.pw }; sessionStorage.setItem('stu', JSON.stringify(stuCurrent)); applyStudentIdentity(); }
+    loadTodayStages();
+    loadGraphData();
+  } catch(e){}
+})();
+
+let dur=120, secs=44*60+22, currentMode='ORT진도', doneEntries=[], sameAsLast=false;
+
+// === 어제 진도 ===
+function toggleYesterday(){
+  const sec = document.getElementById('yesterdaySection');
+  const arrow = document.getElementById('yesterdayArrow');
+  if(sec.style.display === 'none'){
+    sec.style.display = 'block';
+    arrow.textContent = '▲';
+  } else {
+    sec.style.display = 'none';
+    arrow.textContent = '▼';
+  }
+}
+
+function continueYesterday(){
+  // 모드를 ORT 진도로
+  const sel = document.getElementById('progSel');
+  if(sel){ sel.value = 'ORT진도'; if(typeof updateProg === 'function') updateProg(); }
+  // 진도에 어제 내용 자동 입력
+  const inp = document.getElementById('progDetail');
+  if(inp){ inp.value = 'ORT2-3-3'; if(typeof onDetailInput === 'function') onDetailInput(); }
+  // 진도 입력 영역으로 부드러운 스크롤
+  const target = inp ? inp.closest('.card') : null;
+  if(target){
+    target.scrollIntoView({behavior:'smooth', block:'center'});
+    // 강조 효과
+    target.style.transition = 'box-shadow 0.3s';
+    target.style.boxShadow = '0 0 0 3px rgba(59,130,246,0.3)';
+    setTimeout(function(){ target.style.boxShadow = ''; }, 1500);
+  }
+  // 안내 알림
+  setTimeout(function(){
+    alert('✨ 어제 ORT2-3-3에서 P 퍼즐까지 했어요!\n📓 앞바닥 필사부터 이어서 학습하세요!');
+  }, 400);
+}
+
+// === 숙제 적립 통장 ===
+const studentHwData = {
+  1:'O', 2:'O', 3:'',
+  4:'', 5:'O', 6:'O', 7:'O', 8:'T', 9:'O', 10:'',
+  11:'', 12:'O', 13:'O', 14:'O', 15:'O', 16:'X', 17:'',
+  18:'', 19:'O', 20:'O', 21:'O', 22:'T', 23:'O', 24:'',
+  25:'', 26:'O', 27:'O', 28:'O', 29:'T', 30:'O', 31:''
+};
+let studentPassCount = 2;
+
+function toggleHwSection(){
+  const sec = document.getElementById('hwExpandSection');
+  const arrow = document.getElementById('hwToggleArrow');
+  if(sec.style.display === 'none'){
+    sec.style.display = 'block';
+    arrow.textContent = '▲';
+    // 처음 펼칠 때 초기화
+    if(!window._stuStatsInited){
+      let initO = 0;
+      for(const d in studentHwData) if(studentHwData[d] === 'O') initO++;
+      window._stuPrevEarned = Math.floor(initO / 20);
+    }
+    renderStudentCalendar();
+    updateHwSummary();
+  } else {
+    sec.style.display = 'none';
+    arrow.textContent = '▼';
+  }
+}
+
+// 헤더의 요약 뱃지 업데이트
+function updateHwSummary(){
+  let oCount = 0;
+  for(const d in studentHwData) if(studentHwData[d] === 'O') oCount++;
+  const displayCount = oCount % 20;
+
+  // 헤더 영역의 두 뱃지 갱신
+  const card = document.getElementById('hwExpandSection').closest('.card');
+  if(!card) return;
+  const badges = card.querySelectorAll('div[style*="background:white"]');
+  if(badges.length > 0){
+    badges[0].textContent = '⭐ ' + displayCount + ' / 20';
+  }
+  // 쿠폰 뱃지
+  const passBadge = card.querySelector('span[style*="background:#ec4899"]');
+  if(passBadge) passBadge.textContent = '🎁 쿠폰 ' + studentPassCount + '장';
+  // 사용 버튼
+  const useBtn = card.querySelector('button[onclick="askUsePass()"]');
+  if(useBtn) useBtn.innerHTML = '🎁 쿠폰 사용하기 (보유 ' + studentPassCount + '장)';
+}
+
+function renderStudentCalendar(){
+  const cal = document.getElementById('hwCalendarStu');
+  if(!cal) return;
+  const firstDayOfWeek = 4; // 5/1 목요일
+  const daysInMonth = 31;
+  let html = '';
+  for(let i=0; i<firstDayOfWeek; i++) html += '<div></div>';
+  for(let d=1; d<=daysInMonth; d++){
+    const status = studentHwData[d] || '';
+    let bg = 'white', color = '#9ca3af', symbol = '', border = '';
+    if(status === 'O'){ bg = '#16a34a'; color = 'white'; symbol = 'O'; }
+    else if(status === 'T'){ bg = '#fef3c7'; color = '#92400e'; symbol = '△'; border = '1px solid #fde68a'; }
+    else if(status === 'X'){ bg = '#fee2e2'; color = '#dc2626'; symbol = '×'; border = '1px solid #fecaca'; }
+    else if(status === 'P'){ bg = '#fce7f3'; color = '#9f1239'; symbol = '🎫'; border = '1px solid #fbcfe8'; }
+
+    const dayOfWeek = (firstDayOfWeek + d - 1) % 7;
+    const dayColor = dayOfWeek === 0 ? '#dc2626' : (dayOfWeek === 6 ? '#2563eb' : '#6b7280');
+
+    html += '<div style="background:#fafafa;border-radius:6px;padding:3px 2px;text-align:center">'
+      + '<div style="font-size:8px;font-weight:700;color:' + dayColor + ';margin-bottom:1px">' + d + '</div>'
+      + '<div style="background:' + bg + ';color:' + color + ';border-radius:4px;height:18px;line-height:18px;font-size:10px;font-weight:800;border:' + (border||'none') + '">' + symbol + '</div>'
+      + '</div>';
+  }
+  cal.innerHTML = html;
+
+  // 누적 ○ 개수 → 쿠폰 적립 + 현재 사이클 진행도
+  let oCount = 0;
+  for(const d in studentHwData) if(studentHwData[d] === 'O') oCount++;
+  const earnedPasses = Math.floor(oCount / 20);
+  const displayCount = oCount % 20;
+
+  // 이전 적립보다 늘었으면 쿠폰 +
+  const prevEarned = window._stuPrevEarned || 0;
+  if(earnedPasses > prevEarned){
+    const newPasses = earnedPasses - prevEarned;
+    studentPassCount += newPasses;
+    window._stuPrevEarned = earnedPasses;
+    if(window._stuStatsInited){
+      setTimeout(function(){
+        alert('🎉 쿠폰 ' + newPasses + '장 받았어요!\n숙제 20개 달성! 카운트는 0부터 다시 시작해요 ✨');
+        // 쿠폰 사용 버튼 갱신
+        const useBtn = document.querySelector('button[onclick="askUsePass()"]');
+        if(useBtn) useBtn.innerHTML = '🎁 쿠폰 사용하기 (보유 ' + studentPassCount + '장)';
+      }, 100);
+    }
+  }
+  window._stuStatsInited = true;
+
+  // 진행바
+  const bar = document.getElementById('hwProgressBarStu');
+  if(bar) bar.style.width = ((displayCount / 20) * 100) + '%';
+  const rem = document.getElementById('hwRemainingText');
+  if(rem){
+    const remaining = 20 - displayCount;
+    if(displayCount === 0 && earnedPasses > 0){
+      rem.innerHTML = '✨ 새 사이클 시작!';
+    } else {
+      rem.textContent = remaining + '개';
+    }
+  }
+
+  // 카드 머리의 진행 뱃지 갱신
+  const headStat = document.querySelector('#hwToggleArrow').previousElementSibling;
+  // 위 셀렉터로는 못잡힘 - 일단 데이터 표시 위해 직접 찾기
+  const summaryEl = document.querySelector('span[style*="⭐"]');
+}
+
+function askUsePass(){
+  if(studentPassCount <= 0){
+    alert('아직 쿠폰이 없어요! 숙제 ○ 20개 채우면 받을 수 있어요 🎁');
+    return;
+  }
+  if(confirm('🎁 쿠폰을 사용하시겠습니까?\n오늘 숙제가 면제되고, 다음 시간에 자동으로 "면제" 처리됩니다!')){
+    studentPassCount--;
+
+    // 오늘 숙제 영역 숨기고 면제 메시지 표시
+    const exemptStatus = document.getElementById('hwExemptStatus');
+    const hwWrap = document.getElementById('hwTemplateWrap');
+    if(exemptStatus) exemptStatus.style.display = 'block';
+    if(hwWrap) hwWrap.style.display = 'none';
+
+    // 다음 시간 과제 점검에 면제 표시 (학생 화면)
+    const result = document.getElementById('hwStatusResult');
+    const readonly = document.getElementById('hwStatusReadonly');
+    if(result && readonly){
+      result.style.display = 'block';
+      readonly.style.display = 'none';
+      // 면제 버튼만 활성화 표시
+      ['O','T','X','E'].forEach(function(k){
+        const btn = document.getElementById('hwReadBtn' + k);
+        if(btn){
+          btn.classList.remove('on');
+          btn.style.opacity = '0.4';
+        }
+      });
+      const exBtn = document.getElementById('hwReadBtnE');
+      if(exBtn){
+        exBtn.classList.add('on');
+        exBtn.style.opacity = '1';
+        exBtn.style.boxShadow = '0 4px 12px rgba(236,72,153,0.3)';
+      }
+    }
+
+    // 오늘의 미션의 "해올 숙제" 영역도 숨기기 (만약 있으면)
+    const missionHw = document.querySelector('.mission-homework, [data-section=mission-hw]');
+    if(missionHw) missionHw.style.display = 'none';
+
+    alert('✨ 쿠폰 사용 완료!\n오늘 숙제 면제 🎉\n다음 시간 점검에 자동으로 "면제" 처리됩니다!');
+    updateHwSummary();
+  }
+}
+
+const dadokMap={
+  1:['Biscuit','USBORNE','A Little Princess Story'],
+  2:['Biscuit','USBORNE','A Little Princess Story'],
+  3:['Biscuit','USBORNE','A Little Princess Story'],
+  4:['Fly Guy','Froggy','Mercy Watson','Henry and Mudge'],
+  5:['Fly Guy','Froggy','Mercy Watson','Henry and Mudge'],
+  6:['Henry and Mudge','Curious George',"Arthur's Adventure",'Winnie the Witch','Silly Sausage','My Funny Family'],
+  7:['Henry and Mudge','Curious George',"Arthur's Adventure",'Winnie the Witch','Silly Sausage','My Funny Family'],
+  8:['Curious George',"Arthur's Adventure",'Winnie the Witch','Silly Sausage','My Funny Family','Cam Jansen','Marvin Redpost','The Zack Files','My Weird School','Magic Tree House','The Secrets of Droon','Wonder','Diary of a Wimpy Kid','English Fairy Tales','Korean Tales','Oxford Bookworms']
+};
+dadokMap[9]=dadokMap[8]; dadokMap[10]=dadokMap[8];
+const studentORT=2;
+const lastProg={'ORT진도':{raw:'ORT2-3-3',next:'ORT2-3-4'},'ORT복습':{raw:'ORT2-1-3',next:'ORT2-1-4'},'Fly Guy':{raw:'Fly Guy-14',next:'Fly Guy-15'},'Biscuit':{raw:'Biscuit-5',next:'Biscuit-6'}};
+
+const placeholders={
+  'ORT진도':'예) ORT2-3-4',
+  'ORT복습':'예) ORT2-1-4',
+  '다독진도':'예) Fly Guy-15',
+  '듣기평가':'예) 중3 2025년 1회',
+  '내신':'예) 3과 본문 ②',
+  '기타':'내용 직접 입력'
+};
+
+function updateProg(){
+  const val=document.getElementById('progSel').value;
+  currentMode=val;
+  const inp=document.getElementById('progDetail');
+  inp.value=''; inp.classList.remove('filled');
+  inp.placeholder=placeholders[val]||'내용 입력';
+  document.getElementById('continueBtn').classList.remove('on');
+
+  // 다독 드롭다운
+  const isDadok=val==='다독진도';
+  document.getElementById('dadokWrap').style.display=isDadok?'block':'none';
+
+  // 내신 시험범위 카드
+  const naesinCard=document.getElementById('naesinRangeCard');
+  const quickStats=document.getElementById('quickStatsBlock');
+  const learningProg=document.getElementById('learningProgressCard');
+  if(val==='내신'){
+    if(naesinCard) naesinCard.style.display='block';
+    if(quickStats) quickStats.style.display='none';
+    if(learningProg) learningProg.style.display='none';
+    if(typeof loadExamScope==='function') loadExamScope();
+  } else {
+    if(naesinCard) naesinCard.style.display='none';
+    if(quickStats) quickStats.style.display='grid';
+    if(learningProg) learningProg.style.display='block';
+  }
+
+  // 학습 단계 영역 전환
+  ['stepsORT','stepsReview','stepsDadok','stepsOther','stepsListening','stepsNaesin'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el) el.style.display='none';
+  });
+  document.querySelectorAll('.si-modern.done, .wb-modern.done').forEach(el=>el.classList.remove('done'));
+
+  let showId='stepsOther';
+  if(val==='ORT진도') showId='stepsORT';
+  else if(val==='ORT복습') showId='stepsReview';
+  else if(val==='다독진도') showId='stepsDadok';
+  else if(val==='듣기평가') showId='stepsListening';
+  else if(val==='내신') showId='stepsNaesin';
+  document.getElementById(showId).style.display='flex';
+
+  // 힌트 텍스트
+  if(val==='듣기평가') document.getElementById('stepHint').textContent='학년과 점수를 입력하세요';
+  else if(val==='내신') document.getElementById('stepHint').textContent='세부사항을 입력하세요';
+  else document.getElementById('stepHint').textContent='필요한 것만 선택';
+
+  if(isDadok){
+    buildDadokList();
+    document.getElementById('continueHint').textContent='교재를 먼저 선택하세요';
+  } else if(lastProg[val]){
+    document.getElementById('continueHint').textContent=lastProg[val].raw+' → '+lastProg[val].next;
+  } else {
+    document.getElementById('continueHint').textContent='기록 없음';
+  }
+  checkComplete();
+}
+
+function buildDadokList(){
+  // 추천 교재
+  const books=dadokMap[studentORT]||[];
+  const sel=document.getElementById('dadokBookSel');
+  sel.innerHTML='<option value="">— 추천 교재 선택 —</option>';
+  books.forEach(b=>{const o=document.createElement('option');o.value=b;o.textContent=b;sel.appendChild(o);});
+  document.getElementById('dadokHintText').textContent=`ORT${studentORT} 기준 추천 교재 (${books.length}종)`;
+
+  // 전체 교재 (학습 순서대로 - 중복 제거)
+  const learningOrder = [
+    'Biscuit','USBORNE','A Little Princess Story',
+    'Fly Guy','Froggy','Mercy Watson','Henry and Mudge',
+    'Curious George',"Arthur's Adventure",'Winnie the Witch','Silly Sausage','My Funny Family',
+    'Cam Jansen','Marvin Redpost','The Zack Files','My Weird School','Magic Tree House','The Secrets of Droon',
+    'Wonder','Diary of a Wimpy Kid','English Fairy Tales','Korean Tales','Oxford Bookworms'
+  ];
+  const allSel=document.getElementById('dadokAllBookSel');
+  allSel.innerHTML='<option value="">— 전체 다독 교재 선택 —</option>';
+  learningOrder.forEach(b=>{const o=document.createElement('option');o.value=b;o.textContent=b;allSel.appendChild(o);});
+}
+
+function onBookSelect(book){
+  if(!book){document.getElementById('continueHint').textContent='교재를 먼저 선택하세요';return;}
+  // 다른 드롭다운 초기화 (둘 중 하나만 선택되게)
+  const sel=document.getElementById('dadokBookSel');
+  const allSel=document.getElementById('dadokAllBookSel');
+  if(sel.value!==book) sel.value='';
+  if(allSel.value!==book) allSel.value='';
+  // 진도 입력 자동 안내
+  const d=lastProg[book]||{raw:book+'-1',next:book+'-2'};
+  document.getElementById('continueHint').textContent=d.raw+' → '+d.next;
+  document.getElementById('progDetail').placeholder=`예) ${book}-15`;
+}
+
+function useContinue(){
+  const cb=document.getElementById('continueBtn'),inp=document.getElementById('progDetail');
+  const val=document.getElementById('progSel').value;
+  if(cb.classList.contains('on')){cb.classList.remove('on');inp.value='';inp.classList.remove('filled');checkComplete();return;}
+  let next='';
+  if(lastProg[val]) next=lastProg[val].next;
+  else if(val==='다독진도'){
+    const book=document.getElementById('dadokBookSel').value || document.getElementById('dadokAllBookSel').value;
+    if(book)next=(lastProg[book]||{next:book+'-2'}).next;
+  }
+  if(next){cb.classList.add('on');inp.value=next;inp.classList.add('filled');checkComplete();}
+}
+
+function onDetailInput(){
+  document.getElementById('continueBtn').classList.remove('on');
+  document.getElementById('progDetail').classList.remove('filled');
+  updateORTLevelSteps();
+  checkComplete();
+}
+
+// ORT 단계 입력에 따라 L(라이팅)/R(리뷰) 표시/숨김
+function updateORTLevelSteps(){
+  const v = document.getElementById('progDetail').value.trim();
+  const notice = document.getElementById('ortLevelNotice');
+  const noticeText = document.getElementById('ortLevelNoticeText');
+
+  // ORT 진도 모드일 때만 적용
+  if(currentMode !== 'ORT진도'){
+    if(notice) notice.style.display = 'none';
+    return;
+  }
+  // ORT숫자 형태 파싱 (예: ORT3-1-1, ort4-2-3)
+  const match = v.match(/ORT\s*(\d+)/i);
+  if(!match){
+    document.querySelectorAll('.ort-level-3-plus, .ort-level-4-plus').forEach(function(el){
+      el.style.display = 'none';
+    });
+    if(notice) notice.style.display = 'none';
+    return;
+  }
+  const level = parseInt(match[1]);
+  // L (라이팅): ORT3 이상
+  document.querySelectorAll('.ort-level-3-plus').forEach(function(el){
+    el.style.display = level >= 3 ? 'flex' : 'none';
+    if(level < 3) el.classList.remove('done');
+  });
+  // R (ORT 리뷰): ORT4 ~ ORT9
+  document.querySelectorAll('.ort-level-4-plus').forEach(function(el){
+    const show = level >= 4 && level <= 9;
+    el.style.display = show ? 'flex' : 'none';
+    if(!show) el.classList.remove('done');
+  });
+
+  // 안내 메시지
+  if(notice && noticeText){
+    notice.style.display = 'block';
+    if(level <= 2){
+      noticeText.innerHTML = '<b>ORT' + level + '</b> — W·T·C·P·📓·D·S·Q·📔·C 단계 (퀴즈까지)';
+    } else if(level === 3){
+      noticeText.innerHTML = '<b>ORT3</b> — 기존 단계 + <b style="color:var(--pink)">L 라이팅</b> 추가 ✏️';
+    } else if(level >= 4 && level <= 9){
+      noticeText.innerHTML = '<b>ORT' + level + '</b> — 기존 단계 + <b style="color:var(--pink)">L 라이팅</b> + <b style="color:#ca8a04">R ORT 리뷰</b> 🔁';
+    } else {
+      noticeText.innerHTML = '<b>ORT' + level + '</b> — 기존 단계 + <b style="color:var(--pink)">L 라이팅</b> ✏️';
+    }
+  }
+}
+
+// 진도 완료 버튼: 모드별 활성화 조건
+function checkComplete(){
+  const d=document.getElementById('progDetail').value.trim();
+  const btn=document.getElementById('completeBtn');
+  const lbl=document.getElementById('completeBtnLabel');
+
+  // 현재 보이는 학습 단계 영역 안의 체크된 항목만 카운트
+  let activeSection = 'stepsOther';
+  if(currentMode==='ORT진도') activeSection='stepsORT';
+  else if(currentMode==='ORT복습') activeSection='stepsReview';
+  else if(currentMode==='다독진도') activeSection='stepsDadok';
+  else if(currentMode==='듣기평가') activeSection='stepsListening';
+  else if(currentMode==='내신') activeSection='stepsNaesin';
+  const anyStep=document.querySelectorAll(`#${activeSection} .si-modern.done, #${activeSection} .wb-modern.done`).length>0;
+
+  // 듣기평가 모드: 학년이 선택되면 자동으로 듣기평가 카드 체크 처리 + 활성화
+  if(currentMode==='듣기평가'){
+    const grade=document.getElementById('listeningGrade').value;
+    const score=document.getElementById('listeningScore').value;
+    if(grade){
+      // 진도 입력 자동 생성 (학년 + 점수)
+      if(grade && !d){
+        const auto = grade + ' 듣기평가' + (score ? ' '+score+'점' : '');
+        btn.disabled=false;
+        lbl.textContent='「'+auto+'」 진도 완료';
+        return;
+      }
+      if(d){
+        btn.disabled=false;
+        lbl.textContent='「'+d+'」 진도 완료';
+        return;
+      }
+    }
+    if(anyStep && d){
+      btn.disabled=false;
+      lbl.textContent='「'+d+'」 진도 완료';
+      return;
+    }
+    btn.disabled=true;
+    lbl.textContent='진도 완료 — 학년을 선택하세요';
+    return;
+  }
+
+  // 기타 모드: 세부사항 입력만으로 활성화
+  if(currentMode==='기타'){
+    const detail=document.getElementById('otherDetail').value.trim();
+    if(detail){
+      btn.disabled=false;
+      lbl.textContent='「'+detail+'」 진도 완료';
+      return;
+    }
+    btn.disabled=true;
+    lbl.textContent='진도 완료 — 세부사항을 입력하세요';
+    return;
+  }
+
+  // 내신 모드: 학습 단계 1개라도 체크되면 활성화
+  if(currentMode==='내신'){
+    if(anyStep){
+      const label = d || ('내신 학습 ('+naesinDone.size+'개 암기)');
+      btn.disabled=false;
+      lbl.textContent='「'+label+'」 진도 완료';
+      return;
+    }
+    btn.disabled=true;
+    lbl.textContent='진도 완료 — 학습 단계를 1개 이상 체크하세요';
+    return;
+  }
+
+  // 일반 모드
+  if(d && anyStep){
+    btn.disabled=false;
+    lbl.textContent='「'+d+'」 진도 완료';
+  } else if(!d){
+    btn.disabled=true;
+    lbl.textContent='진도 완료 — 진도를 먼저 입력하세요';
+  } else {
+    btn.disabled=true;
+    lbl.textContent='진도 완료 — 1개 이상 선택하세요';
+  }
+}
+
+function completeProgress(){
+  const detail=document.getElementById('progDetail').value.trim();if(!detail)return;
+  doneEntries.push({label:detail});
+  renderDoneList();
+  document.querySelectorAll('.si-modern.done').forEach(el=>el.classList.remove('done'));
+  document.querySelectorAll('.wb-modern.done').forEach(el=>el.classList.remove('done'));
+  ['sw','sp','sq'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  document.getElementById('progDetail').value='';document.getElementById('progDetail').classList.remove('filled');
+  document.getElementById('continueBtn').classList.remove('on');
+  checkComplete();
+  saveTodayRecord();
+}
+
+function renderDoneList(){
+  document.getElementById('doneCount').textContent=doneEntries.length;
+  document.getElementById('doneListWrap').style.display=doneEntries.length>0?'block':'none';
+  document.getElementById('doneList').innerHTML=doneEntries.map((e,i)=>`<div class="done-chip"><span class="done-tag">완료</span><span class="done-label">${e.label}</span><button class="done-del" onclick="delDone(${i})">✕</button></div>`).join('');
+}
+function delDone(i){doneEntries.splice(i,1);renderDoneList();}
+
+function togSIM(el){el.classList.toggle('done');checkComplete();}
+function togWBM(el){el.classList.toggle('done');checkComplete();}
+
+function selHwBig(btn){
+  btn.parentElement.querySelectorAll('.hw-big-btn').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  // △ 또는 × 선택 시 안 한 과제 메모란 표시
+  const memo = document.getElementById('hwMissedMemo');
+  if(memo){
+    if(btn.classList.contains('tri') || btn.classList.contains('x')){
+      memo.style.display = 'block';
+    } else {
+      memo.style.display = 'none';
+    }
+  }
+}
+function toggleSame(){sameAsLast=!sameAsLast;document.getElementById('sameBtn').style.background=sameAsLast?'#6d28d9':'var(--purple)';}
+
+function calcAcc(){
+  const c=document.getElementById('vc').value,t=parseInt(document.getElementById('vt').value)||20;
+  const frac=document.getElementById('vocabFrac'),pct=document.getElementById('vocabPct'),result=document.getElementById('vocabResult');
+  if(c===''||c===null){frac.textContent='— / '+t;pct.textContent='—%';result.className='vocab-result-big';return;}
+  const cv=parseInt(c)||0,p=t>0?Math.round(cv/t*100):0;
+  frac.textContent=cv+' / '+t;
+  pct.textContent=p+'%';
+  if(p>=80) result.className='vocab-result-big high';
+  else if(p>=60) result.className='vocab-result-big mid';
+  else result.className='vocab-result-big low';
+}
+
+function selSat(btn){
+  btn.parentElement.querySelectorAll('.sat-btn').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+}
+
+// === 숙제 수정 모드 토글 ===
+let editMode = false;
+function toggleEdit(){
+  editMode = !editMode;
+  const viewEl = document.getElementById('hwViewMode');
+  const editEl = document.getElementById('hwEditMode');
+  const editBtn = document.getElementById('editBtn');
+  if(editMode){
+    // 수정 모드 진입
+    viewEl.style.display='none';
+    editEl.style.display='block';
+    editBtn.textContent = '완료';
+    editBtn.style.background = 'var(--purple)';
+    editBtn.style.color = 'white';
+    editBtn.style.border = 'none';
+  } else {
+    // 보기 모드 복귀 - input 값을 view에 반영
+    document.querySelectorAll('.hw-edit-input').forEach(inp=>{
+      const idx = inp.dataset.idx;
+      const target = document.querySelector(`.hw-text[data-idx="${idx}"]`);
+      if(target) target.textContent = inp.value;
+    });
+    viewEl.style.display='block';
+    editEl.style.display='none';
+    editBtn.textContent = '수정';
+    editBtn.style.background = 'white';
+    editBtn.style.color = 'var(--purple)';
+    editBtn.style.border = '1.5px solid var(--purple)';
+    syncHwToMission();
+  }
+}
+
+// === 기본 숙제 → 오늘의 미션 "해올 숙제" 자동 동기화 ===
+function syncHwToMission(){
+  let texts;
+  if(editMode){
+    texts = [...document.querySelectorAll('.hw-edit-input')].map(i=>i.value.trim()).filter(Boolean);
+  } else {
+    texts = [...document.querySelectorAll('.hw-text')].map(i=>i.textContent.trim()).filter(Boolean);
+  }
+  const missionEl = document.getElementById('missionHomework');
+  if(missionEl) missionEl.textContent = texts.join(' · ');
+}
+
+// === 학습 진도 교재 + 선생님 관리란 추가 교재 ===
+// 실제 앱에서는 선생님 대시보드에서 학생별로 설정
+const studentBooks = {
+  ort: 'ORT2',          // 현재 ORT 단계
+  dadok: 'Fly Guy',     // 현재 다독 교재
+  extras: []            // 선생님이 추가로 설정한 교재 (예: ['단어800', 'RG1', '문법책'])
+};
+
+function syncMissionBooks(){
+  const parts = [];
+  if(studentBooks.ort) parts.push(studentBooks.ort);
+  if(studentBooks.dadok) parts.push(studentBooks.dadok);
+  studentBooks.extras.forEach(b=>{ if(b) parts.push(b); });
+  const el = document.getElementById('missionBooks');
+  if(el) el.textContent = parts.join(' · ');
+}
+
+// 데모: 선생님 추가 교재 예시
+studentBooks.extras = ['단어800', 'RG1'];
+// 성장 그래프 — 실제 저장된 일별 W(단어)/P(퍼즐)/Q(퀴즈) 점수 기반 (daily_logs.test_scores).
+// 교재 완료 시험 결과(test_records)는 성장 그래프가 아니라 '교재 완료' 위치에 표시.
+const GAREA_META={ all:{color:'#14b8a6',name:'전체 평균'}, w:{color:'#3b82f6',name:'W 단어'}, p:{color:'#8b5cf6',name:'P 퍼즐'}, q:{color:'#22c55e',name:'Q 퀴즈'} };
+function gNum(v){ if(v==null) return null; const s=String(v).trim(); if(s==='') return null;
+  if(s.includes('/')){ const [a,b]=s.split('/'); const n=+a,d=+b; return (d>0&&isFinite(n))?Math.round(n/d*100):null; }
+  const n=+s; return isFinite(n)?n:null; }
+function gBuildSeries(history){
+  const S={ all:[], w:[], p:[], q:[] };
+  (history||[]).forEach(row=>{
+    const ts=row.test_scores||{}, dt=row.log_date;
+    const w=gNum(ts.W), p=gNum(ts.P), q=gNum(ts.Q);
+    if(w!=null) S.w.push({dt,val:w});
+    if(p!=null) S.p.push({dt,val:p});
+    if(q!=null) S.q.push({dt,val:q});
+    const arr=[w,p,q].filter(x=>x!=null);
+    if(arr.length) S.all.push({dt,val:Math.round(arr.reduce((a,b)=>a+b,0)/arr.length)});
+  });
+  return S;
+}
+function gMk(arr, days, ak){
+  const meta=GAREA_META[ak];
+  const today=new Date().toISOString().slice(0,10);
+  const since=Date.now()-days*86400000;
+  let pts=(arr||[]).filter(x=> new Date(x.dt+'T00:00').getTime()>=since);
+  if(pts.length>6) pts=pts.slice(pts.length-6);
+  const vals=pts.map(x=>x.val);
+  const labels=pts.map(x=> x.dt===today?'오늘':(+x.dt.slice(5,7))+'/'+(+x.dt.slice(8,10)));
+  let trend='';
+  if(vals.length>=2){ const diff=vals[vals.length-1]-vals[0]; trend=(diff>=0?'+':'')+diff+'점'; }
+  else if(vals.length===1) trend='기록 1회';
+  return { vals, labels, color:meta.color, name:meta.name, trend };
+}
+function computePgData(history){
+  const S=gBuildSeries(history);
+  const periods={ week:7, month:31, '3months':92 };
+  const out={};
+  for(const pk of Object.keys(periods)){ out[pk]={}; for(const ak of ['all','w','p','q']) out[pk][ak]=gMk(S[ak], periods[pk], ak); }
+  return out;
+}
+let pgData=computePgData([]);
+let curGPeriod='month', curGArea='all';
+async function loadGraphData(){
+  const r=await stuApi('get-history', { payload:{ days:120 } }).catch(()=>({ok:false}));
+  pgData=computePgData((r&&r.ok&&r.history)?r.history:[]);
+  renderChart(curGArea);
+  renderAreaCards();
+}
+// 영역별 점수 카드 — 최신 W/P/Q 점수 + 추세 (넓은 창=3개월 기준)
+function renderAreaCards(){
+  [['w','skW','skWt'],['p','skP','skPt'],['q','skQ','skQt']].forEach(([ak,vid,tid])=>{
+    const d=pgData['3months'][ak];
+    const vEl=document.getElementById(vid), tEl=document.getElementById(tid);
+    if(vEl) vEl.textContent = d.vals.length ? d.vals[d.vals.length-1]+'점' : '—';
+    if(tEl) tEl.textContent = d.trend || '';
+  });
+}
+
+function renderChart(area){
+  if(area) curGArea=area;
+  const d = (pgData[curGPeriod] && pgData[curGPeriod][curGArea]) || null;
+  if(!d) return;
+  const n = d.vals.length;
+  const linePath = document.getElementById('chartLinePath');
+  const areaPath = document.getElementById('chartAreaPath');
+  if(linePath) linePath.style.display = 'none';
+  if(areaPath) areaPath.style.display = 'none';
+  const dots = document.getElementById('chartDots');
+  const valsEl = document.getElementById('chartValues');
+  const xl = document.getElementById('chartXLabels');
+  // 기록 없음: 빈 상태
+  if(!n){
+    if(dots) dots.innerHTML = '<text x="160" y="78" text-anchor="middle" font-size="12" font-weight="700" fill="#9ca3af" font-family="Noto Sans KR,sans-serif">아직 기록된 점수가 없어요</text>';
+    if(valsEl) valsEl.innerHTML = '';
+    if(xl) xl.innerHTML = '';
+    document.getElementById('growthVal').textContent = '—';
+    document.getElementById('growthAreaName').textContent = d.name;
+    document.getElementById('growthTrend').textContent = '기록 없음';
+    return;
+  }
+  // 막대 차트: n개 막대를 320 너비에 균등 분배
+  const barWidth = n>=5 ? 40 : Math.min(52, (320 - 24*(n+1)) / n);
+  const barGap = (320 - barWidth * n) / (n + 1);
+  let barsHtml = '', valsHtml = '';
+  d.vals.forEach(function(v, i){
+    const x = barGap + i * (barWidth + barGap);
+    const vc = Math.max(50, Math.min(100, v));      // 막대 높이는 50~100 범위로 클램프
+    const y = 140 - ((vc - 50) / 50) * 140;
+    const h = 140 - y;
+    const isLast = (i === n - 1);
+    const opacity = isLast ? '1' : '0.65';
+    barsHtml += '<rect x="' + x + '" y="' + y + '" width="' + barWidth + '" height="' + h + '" rx="6" fill="' + d.color + '" opacity="' + opacity + '"/>';
+    valsHtml += '<text x="' + (x + barWidth/2) + '" y="' + (y - 6) + '" text-anchor="middle" font-size="11" font-weight="800" fill="' + d.color + '" font-family="Plus Jakarta Sans,sans-serif">' + v + '</text>';
+  });
+  if(dots) dots.innerHTML = barsHtml;
+  if(valsEl) valsEl.innerHTML = valsHtml;
+  if(xl) xl.innerHTML = d.labels.map(l => '<span>' + l + '</span>').join('');
+  document.getElementById('growthVal').textContent = d.vals[n-1];
+  document.getElementById('growthAreaName').textContent = d.name;
+  document.getElementById('growthTrend').textContent = d.trend;
+}
+
+function switchArea(btn){
+  const area = btn.dataset.area;
+  document.querySelectorAll('.area-tab').forEach(t=>{
+    t.classList.remove('active');
+    t.style.background='white';
+    if(t.dataset.area==='all') t.style.color='var(--muted)';
+    else if(t.dataset.area==='w') t.style.color='var(--blue)';
+    else if(t.dataset.area==='p') t.style.color='var(--purple)';
+    else if(t.dataset.area==='q') t.style.color='var(--green)';
+    t.style.borderColor='#f3f4f6';
+  });
+  btn.classList.add('active');
+  const meta = GAREA_META[area];
+  btn.style.background = meta.color;
+  btn.style.color = 'white';
+  btn.style.borderColor = meta.color;
+  renderChart(area);
+}
+
+// 영역별 점수 카드 클릭 → 그래프 영역 탭도 자동 전환
+function switchAreaFromCard(area){
+  const tab = document.querySelector(`.area-tab[data-area="${area}"]`);
+  if(tab) switchArea(tab);
+  // 그래프 영역으로 스크롤
+  document.querySelector('.growth-card').scrollIntoView({behavior:'smooth', block:'center'});
+}
+
+function switchPeriod(btn){btn.parentElement.querySelectorAll('.growth-tab').forEach(t=>t.classList.remove('active'));btn.classList.add('active');const t=btn.textContent.trim();curGPeriod=t==='주'?'week':t==='3개월'?'3months':'month';renderChart(curGArea);}
+function fmt(s){const m=Math.floor(s/60),ss=s%60;return String(m).padStart(2,'0')+':'+String(ss).padStart(2,'0');}
+function setDur(d,el){dur=d;secs=0;document.querySelectorAll('.hero-btn').forEach(b=>b.classList.remove('on'));el.classList.add('on');}
+function tick(){secs++;if(secs>dur*60)secs=0;const el=document.getElementById('timerNum'),fill=document.getElementById('timerFill'),a=(dur-5)*60,p=Math.min(secs/a*100,100);if(el)el.textContent=fmt(secs);if(fill)fill.style.width=p+'%';}
+setInterval(tick,1000);
+
+// === D-Day 데이터 ===
+let ddayData = { name:'중3 1학기 중간고사', startDate:'2026-06-01', date:'2026-06-18' };
+
+function updateDdayMini(){
+  const today = new Date(); today.setHours(0,0,0,0);
+  const exam  = new Date(ddayData.date); exam.setHours(0,0,0,0);
+  const start = new Date(ddayData.startDate||ddayData.date); start.setHours(0,0,0,0);
+  const diff  = Math.ceil((exam-today)/(1000*60*60*24));
+  const diffStr = diff>0?`D-${diff}`:diff===0?'D-Day!':`D+${Math.abs(diff)}`;
+  const totalDays = Math.max(1,Math.ceil((exam-start)/(1000*60*60*24)));
+  const mini = document.getElementById('ddayMiniNum');
+  const miniL = document.getElementById('ddayMiniLabel');
+  const miniD = document.getElementById('ddayMiniDate');
+  if(mini) mini.textContent = diffStr;
+  if(miniL) miniL.textContent = ddayData.name;
+  if(miniD) miniD.textContent = `${start.getMonth()+1}/${start.getDate()} ~ ${exam.getMonth()+1}/${exam.getDate()} · ${totalDays}일간`;
+}
+
+function openDdayModal(){
+  const el = document.getElementById('ddayModalDesk');
+  if(!el){ buildDdayModal(); }
+  document.getElementById('ddayNameInputD').value = ddayData.name;
+  document.getElementById('ddayStartInputD').value = ddayData.startDate||ddayData.date;
+  document.getElementById('ddayDateInputD').value = ddayData.date;
+  updateDdayPeriodPreviewD();
+  document.getElementById('ddayPinWrapD').style.display='block';
+  document.getElementById('ddayBulkWrapD').style.display='none';
+  document.getElementById('ddayPinInputD').value='';
+  document.getElementById('ddayPinErrD').style.display='none';
+  switchDdayTabD('student');
+  document.getElementById('ddayModalDesk').style.display='flex';
+}
+
+function buildDdayModal(){
+  const m = document.createElement('div');
+  m.id='ddayModalDesk';
+  m.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:999;display:none;align-items:center;justify-content:center;padding:20px;';
+  m.innerHTML=`<div style="background:white;border-radius:20px;padding:24px;width:100%;max-width:420px;max-height:85vh;overflow-y:auto;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+      <div style="font-size:16px;font-weight:800;">📅 시험 D-Day 설정</div>
+      <button onclick="document.getElementById('ddayModalDesk').style.display='none'" style="background:var(--bg);border:none;border-radius:8px;padding:6px 12px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;">닫기</button>
+    </div>
+    <div style="display:flex;gap:4px;background:var(--bg);padding:3px;border-radius:11px;margin-bottom:16px;">
+      <button id="ddayTabStudentD" onclick="switchDdayTabD('student')" style="flex:1;padding:9px;border-radius:9px;border:none;font-size:12px;font-weight:800;cursor:pointer;font-family:inherit;background:white;color:var(--teal-d);">🙋 학생</button>
+      <button id="ddayTabTeacherD" onclick="switchDdayTabD('teacher')" style="flex:1;padding:9px;border-radius:9px;border:none;font-size:12px;font-weight:800;cursor:pointer;font-family:inherit;background:transparent;color:var(--muted);">👩‍🏫 선생님 일괄</button>
+    </div>
+    <!-- 학생 탭 -->
+    <div id="ddayStudentPaneD">
+      <div style="font-size:11px;font-weight:800;color:var(--text2);margin-bottom:6px;">시험명</div>
+      <input id="ddayNameInputD" type="text" placeholder="예) 중3 1학기 중간고사" style="width:100%;padding:10px 12px;border:1.5px solid #e5e7eb;border-radius:10px;font-size:13px;font-weight:600;font-family:inherit;outline:none;margin-bottom:10px;"/>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;">
+        <div>
+          <div style="font-size:11px;font-weight:800;color:var(--text2);margin-bottom:5px;">📚 준비 시작일</div>
+          <input id="ddayStartInputD" type="date" style="width:100%;padding:9px 11px;border:1.5px solid #e5e7eb;border-radius:10px;font-size:12px;font-weight:600;font-family:inherit;outline:none;" oninput="updateDdayPeriodPreviewD()"/>
+        </div>
+        <div>
+          <div style="font-size:11px;font-weight:800;color:var(--text2);margin-bottom:5px;">📅 시험 날짜</div>
+          <input id="ddayDateInputD" type="date" style="width:100%;padding:9px 11px;border:1.5px solid #e5e7eb;border-radius:10px;font-size:12px;font-weight:600;font-family:inherit;outline:none;" oninput="updateDdayPeriodPreviewD()"/>
+        </div>
+      </div>
+      <div id="ddayPeriodPreviewD" style="background:var(--bg);border-radius:8px;padding:7px 11px;font-size:11px;color:var(--muted);font-weight:600;text-align:center;margin-bottom:12px;"></div>
+      <button onclick="saveDdayD()" style="width:100%;padding:13px;background:linear-gradient(135deg,var(--teal),var(--teal-d));color:white;border:none;border-radius:12px;font-size:14px;font-weight:800;cursor:pointer;font-family:inherit;">✅ 저장하기</button>
+    </div>
+    <!-- 선생님 탭 -->
+    <div id="ddayTeacherPaneD" style="display:none;">
+      <div id="ddayPinWrapD">
+        <div style="background:var(--purple-light);border-radius:10px;padding:9px 12px;margin-bottom:10px;font-size:11px;color:var(--purple);font-weight:600;">🔒 PIN 확인 후 전체 학생에게 적용됩니다.</div>
+        <div style="display:flex;gap:8px;margin-bottom:10px;">
+          <input id="ddayPinInputD" type="password" placeholder="PIN 입력" maxlength="6" style="flex:1;padding:10px;border:1.5px solid #e5e7eb;border-radius:10px;font-size:16px;font-weight:800;text-align:center;letter-spacing:4px;font-family:'Plus Jakarta Sans',sans-serif;outline:none;" onkeydown="if(event.key==='Enter')checkDdayPinD()"/>
+          <button onclick="checkDdayPinD()" style="background:var(--purple);color:white;border:none;border-radius:10px;padding:10px 16px;font-size:13px;font-weight:800;cursor:pointer;font-family:inherit;">확인</button>
+        </div>
+        <div id="ddayPinErrD" style="display:none;text-align:center;font-size:11px;color:var(--red);font-weight:700;">❌ PIN이 맞지 않아요</div>
+      </div>
+      <div id="ddayBulkWrapD" style="display:none;">
+        <div style="font-size:11px;font-weight:800;color:var(--purple);margin-bottom:8px;">📋 시험 일정 목록</div>
+        <div id="ddayBulkListD" style="display:flex;flex-direction:column;gap:6px;margin-bottom:12px;"></div>
+        <div style="background:var(--bg);border-radius:12px;padding:12px;">
+          <div style="font-size:11px;font-weight:800;color:var(--text2);margin-bottom:7px;">➕ 새 시험 추가</div>
+          <input id="bulkNameInputD" type="text" placeholder="시험명" style="width:100%;padding:9px 11px;border:1.5px solid #e5e7eb;border-radius:9px;font-size:12px;font-weight:600;font-family:inherit;outline:none;margin-bottom:7px;"/>
+          <div style="display:flex;gap:7px;">
+            <input id="bulkDateInputD" type="date" style="flex:1;padding:9px 11px;border:1.5px solid #e5e7eb;border-radius:9px;font-size:12px;font-weight:600;font-family:inherit;outline:none;"/>
+            <button onclick="addBulkDdayD()" style="background:var(--purple);color:white;border:none;border-radius:9px;padding:9px 14px;font-size:12px;font-weight:800;cursor:pointer;font-family:inherit;">추가</button>
+          </div>
+        </div>
+        <button onclick="saveBulkDdayD()" style="width:100%;margin-top:10px;padding:13px;background:linear-gradient(135deg,var(--purple),#7c3aed);color:white;border:none;border-radius:12px;font-size:14px;font-weight:800;cursor:pointer;font-family:inherit;">✅ 전체 학생에게 적용</button>
+      </div>
+    </div>
+  </div>`;
+  document.body.appendChild(m);
+  m.addEventListener('click', e=>{ if(e.target===m) m.style.display='none'; });
+}
+
+function switchDdayTabD(tab){
+  const sp=document.getElementById('ddayStudentPaneD'), tp=document.getElementById('ddayTeacherPaneD');
+  const bs=document.getElementById('ddayTabStudentD'), bt=document.getElementById('ddayTabTeacherD');
+  if(tab==='student'){ sp.style.display='block'; tp.style.display='none'; bs.style.cssText+=';background:white;color:var(--teal-d);'; bt.style.cssText+=';background:transparent;color:var(--muted);'; }
+  else { sp.style.display='none'; tp.style.display='block'; bt.style.cssText+=';background:white;color:var(--purple);'; bs.style.cssText+=';background:transparent;color:var(--muted);'; }
+}
+
+function updateDdayPeriodPreviewD(){
+  const s=document.getElementById('ddayStartInputD').value, e=document.getElementById('ddayDateInputD').value;
+  const el=document.getElementById('ddayPeriodPreviewD');
+  if(!el) return;
+  if(s&&e){ const sd=new Date(s),ed=new Date(e); const days=Math.ceil((ed-sd)/(1000*60*60*24)); el.textContent=days>0?`📅 준비 기간 ${days}일 · ${sd.getMonth()+1}/${sd.getDate()} ~ ${ed.getMonth()+1}/${ed.getDate()}`:'⚠️ 날짜를 확인해주세요'; }
+}
+
+function saveDdayD(){
+  const prevDate=ddayData.date, prevName=ddayData.name;
+  ddayData.name      = document.getElementById('ddayNameInputD').value.trim()||ddayData.name;
+  ddayData.startDate = document.getElementById('ddayStartInputD').value||ddayData.startDate;
+  ddayData.date      = document.getElementById('ddayDateInputD').value||ddayData.date;
+  if(prevDate!==ddayData.date||prevName!==ddayData.name){
+    if(naesinHistory.length>0){ try{ localStorage.setItem(`el_naesin_archive_${prevDate}`,JSON.stringify({name:prevName,records:naesinHistory})); }catch(e){} }
+    naesinHistory=[]; saveNaesinHistory(naesinHistory);
+    const exam=new Date(ddayData.date); exam.setHours(0,0,0,0);
+    const today=new Date(); today.setHours(0,0,0,0);
+    if(exam<today){ naesinDone=new Set(); try{ localStorage.removeItem(STORAGE_KEY); }catch(e){} }
+  }
+  document.getElementById('ddayModalDesk').style.display='none';
+  updateDdayMini(); renderNaesinRange();
+  alert(`✅ ${ddayData.name} 설정됨!`);
+}
+
+const TEACHER_PIN_D='1234';
+let bulkDdaysD=[{id:1,name:'중3 1학기 중간고사',date:'2026-06-18'},{id:2,name:'중3 1학기 기말고사',date:'2026-07-14'}];
+let bulkNextIdD=3;
+
+function checkDdayPinD(){
+  if(document.getElementById('ddayPinInputD').value===TEACHER_PIN_D){
+    document.getElementById('ddayPinWrapD').style.display='none';
+    document.getElementById('ddayBulkWrapD').style.display='block';
+    renderBulkDdayListD();
+  } else {
+    document.getElementById('ddayPinErrD').style.display='block';
+    document.getElementById('ddayPinInputD').value='';
+  }
+}
+function renderBulkDdayListD(){
+  const el=document.getElementById('ddayBulkListD'); if(!el) return;
+  const today=new Date(); today.setHours(0,0,0,0);
+  el.innerHTML=bulkDdaysD.map(d=>{
+    const exam=new Date(d.date); exam.setHours(0,0,0,0);
+    const diff=Math.ceil((exam-today)/(1000*60*60*24));
+    const ds=diff>0?`D-${diff}`:diff===0?'D-Day!':`D+${Math.abs(diff)}`;
+    const dc=diff<=7?'var(--red)':diff<=14?'var(--orange)':'var(--purple)';
+    return `<div style="background:white;border:1.5px solid #e5e7eb;border-radius:10px;padding:10px 12px;display:flex;align-items:center;gap:8px;"><div style="flex:1;"><div style="font-size:12px;font-weight:800;">${d.name}</div><div style="font-size:10px;color:var(--muted);">${exam.getMonth()+1}/${exam.getDate()}</div></div><div style="font-size:14px;font-weight:800;color:${dc};">${ds}</div><button onclick="applyBulkItemD(${d.id})" style="background:var(--purple-light);color:var(--purple);border:none;border-radius:7px;padding:4px 9px;font-size:10px;font-weight:800;cursor:pointer;">적용</button><button onclick="deleteBulkItemD(${d.id})" style="background:var(--red-light);color:var(--red);border:none;border-radius:7px;padding:4px 8px;font-size:10px;font-weight:800;cursor:pointer;">✕</button></div>`;
+  }).join('');
+}
+function addBulkDdayD(){ const n=document.getElementById('bulkNameInputD').value.trim(),dt=document.getElementById('bulkDateInputD').value; if(!n||!dt) return; bulkDdaysD.push({id:bulkNextIdD++,name:n,date:dt}); document.getElementById('bulkNameInputD').value=''; document.getElementById('bulkDateInputD').value=''; renderBulkDdayListD(); }
+function deleteBulkItemD(id){ bulkDdaysD=bulkDdaysD.filter(d=>d.id!==id); renderBulkDdayListD(); }
+function applyBulkItemD(id){ const it=bulkDdaysD.find(d=>d.id===id); if(!it) return; ddayData.name=it.name; ddayData.date=it.date; document.getElementById('ddayModalDesk').style.display='none'; updateDdayMini(); renderNaesinRange(); }
+function saveBulkDdayD(){ const today=new Date(); today.setHours(0,0,0,0); const up=bulkDdaysD.filter(d=>new Date(d.date)>=today).sort((a,b)=>new Date(a.date)-new Date(b.date)); if(up.length>0){ddayData.name=up[0].name;ddayData.date=up[0].date;} document.getElementById('ddayModalDesk').style.display='none'; updateDdayMini(); renderNaesinRange(); }
+
+// === 내신 시험범위 ===
+// 내신 시험범위 — 선생님이 학교·학년별로 설정한 값을 로그인 후 DB에서 불러옴 (get-exam-scope)
+let naesinRange = {};
+let naesinScopeExam = ''; // 현재 로드된 시험명 (진행상황 저장키 구분용)
+
+// === localStorage에서 저장된 진행 상황 불러오기 (학생별·시험별 키) ===
+let STORAGE_KEY = 'el_naesin_done'; // loadNaesinDone에서 학생/시험별로 재설정
+let SCORE_KEY = 'el_naesin_scores';
+let naesinDone = new Set();
+let naesinScores = {}; // 점수 방식 항목 { itemId: '90' }
+function loadNaesinDone(){
+  const sid = (typeof stuCurrent!=='undefined' && stuCurrent) ? stuCurrent.login_id : 'guest';
+  const suffix = sid + (naesinScopeExam ? '_' + naesinScopeExam : '');
+  STORAGE_KEY = 'el_naesin_done_' + suffix;
+  SCORE_KEY = 'el_naesin_scores_' + suffix;
+  try { const saved = localStorage.getItem(STORAGE_KEY); naesinDone = saved ? new Set(JSON.parse(saved)) : new Set(); }
+  catch(e) { naesinDone = new Set(); }
+  try { naesinScores = JSON.parse(localStorage.getItem(SCORE_KEY)) || {}; }
+  catch(e) { naesinScores = {}; }
+}
+loadNaesinDone();
+function saveNaesinScores(){
+  try { localStorage.setItem(SCORE_KEY, JSON.stringify(naesinScores)); } catch(e){}
+}
+// 점수 입력/수정 — 값 있으면 완료로 집계, 비우면 미완료
+function naesinSetScore(id, val){
+  const v = String(val==null?'':val).trim();
+  if(v==='') { delete naesinScores[id]; naesinDone.delete(id); }
+  else { naesinScores[id] = v; naesinDone.add(id); }
+  saveNaesinScores();
+  saveNaesinDone();
+  renderNaesinRange();
+  loadNaesinRank();
+}
+
+// 로그인한 학생의 학교·학년에 맞는 시험범위 로드 → naesinRange 채우고 렌더
+let _examScopeLoaded = false;
+async function loadExamScope(force){
+  if(_examScopeLoaded && !force) return;
+  _examScopeLoaded = true;
+  const r = await stuApi('get-exam-scope', {}).catch(()=>({ok:false}));
+  const scope = (r && r.ok && r.scope) ? r.scope : null;
+  naesinRange = {};
+  naesinScopeExam = scope ? (scope.exam_name||'') : '';
+  if(scope && scope.items && typeof scope.items==='object'){
+    Object.keys(scope.items).forEach(g=>{
+      const arr = Array.isArray(scope.items[g]) ? scope.items[g] : [];
+      const items = arr.map((x,i)=> typeof x==='string'
+        ? {id:g+'-'+(i+1), label:x, mode:'check'}
+        : {id:(x&&x.id)||g+'-'+(i+1), label:(x&&x.label)||'', mode:(x&&x.mode)==='score'?'score':'check'}
+      ).filter(it=>it.label);
+      if(items.length) naesinRange[g] = items;
+    });
+  }
+  // 선생님이 설정한 시험 날짜 → D-Day 자동 반영 (학교마다 다름, 학생 수동설정보다 우선)
+  if(scope && scope.exam_date){
+    ddayData.date = scope.exam_date;
+    if(naesinScopeExam) ddayData.name = naesinScopeExam;
+    ddayData.startDate = scope.prep_start_date || ddayData.startDate || scope.exam_date;
+  }
+  loadNaesinDone();
+  // 서버 저장 완료항목(선생님이 체크했을 수 있음)이 있으면 정답으로 사용, 없으면 로컬 유지 후 밀어올림
+  const serverDone = (r && Array.isArray(r.done_ids)) ? r.done_ids : [];
+  if(serverDone.length){ naesinDone = new Set(serverDone); saveNaesinDone(); }
+  const exEl = document.getElementById('naesinExamName');
+  if(exEl) exEl.textContent = naesinScopeExam || '';
+  renderNaesinRange();
+  updateDdayMini();
+  // 내 현재 진행률을 서버에 반영(순위 풀에 포함) 후 익명 top3 순위 로드
+  saveNaesinToServer();
+  loadNaesinRank();
+}
+
+function saveNaesinDone(){
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify([...naesinDone]));
+  } catch(e) {}
+  saveNaesinToServer();   // 순위 비교용 서버 저장 (디바운스)
+}
+
+const groupColors = {
+  '본문': { bg:'#dbeafe', txt:'#1e40af', icon:'ti-book' },
+  '대화문': { bg:'#dcfce7', txt:'#15803d', icon:'ti-messages' },
+  '문법': { bg:'#ede9fe', txt:'#6d28d9', icon:'ti-abc' },
+  '추가지문': { bg:'#fce7f3', txt:'#be185d', icon:'ti-plus' },
+  '단어': { bg:'#ffedd5', txt:'#c2410c', icon:'ti-vocabulary' },
+  '숙제목록': { bg:'#ccfbf1', txt:'#0f766e', icon:'ti-checklist' },
+  '추가항목': { bg:'#e0e7ff', txt:'#4338ca', icon:'ti-plus' }
+};
+
+function renderNaesinRange(){
+  const list = document.getElementById('naesinRangeList');
+  if(!list) return;
+  list.innerHTML = '';
+  if(!naesinRange || !Object.keys(naesinRange).length){
+    list.innerHTML = '<div style="text-align:center;padding:24px 12px;color:var(--muted);font-size:12px;font-weight:600;line-height:1.6;">📭 아직 등록된 시험범위가 없어요.<br>선생님이 시험범위를 설정하면 여기에 표시됩니다.</div>';
+    if(typeof updateNaesinProgress==='function') updateNaesinProgress();
+    return;
+  }
+  Object.keys(naesinRange).forEach(group=>{
+    const items = naesinRange[group];
+    const c = groupColors[group];
+    const groupDone = items.filter(it=>naesinDone.has(it.id)).length;
+    const html = `
+      <div style="background:${c.bg};border-radius:14px;padding:12px 14px">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+          <div style="display:flex;align-items:center;gap:6px;font-size:12px;font-weight:800;color:${c.txt}">
+            <i class="ti ${c.icon}" style="font-size:14px"></i> ${group}
+          </div>
+          <div style="font-size:11px;font-weight:700;color:${c.txt}">${groupDone} / ${items.length}</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:5px">
+          ${items.map(it=>{
+            const done = naesinDone.has(it.id);
+            if(it.mode==='score'){
+              const sc = naesinScores[it.id]!=null ? naesinScores[it.id] : '';
+              return `
+              <div style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:${done?'white':'rgba(255,255,255,0.6)'};border-radius:9px;border:1.5px solid ${done?c.txt:'transparent'};transition:.15s">
+                <span style="font-size:11px;font-weight:${done?'700':'600'};color:${done?c.txt:'#374151'};flex:1">${it.label}</span>
+                <input type="number" inputmode="numeric" value="${sc}" placeholder="점수" onchange="naesinSetScore('${it.id}', this.value)" onclick="event.stopPropagation()" style="width:66px;text-align:center;padding:5px 6px;border:1.5px solid ${done?c.txt:'#cbd5e1'};border-radius:8px;font-size:12px;font-weight:800;font-family:inherit;outline:none;color:${c.txt};background:white">
+                <span style="font-size:11px;color:${done?c.txt:'#9ca3af'};font-weight:700">점</span>
+              </div>
+            `;
+            }
+            return `
+              <div onclick="toggleNaesin('${it.id}')" style="display:flex;align-items:center;gap:8px;padding:8px 10px;background:${done?'white':'rgba(255,255,255,0.6)'};border-radius:9px;cursor:pointer;border:1.5px solid ${done?c.txt:'transparent'};transition:.15s">
+                <div style="width:18px;height:18px;border-radius:50%;border:2px solid ${done?c.txt:'#9ca3af'};background:${done?c.txt:'white'};display:flex;align-items:center;justify-content:center;flex-shrink:0">
+                  ${done?'<span style="color:white;font-size:10px;font-weight:800">✓</span>':''}
+                </div>
+                <span style="font-size:11px;font-weight:${done?'700':'600'};color:${done?c.txt:'#374151'};flex:1">${it.label}</span>
+                ${done?`<span style="font-size:9px;color:${c.txt};font-weight:700">암기완료</span>`:''}
+              </div>
+            `;
+          }).join('')}
+        </div>
+      </div>
+    `;
+    list.insertAdjacentHTML('beforeend', html);
+  });
+  updateNaesinProgress();
+}
+
+function toggleNaesin(id){
+  if(naesinDone.has(id)) naesinDone.delete(id);
+  else naesinDone.add(id);
+  saveNaesinDone();
+  renderNaesinRange();
+  checkComplete();
+}
+
+function updateNaesinProgress(){
+  const total = Object.values(naesinRange).reduce((s,arr)=>s+arr.length,0);
+  const done = naesinDone.size;
+  const pct = total>0 ? Math.round(done/total*100) : 0;
+  const pctEl = document.getElementById('naesinPct');
+  const fracEl = document.getElementById('naesinFrac');
+  const barEl = document.getElementById('naesinBar');
+  if(pctEl) pctEl.textContent = pct+'%';
+  if(fracEl) fracEl.textContent = done+' / '+total;
+  if(barEl) barEl.style.width = pct+'%';
+}
+
+// ── 🏆 내신 진행률 순위 (서버 저장 + 익명 top3) ──
+// 현재 시험범위(naesinRange) 기준 완료/전체 개수
+function computeNaesinCounts(){
+  let total=0, done=0;
+  Object.keys(naesinRange||{}).forEach(g=>{
+    (naesinRange[g]||[]).forEach(it=>{ total++; if(naesinDone.has(it.id)) done++; });
+  });
+  return { done, total };
+}
+let _naesinSaveTimer=null;
+function saveNaesinToServer(){
+  // 선생님 미리보기는 순위 오염 방지 위해 저장 안 함
+  if(typeof isTeacherView==='function' && isTeacherView()) return;
+  if(!naesinScopeExam) return;
+  clearTimeout(_naesinSaveTimer);
+  _naesinSaveTimer=setTimeout(async ()=>{
+    const c=computeNaesinCounts();
+    await stuApi('save-naesin', { payload:{ exam_name:naesinScopeExam, done_count:c.done, total_count:c.total, done_ids:[...naesinDone] } }).catch(()=>{});
+    loadNaesinRank();
+  }, 500);
+}
+async function loadNaesinRank(){
+  const card=document.getElementById('naesinRankCard'); if(!card) return;
+  if(!naesinScopeExam){ card.style.display='none'; return; }
+  const r=await stuApi('get-naesin-rank', { payload:{ exam_name:naesinScopeExam } }).catch(()=>({ok:false}));
+  const ranks=(r&&r.ok&&Array.isArray(r.ranks))?r.ranks:[];
+  const top=ranks.slice(0,3);
+  if(!top.length){ card.style.display='none'; return; }
+  const medals=['🥇','🥈','🥉'];
+  const styles=[
+    'background:linear-gradient(90deg,#fef9c3,#fff);border:1.5px solid #eab308;',
+    'background:var(--bg);border:1.5px solid var(--border);',
+    'background:#fff7ed;border:1.5px solid #fdba74;',
+  ];
+  const colors=['#ca8a04','#4b5563','#c2410c'];
+  document.getElementById('naesinRankList').innerHTML=top.map((t,i)=>`
+    <div style="display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:12px;${styles[i]}">
+      <div style="font-size:18px;">${medals[i]}</div>
+      <div style="flex:1;font-size:13px;font-weight:800;color:var(--text2,#374151);">${i+1}위</div>
+      <div style="font-size:17px;font-weight:800;color:${colors[i]};font-family:'Plus Jakarta Sans',sans-serif;">${t.pct}%</div>
+    </div>`).join('');
+  card.style.display='block';
+}
+
+function showLogoutPopup(){
+  saveTodayRecord();
+  // 하원 = 부모님께 하원 문자(하루 1회, 선생님 미리보기 제외)
+  if(typeof isTeacherView==='function' && !isTeacherView()){
+    stuApi('depart', {}).then(res => { if(res && res.ok && res.sent && typeof showToast==='function') showToast('🏠 하원! 부모님께 문자 발송'); }).catch(()=>{});
+  }
+  const popup = document.getElementById('logoutPopup');
+  popup.style.display = 'flex';
+}
+function goToLogin(){
+  // 로그아웃: 세션 지우고 실제 로그인 창(stuAuthOverlay)으로
+  sessionStorage.removeItem('stu');
+  stuCurrent = null;
+  location.reload();
+}
+
+// 초기 로드 - ORT진도 모드로 시작
+updateProg();
+renderNaesinRange();
+syncHwToMission();
+syncMissionBooks();
+renderChart('all');
+</script>
+</body>
+</html>
