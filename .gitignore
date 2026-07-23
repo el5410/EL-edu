@@ -1,0 +1,11 @@
+# 기본: 모든 파일 제외 (개인정보 보호를 위해 화이트리스트 방식)
+/*
+
+# 배포에 필요한 파일만 포함
+!/.gitignore
+!/index.html
+!/logo.png
+!/el_student_mobile_v1.html
+!/el_student_dashboard_v8.html
+!/el_parent_mobile_v1.html
+!/el_teacher_dashboard_v2.html
