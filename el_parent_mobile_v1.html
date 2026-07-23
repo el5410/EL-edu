@@ -939,11 +939,20 @@ async function loadChildGraph(){
 /* 시험범위 진행률 — 자녀 본인 % 만 (순위 없음) */
 function parFlattenIds(items){ const ids=[]; if(!items) return ids;
   Object.values(items).forEach(arr=>{ if(Array.isArray(arr)) arr.forEach(it=>{ if(it&&it.id) ids.push(it.id); }); }); return ids; }
+// 시험기간(준비 시작일 ~ 시험 날짜)에만 표시. 날짜 미설정 쪽은 제한 없음.
+function examInPeriod(start, end){
+  const d=new Date();
+  const today=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+  if(start && today < start) return false; // 준비 시작 전
+  if(end && today > end) return false;     // 시험 끝남
+  return true;
+}
 async function loadChildExam(){
   const card=document.getElementById('parentExamCard');
   const r=await parentApi('get-exam-scope',{}).catch(()=>({ok:false}));
   const scope=(r&&r.ok&&r.scope)?r.scope:null;
-  if(!scope){ if(card) card.style.display='none'; return; }
+  // 시험범위 없음 또는 시험기간이 아니면 카드 숨김
+  if(!scope || !examInPeriod(scope.prep_start_date, scope.exam_date)){ if(card) card.style.display='none'; return; }
   if(card) card.style.display='';
   const total=parFlattenIds(scope.items).length;
   const done=Array.isArray(r.done_ids)?r.done_ids.length:0;
