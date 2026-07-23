@@ -261,6 +261,17 @@ body{
 </head>
 <body>
 
+<!-- 학부모 로그인 오버레이 -->
+<div id="parAuthOverlay" style="position:fixed;inset:0;z-index:9999;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:13px;padding:24px">
+  <img src="logo.png" alt="EL 영어학원" style="width:260px;max-width:80vw;height:auto">
+  <div style="font-weight:800;color:#0d9488;font-size:16px">학부모 로그인</div>
+  <input id="parId" placeholder="자녀 아이디 (예: el3264)" autocapitalize="off" autocomplete="off" style="width:min(320px,86vw);padding:13px;border:1.5px solid #d1d5db;border-radius:11px;font-size:15px;box-sizing:border-box">
+  <input id="parPw" type="password" placeholder="학부모 비밀번호" style="width:min(320px,86vw);padding:13px;border:1.5px solid #d1d5db;border-radius:11px;font-size:15px;box-sizing:border-box">
+  <button onclick="parentLogin()" style="width:min(320px,86vw);padding:13px;border:0;border-radius:11px;background:#14b8a6;color:#fff;font-weight:800;font-size:15px;cursor:pointer">로그인</button>
+  <div id="parAuthMsg" style="color:#ef4444;font-size:13px;min-height:16px;font-weight:600"></div>
+  <div style="color:#9ca3af;font-size:12px;text-align:center;line-height:1.6">자녀 아이디와 학부모 비밀번호는<br>학원에서 안내받으세요 😊</div>
+</div>
+
 <!-- 헤더 -->
 <div class="header">
   <div class="hrow1">
@@ -268,10 +279,10 @@ body{
     <div class="hbadge">👨‍👩‍👧 학부모 페이지</div>
   </div>
   <div class="srow">
-    <div class="avatar">민</div>
+    <div class="avatar" data-child-avatar>민</div>
     <div>
-      <div class="sname">김민준</div>
-      <div class="smeta">초3 · 한솔초 · ID: el3264</div>
+      <div class="sname" data-child-name>김민준</div>
+      <div class="smeta" data-child-meta>초3 · 한솔초 · ID: el3264</div>
     </div>
   </div>
   <div class="hphone">💌 <a href="tel:01030065410">📱 010-3006-5410</a> 으로 연락 주세요</div>
@@ -315,10 +326,10 @@ body{
     <div class="hwbanner">
       <div class="hwbico">✅</div>
       <div class="hwinfo">
-        <div class="hwtitle">숙제 완료</div>
-        <div class="hwdesc">단어 20개 · 클래스카드 5개 · RG 1p · 문법 1p 모두 완료</div>
+        <div class="hwtitle" data-child-hw-title>숙제 완료</div>
+        <div class="hwdesc" data-child-hw-detail>단어 20개 · 클래스카드 5개 · RG 1p · 문법 1p 모두 완료</div>
       </div>
-      <div class="hwtag done">○ 완료</div>
+      <div class="hwtag done" data-child-hw-tag>○ 완료</div>
     </div>
 
     <!-- 오늘 숙제 안내 -->
@@ -344,7 +355,7 @@ body{
       <!-- 오늘 학습 -->
       <div style="background:linear-gradient(135deg,var(--teal-soft),#e0fdf4);border:1.5px solid var(--teal-light);border-radius:13px;padding:12px;">
         <div style="font-size:10px;font-weight:800;color:var(--teal-d);margin-bottom:7px;display:flex;align-items:center;gap:4px;">✨ 오늘 학습</div>
-        <div style="font-size:13px;font-weight:800;color:var(--text);margin-bottom:5px;">ORT2-3-4</div>
+        <div style="font-size:13px;font-weight:800;color:var(--text);margin-bottom:5px;" data-child-progress>ORT2-3-4</div>
         <div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:6px;">
           <span style="background:var(--teal);color:white;font-size:9px;font-weight:800;padding:2px 7px;border-radius:5px;">진행중</span>
           <span style="background:white;color:var(--teal-d);font-size:9px;font-weight:800;padding:2px 7px;border-radius:5px;border:1px solid var(--teal-light);">W·T·C·P ✓</span>
@@ -417,7 +428,7 @@ body{
     <div class="card-title">💬 선생님 코멘트</div>
     <div class="teachermsg">
       <div class="tmhead">👩‍🏫 EL 영어학원 선생님</div>
-      <div class="tmbody">민준이가 이번 주 ORT2 3단계를 잘 마무리하고 있어요! 클래스카드 녹음 연습을 꾸준히 해줘서 발음이 많이 좋아졌습니다. 다음 주도 화이팅! 🌟</div>
+      <div class="tmbody" data-child-msg>민준이가 이번 주 ORT2 3단계를 잘 마무리하고 있어요! 클래스카드 녹음 연습을 꾸준히 해줘서 발음이 많이 좋아졌습니다. 다음 주도 화이팅! 🌟</div>
     </div>
   </div>
 
@@ -452,8 +463,8 @@ body{
 <div id="sec-progress" class="section">
 
   <!-- 📚 시험범위 진행률 : 자녀 본인 % 만 표시 (다른 학생 1·2·3위 순위는 학부모에게 노출 안 함) -->
-  <!-- ⚠️ 데모값(백엔드 없음) — 학생/교사 페이지의 익명 top3 순위 카드는 학부모에 이식하지 않음 -->
-  <div class="card">
+  <!-- 시험범위 진행률: 자녀 본인 % (get-exam-scope 실데이터, 순위 미노출) -->
+  <div class="card" id="parentExamCard">
     <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px">
       <div class="card-title" style="margin:0">📚 시험범위 진행률 <span class="badge-s" id="parentExamName">중2 1학기 기말</span></div>
       <span style="font-size:26px;font-weight:800;color:var(--orange);font-family:'Plus Jakarta Sans',sans-serif;letter-spacing:-1px" id="parentNaesinPct">72%</span>
@@ -851,6 +862,98 @@ body{
 <script>
 // ── 네비게이션 ──
 const secMap={'sec-home':'nav-home','sec-record':'nav-record','sec-progress':'nav-progress','sec-message':'nav-message'};
+/* ══ 학부모 로그인 · 자녀 데이터 연결 (student-api parent-login, 조회 전용) ══ */
+const PAR_API='https://luthukvljefyaszrqrcr.supabase.co/functions/v1/student-api';
+const PAR_APIKEY='sb_publishable_2wz9gruax1iEhka-mLa1_g_yZ-NmiVM';
+let parentCurrent=null;
+async function parentApi(action,extra){
+  const body={ action,
+    login_id: parentCurrent?.login_id || document.getElementById('parId').value.trim(),
+    pw: parentCurrent?.pw || document.getElementById('parPw').value, ...extra };
+  const res=await fetch(PAR_API,{method:'POST',headers:{'Content-Type':'application/json','apikey':PAR_APIKEY},body:JSON.stringify(body)});
+  return res.json();
+}
+async function parentLogin(){
+  const msg=document.getElementById('parAuthMsg'); msg.textContent='';
+  const r=await parentApi('parent-login',{}).catch(()=>({ok:false,error:'네트워크 오류'}));
+  if(!r.ok){ msg.textContent=r.error||'로그인 실패'; return; }
+  parentCurrent={...r.student, pw:document.getElementById('parPw').value};
+  sessionStorage.setItem('par',JSON.stringify(parentCurrent));
+  document.getElementById('parAuthOverlay').style.display='none';
+  applyChildIdentity(); loadParentAll();
+}
+function parentLogout(){ sessionStorage.removeItem('par'); parentCurrent=null; document.getElementById('parAuthOverlay').style.display='flex'; }
+function parentBoot(){
+  const s=sessionStorage.getItem('par');
+  if(s){ try{ parentCurrent=JSON.parse(s); document.getElementById('parAuthOverlay').style.display='none'; applyChildIdentity(); loadParentAll(); }catch(e){} }
+}
+async function loadParentAll(){ await Promise.allSettled([loadChildToday(), loadChildGraph(), loadChildExam()]); }
+function applyChildIdentity(){
+  if(!parentCurrent) return;
+  const nm=parentCurrent.name||'';
+  document.querySelectorAll('[data-child-name]').forEach(el=>el.textContent=nm);
+  document.querySelectorAll('[data-child-avatar]').forEach(el=>el.textContent=nm.slice(-2)||nm);
+  const meta=[parentCurrent.level, parentCurrent.school, 'ID: '+parentCurrent.login_id].filter(Boolean).join(' · ');
+  document.querySelectorAll('[data-child-meta]').forEach(el=>el.textContent=meta);
+  const tm=document.querySelector('[data-child-msg]');
+  if(tm) tm.textContent = parentCurrent.teacher_msg || '아직 등록된 전달사항이 없어요 😊';
+}
+async function loadChildToday(){
+  const r=await parentApi('get-daily',{}).catch(()=>({ok:false}));
+  const d=(r&&r.ok&&r.daily)?r.daily:null;
+  const map={o:'○ 완료',tri:'△ 부분 완료',x:'× 미완',none:'과제 없음'};
+  const t=document.querySelector('[data-child-hw-title]'); if(t) t.textContent = d?.homework_done?(map[d.homework_done]||d.homework_done):'오늘 기록 없음';
+  const dd=document.querySelector('[data-child-hw-detail]'); if(dd) dd.textContent = d?.homework_detail || (d?.homework_done==='o'?'모든 숙제를 완료했어요 👍':'아직 오늘 숙제 기록이 없어요');
+  const tg=document.querySelector('[data-child-hw-tag]'); if(tg) tg.textContent = d?.homework_done?(map[d.homework_done]||''):'—';
+  const pg=document.querySelector('[data-child-progress]'); if(pg) pg.textContent = d?.progress || (parentCurrent?.current_books?.ort) || '오늘 기록 없음';
+}
+/* 성장 그래프 — 실제 저장된 일별 W/P/Q 점수 기반 (학생 페이지와 동일 로직) */
+const GAREA_META={ all:{color:'#14b8a6',name:'전체 평균'}, w:{color:'#3b82f6',name:'W 단어'}, p:{color:'#8b5cf6',name:'P 퍼즐'}, q:{color:'#22c55e',name:'Q 퀴즈'} };
+function gNum(v){ if(v==null) return null; const s=String(v).trim(); if(s==='') return null;
+  if(s.includes('/')){ const [a,b]=s.split('/'); const n=+a,d=+b; return (d>0&&isFinite(n))?Math.round(n/d*100):null; }
+  const n=+s; return isFinite(n)?n:null; }
+function gBuildSeries(history){
+  const S={all:[],w:[],p:[],q:[]};
+  (history||[]).forEach(row=>{ const ts=row.test_scores||{}, dt=row.log_date;
+    const w=gNum(ts.W),p=gNum(ts.P),q=gNum(ts.Q);
+    if(w!=null)S.w.push({dt,val:w}); if(p!=null)S.p.push({dt,val:p}); if(q!=null)S.q.push({dt,val:q});
+    const arr=[w,p,q].filter(x=>x!=null); if(arr.length)S.all.push({dt,val:Math.round(arr.reduce((a,b)=>a+b,0)/arr.length)}); });
+  return S;
+}
+function gMk(arr,days,ak){ const meta=GAREA_META[ak]; const today=new Date().toISOString().slice(0,10);
+  const since=Date.now()-days*86400000;
+  let pts=(arr||[]).filter(x=>new Date(x.dt+'T00:00').getTime()>=since);
+  if(pts.length>6) pts=pts.slice(pts.length-6);
+  const vals=pts.map(x=>x.val);
+  const labels=pts.map(x=> x.dt===today?'오늘':(+x.dt.slice(5,7))+'/'+(+x.dt.slice(8,10)));
+  let trend=''; if(vals.length>=2){const diff=vals[vals.length-1]-vals[0];trend=(diff>=0?'+':'')+diff+'점';} else if(vals.length===1) trend='기록 1회';
+  return {vals,labels,color:meta.color,name:meta.name,trend};
+}
+function computePgData(history){ const S=gBuildSeries(history); const periods={week:7,month:31,'3months':92}; const out={};
+  for(const pk of Object.keys(periods)){ out[pk]={}; for(const ak of ['all','w','p','q']) out[pk][ak]=gMk(S[ak],periods[pk],ak); } return out; }
+async function loadChildGraph(){
+  const r=await parentApi('get-history',{payload:{days:120}}).catch(()=>({ok:false}));
+  pgData=computePgData((r&&r.ok&&r.history)?r.history:[]);
+  renderGraph();
+}
+/* 시험범위 진행률 — 자녀 본인 % 만 (순위 없음) */
+function parFlattenIds(items){ const ids=[]; if(!items) return ids;
+  Object.values(items).forEach(arr=>{ if(Array.isArray(arr)) arr.forEach(it=>{ if(it&&it.id) ids.push(it.id); }); }); return ids; }
+async function loadChildExam(){
+  const card=document.getElementById('parentExamCard');
+  const r=await parentApi('get-exam-scope',{}).catch(()=>({ok:false}));
+  const scope=(r&&r.ok&&r.scope)?r.scope:null;
+  if(!scope){ if(card) card.style.display='none'; return; }
+  if(card) card.style.display='';
+  const total=parFlattenIds(scope.items).length;
+  const done=Array.isArray(r.done_ids)?r.done_ids.length:0;
+  const pct=total>0?Math.round(done/total*100):0;
+  const nm=document.getElementById('parentExamName'); if(nm) nm.textContent=scope.exam_name||'시험범위';
+  const p=document.getElementById('parentNaesinPct'); if(p) p.textContent=pct+'%';
+  const bar=document.getElementById('parentNaesinBar'); if(bar) bar.style.width=pct+'%';
+}
+window.addEventListener('DOMContentLoaded', parentBoot);
+
 function switchNav(sid,btn){
   document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
   document.querySelectorAll('.nitem').forEach(n=>n.classList.remove('active'));
@@ -1067,31 +1170,22 @@ function switchTL(btn,period){
 }
 
 // ── 성장 그래프 ──
-const pgData={
-  week:{
-    all:{vals:[80,82,84,86,88],color:'#14b8a6',name:'전체 평균',trend:'+8점',labels:['월','화','수','목','금']},
-    w:{vals:[78,80,82,85,88],color:'#3b82f6',name:'W 단어',trend:'+10점',labels:['월','화','수','목','금']},
-    p:{vals:[82,84,87,89,92],color:'#8b5cf6',name:'P 퍼즐',trend:'+10점',labels:['월','화','수','목','금']},
-    q:{vals:[68,72,76,80,85],color:'#22c55e',name:'Q 퀴즈',trend:'+17점',labels:['월','화','수','목','금']}
-  },
-  month:{
-    all:{vals:[72,78,80,85,88],color:'#14b8a6',name:'전체 평균',trend:'+12점',labels:['5/3','5/10','5/17','5/24','오늘']},
-    w:{vals:[66,72,78,82,88],color:'#3b82f6',name:'W 단어',trend:'+22점',labels:['5/3','5/10','5/17','5/24','오늘']},
-    p:{vals:[74,80,85,88,92],color:'#8b5cf6',name:'P 퍼즐',trend:'+18점',labels:['5/3','5/10','5/17','5/24','오늘']},
-    q:{vals:[50,62,70,78,85],color:'#22c55e',name:'Q 퀴즈',trend:'+35점',labels:['5/3','5/10','5/17','5/24','오늘']}
-  },
-  '3months':{
-    all:{vals:[60,68,75,82,88],color:'#14b8a6',name:'전체 평균',trend:'+28점',labels:['3월','3월말','4월','4월말','5월']},
-    w:{vals:[55,65,72,80,88],color:'#3b82f6',name:'W 단어',trend:'+33점',labels:['3월','3월말','4월','4월말','5월']},
-    p:{vals:[62,70,78,85,92],color:'#8b5cf6',name:'P 퍼즐',trend:'+30점',labels:['3월','3월말','4월','4월말','5월']},
-    q:{vals:[40,55,65,75,85],color:'#22c55e',name:'Q 퀴즈',trend:'+45점',labels:['3월','3월말','4월','4월말','5월']}
-  }
-};
+let pgData=computePgData([]); // 실데이터로 채워짐(loadChildGraph)
 let curPG='month',curAG='all';
 
 function renderGraph(){
   const d=pgData[curPG][curAG];if(!d)return;
-  const bw=42,gap=(320-bw*5)/6;
+  if(!d.vals||!d.vals.length){
+    document.getElementById('pgBars').innerHTML='';
+    document.getElementById('pgVals').innerHTML='';
+    document.getElementById('pgLabels').innerHTML='';
+    const gv=document.getElementById('growthVal'); if(gv){gv.textContent='—';gv.style.color=d.color;}
+    const gn=document.getElementById('growthAreaName'); if(gn)gn.textContent=d.name;
+    const gt=document.getElementById('growthTrend'); if(gt){gt.textContent='기록 없음';gt.style.background=(d.color||'#9ca3af')+'22';gt.style.color=d.color;}
+    return;
+  }
+  const n=d.vals.length;
+  const bw=42,gap=(320-bw*n)/(n+1);
   let bars='',vals='';
   d.vals.forEach((v,i)=>{
     const x=gap+i*(bw+gap);
