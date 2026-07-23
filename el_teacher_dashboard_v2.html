@@ -7867,17 +7867,47 @@ async function pollArrivals(){
   if(!document.querySelector('#scheduleSections .student-card')) return;
   const today = new Date().toISOString().slice(0,10);
   let logs=[];
-  try { const { data } = await sb.from('daily_logs').select('student_login_id,arrived_at').eq('log_date', today); logs=data||[]; }
+  try { const { data } = await sb.from('daily_logs').select('student_login_id,arrived_at,left_at,progress,test_scores').eq('log_date', today); logs=data||[]; }
   catch(e){ return; }
   const byId={}; logs.forEach(l=>byId[l.student_login_id]=l);
   document.querySelectorAll('#scheduleSections .student-card').forEach(card=>{
     const stu=cardStudent(card); if(!stu) return;
     const l=byId[stu.id];
     if(l && l.arrived_at){ if(card.dataset.arrived!==l.arrived_at){ card.dataset.arrived=l.arrived_at; renderCardTimer(card); } }
+    renderCardSummary(card, l);  // 진도·점수·소요시간 요약 갱신(학생 자기기록, 선생님 입력칸은 미변경)
   });
   updateSlotArrivalCounts();
 }
 setInterval(pollArrivals, 30000);
+
+// ── 오늘 학습 요약 칩 (학생 자기기록: 진도·소요시간·단어·W/P/Q). 클릭 없이 카드에서 바로 확인 ──
+function fmtDur(mins){ if(mins<60) return mins+'분'; const h=Math.floor(mins/60), m=mins%60; return m?`${h}시간 ${m}분`:`${h}시간`; }
+function scsChip(txt, color, bg){
+  return `<span style="display:inline-block;font-size:10px;font-weight:800;padding:3px 8px;border-radius:7px;background:${bg||'#f1f5f9'};color:${color||'#475569'};font-family:'Plus Jakarta Sans','Noto Sans KR',sans-serif;">${txt}</span>`;
+}
+function renderCardSummary(card, log){
+  const old = card.querySelector('.sc-summary'); if(old) old.remove();
+  if(!log) return;
+  const ts = log.test_scores || {};
+  const chips = [];
+  // 소요시간: 하원 완료(left_at)일 때만 총 수업시간 (수업 중 경과는 타이머가 이미 표시)
+  if(log.arrived_at && log.left_at){
+    const mins = Math.max(0, Math.round((new Date(log.left_at)-new Date(log.arrived_at))/60000));
+    if(mins>0) chips.push(scsChip('⏱ '+fmtDur(mins)));
+  }
+  [['W','#2563eb','#eff6ff'],['P','#7c3aed','#f5f3ff'],['Q','#16a34a','#f0fdf4']].forEach(([k,c,bg])=>{
+    const v = ts[k]; if(v!=null && v!=='') chips.push(scsChip(k+' '+v, c, bg));
+  });
+  const prog = log.progress || '';
+  if(!prog && !chips.length) return; // 표시할 게 없으면 숨김
+  const H = (typeof esH==='function') ? esH : (v=>String(v==null?'':v));
+  const box = document.createElement('div');
+  box.className = 'sc-summary';
+  box.style.cssText = 'margin-top:8px;padding:9px 11px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;';
+  box.innerHTML = `${prog?`<div style="font-size:12px;font-weight:800;color:#0f172a;margin-bottom:6px;">📚 ${H(prog)}</div>`:''}<div style="display:flex;flex-wrap:wrap;gap:5px;">${chips.join('')}</div>`;
+  const ps = card.querySelector('.sc-prog-section');
+  if(ps) ps.after(box); else card.appendChild(box);
+}
 
 // 오늘 저장된 값으로 카드 채우기
 async function loadCardsDaily(){
@@ -7885,7 +7915,7 @@ async function loadCardsDaily(){
   const today = new Date().toISOString().slice(0,10);
   let logs = [];
   try {
-    const { data } = await sb.from('daily_logs').select('student_login_id,homework_done,test_scores,arrived_at').eq('log_date', today);
+    const { data } = await sb.from('daily_logs').select('student_login_id,homework_done,test_scores,arrived_at,left_at,progress').eq('log_date', today);
     logs = data || [];
   } catch(e){ console.error('loadCardsDaily', e); return; }
   const byId = {}; logs.forEach(l => byId[l.student_login_id] = l);
@@ -7907,6 +7937,7 @@ async function loadCardsDaily(){
         onVocabScore(box.querySelector('.sc-vocab-c'));
       }
     }
+    renderCardSummary(card, l);
   });
 }
 function initCardExtras(){ addVocabSections(); injectTimers(); }
