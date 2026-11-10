@@ -917,6 +917,36 @@ body { font-family: 'Noto Sans KR','Plus Jakarta Sans',sans-serif; background: l
 .chart-grid line { stroke: #f3f4f6; stroke-width: 1; }
 .chart-labels { display: flex; justify-content: space-between; margin-top: 8px; font-size: 10px; color: var(--muted); font-weight: 600; }
 
+
+/* ✍️ 교재 한 줄 입력 */
+.bq-bar{display:flex;gap:8px;align-items:center;background:linear-gradient(90deg,#ecfdf5,#f5f3ff);border:1.5px solid #ccfbf1;border-radius:14px;padding:10px 12px;flex-wrap:wrap}
+.bq-bar .bq-lbl{font-size:13px;font-weight:800;color:var(--teal-d);white-space:nowrap}
+.bq-bar input{flex:1;min-width:220px;border:1.5px solid var(--border);border-radius:10px;padding:9px 12px;font-size:13px;font-family:inherit;font-weight:600;background:white;outline:none}
+.bq-bar input:focus{border-color:var(--teal)}
+.bq-go{background:linear-gradient(135deg,var(--teal),var(--teal-d));color:white;border:none;border-radius:10px;padding:9px 16px;font-size:12px;font-weight:800;cursor:pointer;font-family:inherit;white-space:nowrap}
+.bq-go:disabled{opacity:.45;cursor:default}
+.bq-recent{display:flex;gap:6px;flex-wrap:wrap;width:100%;align-items:center}
+.bq-chip{font-size:10.5px;font-weight:700;padding:3px 8px;border-radius:7px;background:white;border:1px solid var(--border)}
+.bq-chip.fin{color:#15803d;border-color:#bbf7d0;background:#f0fdf4}.bq-chip.st{color:#6d28d9;border-color:#ddd6fe;background:#f5f3ff}
+#bqModal{position:fixed;inset:0;background:rgba(15,23,42,.45);z-index:10050;display:none;align-items:flex-start;justify-content:center;padding:6vh 12px;overflow:auto}
+.bq-box{background:white;border-radius:18px;width:620px;max-width:100%;padding:20px;box-shadow:0 20px 60px rgba(0,0,0,.25);box-sizing:border-box}
+.bq-box textarea{width:100%;box-sizing:border-box;border:1.5px solid var(--border);border-radius:12px;padding:10px 12px;font-size:14px;font-family:inherit;font-weight:600;resize:vertical;min-height:64px;outline:none}
+.bq-box textarea:focus{border-color:var(--teal)}
+.bq-ptitle{font-size:12px;font-weight:800;color:var(--muted);margin:14px 0 6px}
+.bq-row{display:flex;flex-wrap:wrap;align-items:center;gap:6px;padding:9px 10px;border:1.5px solid var(--border);border-radius:12px;margin-bottom:6px}
+.bq-who{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:800;min-width:92px}
+.bq-av{width:24px;height:24px;border-radius:7px;color:white;font-size:9px;font-weight:800;display:flex;align-items:center;justify-content:center}
+.bq-badge{font-size:11px;font-weight:800;padding:3px 8px;border-radius:7px;white-space:nowrap}
+.bq-badge.fin{background:#dcfce7;color:#15803d}.bq-badge.st{background:#ede9fe;color:#6d28d9}
+.bq-sel,.bq-inp{border:1.5px solid var(--border);border-radius:8px;padding:5px 8px;font-size:12px;font-family:inherit;font-weight:700;background:white}
+.bq-book{flex:1;min-width:150px}
+.bq-x{background:none;border:none;color:#9ca3af;cursor:pointer;font-size:13px;padding:4px}
+.bq-note{width:100%;font-size:11px;font-weight:700;color:#6d28d9;padding-left:98px}
+.bq-note.warn{color:#c2410c}
+.bq-err{font-size:12px;font-weight:700;color:#b91c1c;background:#fef2f2;border-radius:9px;padding:7px 10px;margin-top:8px}
+.bq-ex{font-size:11px;color:var(--muted);font-weight:600;margin:6px 0 0;line-height:1.8}
+.bq-ex code{background:var(--bg);padding:1px 6px;border-radius:5px;font-family:inherit;cursor:pointer}
+@media (max-width:600px){.bq-note{padding-left:0}.bq-who{min-width:0}}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
@@ -1678,6 +1708,14 @@ body { font-family: 'Noto Sans KR','Plus Jakarta Sans',sans-serif; background: l
         <div style="font-size:12px;color:var(--muted);font-weight:600;margin-top:2px;">ORT 9단계 · 다독 23종 · 기타 교재</div>
       </div>
 
+      <!-- ✍️ 교재 한 줄 입력 -->
+      <div class="bq-bar">
+        <span class="bq-lbl">✍️ 한 줄 입력</span>
+        <input id="bqBarInput" placeholder="예) 이정후 1200 단어 끝, 능률 기본 시작" onkeydown="if(event.key==='Enter'&&!event.isComposing){event.preventDefault();bqFromBar();}">
+        <button class="bq-go" onclick="bqFromBar()">반영하기</button>
+        <div class="bq-recent"><span style="font-size:11px;font-weight:800;color:var(--muted);">최근 변경</span><span id="bqRecent" style="display:contents"></span></div>
+      </div>
+
       <!-- 탭 버튼 (헤더 아래) -->
       <div style="display:flex;align-items:center;gap:0;border-bottom:2px solid var(--border);padding-bottom:0;">
         <button onclick="showBooksTab('ort')" id="booksTabOrt" style="padding:10px 24px;background:none;color:var(--teal-d);border:none;border-bottom:3px solid var(--teal);margin-bottom:-2px;font-size:13px;font-weight:800;cursor:pointer;font-family:inherit;">📚 ORT</button>
@@ -1697,8 +1735,8 @@ body { font-family: 'Noto Sans KR','Plus Jakarta Sans',sans-serif; background: l
 
           <!-- 왼쪽: 통계 카드 5개 세로 -->
           <div style="display:flex;flex-direction:column;gap:8px;">
-            <div style="background:white;border-radius:13px;padding:11px 14px;border:1.5px solid var(--border);border-left:4px solid var(--teal);display:flex;justify-content:space-between;align-items:center;"><span style="font-size:11px;color:var(--muted);font-weight:700;">학습 중</span><span style="font-size:18px;font-weight:800;color:var(--teal-d);font-family:'Plus Jakarta Sans',sans-serif;">12명</span></div>
-            <div style="background:white;border-radius:13px;padding:11px 14px;border:1.5px solid var(--border);border-left:4px solid var(--green);display:flex;justify-content:space-between;align-items:center;"><span style="font-size:11px;color:var(--muted);font-weight:700;">이달 완독</span><span style="font-size:18px;font-weight:800;color:var(--green);font-family:'Plus Jakarta Sans',sans-serif;">47권</span></div>
+            <div style="background:white;border-radius:13px;padding:11px 14px;border:1.5px solid var(--border);border-left:4px solid var(--teal);display:flex;justify-content:space-between;align-items:center;"><span style="font-size:11px;color:var(--muted);font-weight:700;">학습 중</span><span id="ortKpiLearning" style="font-size:18px;font-weight:800;color:var(--teal-d);font-family:'Plus Jakarta Sans',sans-serif;">12명</span></div>
+            <div style="background:white;border-radius:13px;padding:11px 14px;border:1.5px solid var(--border);border-left:4px solid var(--green);display:flex;justify-content:space-between;align-items:center;"><span style="font-size:11px;color:var(--muted);font-weight:700;">이달 완료</span><span id="ortKpiFinished" style="font-size:18px;font-weight:800;color:var(--green);font-family:'Plus Jakarta Sans',sans-serif;">0권</span></div>
             <div style="background:white;border-radius:13px;padding:11px 14px;border:1.5px solid var(--border);border-left:4px solid var(--blue);display:flex;justify-content:space-between;align-items:center;"><span style="font-size:11px;color:var(--muted);font-weight:700;">평균 진행률</span><span style="font-size:18px;font-weight:800;color:var(--blue);font-family:'Plus Jakarta Sans',sans-serif;">68%</span></div>
             <div style="background:white;border-radius:13px;padding:11px 14px;border:1.5px solid var(--border);border-left:4px solid var(--purple);display:flex;justify-content:space-between;align-items:center;"><span style="font-size:11px;color:var(--muted);font-weight:700;">승급 예정</span><span style="font-size:18px;font-weight:800;color:var(--purple);font-family:'Plus Jakarta Sans',sans-serif;">3명</span></div>
             <div style="background:white;border-radius:13px;padding:11px 14px;border:1.5px solid var(--border);border-left:4px solid var(--orange);display:flex;justify-content:space-between;align-items:center;"><span style="font-size:11px;color:var(--muted);font-weight:700;">내신 전환</span><span style="font-size:18px;font-weight:800;color:var(--orange);font-family:'Plus Jakarta Sans',sans-serif;">2명</span></div>
@@ -1774,7 +1812,7 @@ body { font-family: 'Noto Sans KR','Plus Jakarta Sans',sans-serif; background: l
 
       </div>
       <div id="booksPaneEtc" style="display:none;">
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;flex:1;min-width:0;">
           <div style="background:white;border-radius:16px;padding:18px;border:1.5px solid var(--border);">
             <div style="font-size:14px;font-weight:800;color:var(--blue);margin-bottom:12px;">📝 단어장</div>
             <div id="etcList_vocab"></div>
@@ -1793,7 +1831,7 @@ body { font-family: 'Noto Sans KR','Plus Jakarta Sans',sans-serif; background: l
             <div id="etcList_grammar"></div>
           </div>
           <div style="background:white;border-radius:16px;padding:18px;border:1.5px solid var(--border);">
-            <div style="font-size:14px;font-weight:800;color:#ca8a04;margin-bottom:12px;">📋 내신</div>
+            <div style="font-size:14px;font-weight:800;color:#ca8a04;margin-bottom:12px;">🎧 듣기 · 기타</div>
             <div id="etcList_naesin"></div>
           </div>
         </div>
@@ -2259,6 +2297,7 @@ body { font-family: 'Noto Sans KR','Plus Jakarta Sans',sans-serif; background: l
           <button class="qa-btn" onclick="quickExamScope()"><div class="qa-emoji">📝</div><div class="qa-lbl">시험범위 설정</div></button>
           <button class="qa-btn" onclick="switchPage('messages')"><div class="qa-emoji">💌</div><div class="qa-lbl">학생에게 메시지</div></button>
           <button class="qa-btn" onclick="switchPage('stats')"><div class="qa-emoji">📊</div><div class="qa-lbl">주간 리포트</div></button>
+          <button class="qa-btn" onclick="bqOpen('')"><div class="qa-emoji">✍️</div><div class="qa-lbl">교재 한 줄 입력</div></button>
         </div>
       </div>
 
@@ -5839,16 +5878,12 @@ function saveNewBook(){
   closeAddBookModal();
 }
 function initEtcBooks(){
-  window.etcBooks={
-    vocab:  [{name:'단어 800',students:3,memo:''},{name:'단어 1000',students:2,memo:''},{name:'수능 어휘',students:2,memo:''},{name:'중등 핵심',students:1,memo:''}],
-    reading:[{name:'RG1',students:3,memo:''},{name:'RG2',students:2,memo:''},{name:'RG3',students:1,memo:''}],
-    grammar:[{name:'그래머 인사이드 1',students:2,memo:''},{name:'그래머 인사이드 2',students:1,memo:''},{name:'자이스토리 문법',students:2,memo:''}],
-    naesin: [{name:'중1 내신',students:1,memo:''},{name:'중2 내신',students:1,memo:''}],
-  };
+  window.etcBooks={vocab:[],reading:[],grammar:[],naesin:[]};
+  syncBooksFromStudents();
 }
 function renderEtcBooks(){
   if(!window.etcBooks) initEtcBooks();
-  const types=[{key:'vocab',label:'단어장'},{key:'reading',label:'독해(RG)'},{key:'grammar',label:'문법'},{key:'naesin',label:'내신'}];
+  const types=[{key:'vocab',label:'단어장'},{key:'reading',label:'독해(RG)'},{key:'grammar',label:'문법'},{key:'naesin',label:'듣기·기타'}];
   types.forEach(t=>{
     const el=document.getElementById('etcList_'+t.key); if(!el) return;
     const items=window.etcBooks[t.key]||[];
@@ -5857,7 +5892,7 @@ function renderEtcBooks(){
         <div><div style="font-size:12px;font-weight:800;">${b.name}</div>${b.memo?`<div style="font-size:10px;color:var(--muted);">${b.memo}</div>`:''}</div>
         <div style="display:flex;align-items:center;gap:8px;">
           <span style="font-size:11px;color:var(--teal-d);font-weight:700;">${b.students||0}명</span>
-          <button onclick="removeEtcBook('${t.key}',${i})" style="background:var(--red-light);color:var(--red);border:none;border-radius:6px;padding:3px 8px;font-size:10px;font-weight:800;cursor:pointer;">✕</button>
+          ${b.live?'':`<button onclick="removeEtcBook('${t.key}',${i})" style="background:var(--red-light);color:var(--red);border:none;border-radius:6px;padding:3px 8px;font-size:10px;font-weight:800;cursor:pointer;">✕</button>`}
         </div>
       </div>`).join('')||'<div style="font-size:11px;color:var(--muted);padding:6px 0;">교재 없음</div>';
   });
@@ -6316,6 +6351,7 @@ async function loadStudents(){
   }
   allStudents = data.map(rowToStudent);
   renderStudentTable();
+  try{ syncBooksFromStudents(); loadBookEvents(); }catch(e){ console.error('books sync', e); }
   const cnt = document.getElementById('studentFilterResult');
   if(cnt) cnt.textContent = allStudents.length + '명';
   if(typeof renderTodaySchedule==='function') renderTodaySchedule();   // 오늘 시간표 DB 실시간 렌더 (교시별) + 부가기능/오늘값 로드
@@ -9246,7 +9282,324 @@ setTimeout(function(){
 }, 500);
 
 
+
+// ─────────────────────────────────────────────
+// ✍️ 교재 한 줄 입력 (예: "이정후 1200 단어 끝, 능률 기본 시작")
+//   → 학생/교재/완료·시작 인식 → 확인창 → students.current_books 저장 + book_events 이력
+// ─────────────────────────────────────────────
+const BQ_CATS = {ort:'ORT', dadok:'다독', vocab:'단어', grammar:'문법', reading:'독해', listening:'듣기', other:'기타'};
+const BQ_ARRAY_CATS = ['vocab','grammar','reading','listening','other'];
+const BQ_FINISH_RE = /(끝냈[어고다음]?|끝내고|끝나고|끝났고|마치고|완료하고|끝냄|끝남|끝났[어음다]?|끝|완료|완독|마침|마쳤[어음다]?|마무리|졸업|다\s*했[어음다]?|다\s*함|finish(?:ed)?|done)/i;
+const BQ_START_RE  = /(시작함|시작했[어음다]?|시작|들어감|들어갔[어음다]?|새로|start(?:ed)?)/i;
+const BQ_ACTION_RE = new RegExp('(' + BQ_FINISH_RE.source.slice(1,-1) + '|' + BQ_START_RE.source.slice(1,-1) + ')', 'ig');
+
+function bqNorm(s){ return String(s||'').toLowerCase().replace(/[\s\.\,\(\)\[\]_\-·:]/g,''); }
+function bqTokens(s){
+  return String(s||'').toLowerCase().replace(/[\(\)\[\],\.·]/g,' ').split(/\s+/).map(t=>t.trim())
+    .filter(t=>t && !['을','를','은','는','이','가','책','교재','권'].includes(t));
+}
+// 모든 학생의 현재 교재 → {book, cat} 카탈로그
+function bqCatalog(){
+  const map = new Map();
+  (allStudents||[]).forEach(s=>{
+    const b = s.books||{};
+    Object.keys(BQ_CATS).forEach(cat=>{
+      const v = b[cat]; const arr = Array.isArray(v)?v:(v?[v]:[]);
+      arr.forEach(x=>{ if(x && !map.has(x)) map.set(x, cat); });
+    });
+  });
+  return [...map.entries()].map(([book,cat])=>({book,cat}));
+}
+// 교재 이름 키워드로 분류 추정
+function bqGuessCat(text){
+  const t = String(text||'').toLowerCase();
+  if(/^\s*ort\s*\d|ort\s*\d/i.test(t)) return 'ort';
+  if(/단어|voca|어휘|쓰방|스펠|1200|800/.test(t)) return 'vocab';
+  if(/듣기|listening|리스닝/.test(t)) return 'listening';
+  if(/rg\s*\d|rs\s*\d|클리어|clear|inside|인사이드|문법|grammar|rank|어법/.test(t)) return 'grammar';
+  if(/리딩|reading|리더스|독해|bite|바이트/.test(t)) return 'reading';
+  if(/모의고사|천일문|구문|내신/.test(t)) return 'other';
+  if(/usborne|fly\s*guy|henry|mudge|froggy|winnie|marvin|magic\s*tree|winn|다독|biscuit|bookworms/.test(t)) return 'dadok';
+  return '';
+}
+// 검색어와 후보 이름의 일치 점수 (0 = 불일치)
+function bqScore(query, cand){
+  const toks = bqTokens(query); if(!toks.length) return 0;
+  const cn = bqNorm(cand);
+  let hit = 0;
+  toks.forEach(t=>{ if(cn.includes(bqNorm(t))) hit++; });
+  if(hit < toks.length) return 0;            // 모든 단어가 들어 있어야 후보
+  return 100 - Math.min(60, cn.length - bqNorm(query).length); // 짧고 가까운 이름 우선
+}
+function bqFindStudent(line){
+  const s = line.trim();
+  const list = (allStudents||[]).slice().sort((a,b)=>b.name.length-a.name.length);
+  let stu = list.find(x=>s.startsWith(x.name));
+  if(stu) return { stu, rest: s.slice(stu.name.length) };
+  // 성 없이 이름만 ("정후 ...")
+  const m = /^(\S+)/.exec(s); const first = m?m[1].replace(/(이|가|는|은)$/,''):'';
+  if(first.length>=2){
+    const c = list.filter(x=>x.name.endsWith(first) || x.name===first);
+    if(c.length===1) return { stu:c[0], rest: s.slice(m[1].length) };
+  }
+  return { stu:null, rest:s };
+}
+// "1200 단어 끝, 능률 기본 시작" → [{phrase:'1200 단어', action:'finish'}, {phrase:'능률 기본', action:'start'}]
+function bqSplitActions(rest){
+  const out = []; let last = 0; let m;
+  BQ_ACTION_RE.lastIndex = 0;
+  while((m = BQ_ACTION_RE.exec(rest))){
+    const phrase = rest.slice(last, m.index).replace(/^[\s,，、\/;]+|[\s,，、\/;]+$/g,'').replace(/(을|를|은|는|이|가|도)$/,'').replace(/^((했고|하고|하구|하면서|고|그리고|그다음|다음에?|이제|후에?|이어서)(\s+|$))+/,'').replace(/^(했고|하고|하구|하면서)/,'').trim().trim();
+    const action = BQ_FINISH_RE.test(m[0]) ? 'finish' : 'start';
+    if(phrase) out.push({ phrase, action });
+    last = m.index + m[0].length;
+  }
+  return out;
+}
+function bqResolve(stu, it){
+  const b = stu.books || {};
+  const q = it.phrase;
+  const hintCat = bqGuessCat(q);
+  // ORT는 레벨 번호로 처리
+  const ortM = /ort\s*(\d)/i.exec(q);
+  if(ortM){
+    const n = parseInt(ortM[1]);
+    if(it.action==='finish') return { ...it, cat:'ort', book:'ORT'+n, nextOrt: n<9 ? 'ORT'+(n+1) : '', options:['ORT'+n] };
+    return { ...it, cat:'ort', book:'ORT'+n, options:['ORT'+n] };
+  }
+  if(it.action==='finish'){
+    // 학생이 지금 쓰는 교재 중에서 찾기
+    const cands = [];
+    Object.keys(BQ_CATS).forEach(cat=>{
+      const v=b[cat]; (Array.isArray(v)?v:(v?[v]:[])).forEach(x=>{ const sc=bqScore(q,x); if(sc) cands.push({book:x,cat,sc}); });
+    });
+    cands.sort((a,b)=>b.sc-a.sc);
+    if(cands.length) return { ...it, cat:cands[0].cat, book:cands[0].book, options:cands.map(c=>c.book), optCats:Object.fromEntries(cands.map(c=>[c.book,c.cat])) };
+    return { ...it, cat:hintCat||'vocab', book:q, options:[q], warn:'지금 쓰는 교재 중에 "'+q+'"을(를) 못 찾았어요' };
+  }
+  // 시작: 전체 학생 교재 카탈로그에서 비슷한 이름 찾기
+  const cands = bqCatalog().map(c=>({...c, sc:bqScore(q,c.book)})).filter(c=>c.sc).sort((a,b)=>b.sc-a.sc);
+  const exact = cands.find(c=>bqNorm(c.book)===bqNorm(q));
+  if(exact) return { ...it, cat:exact.cat, book:exact.book, options:[exact.book] };
+  if(cands.length){
+    const opts = cands.slice(0,6).map(c=>c.book).concat([q]);
+    return { ...it, cat:cands[0].cat, book:cands[0].book, options:[...new Set(opts)], optCats:Object.fromEntries(cands.map(c=>[c.book,c.cat])), ask: cands.length>1 };
+  }
+  return { ...it, cat:hintCat||'other', book:q, options:[q], ask: !hintCat };
+}
+function bqParse(text){
+  const results = []; const errors = [];
+  String(text||'').split(/\n+/).map(l=>l.trim()).filter(Boolean).forEach(line=>{
+    const { stu, rest } = bqFindStudent(line);
+    if(!stu){ errors.push('"'+line+'" — 학생 이름을 찾지 못했어요'); return; }
+    const acts = bqSplitActions(rest);
+    if(!acts.length){ errors.push('"'+line+'" — "끝" 또는 "시작"이 없어요'); return; }
+    acts.forEach(a=> results.push({ stu, line, ...bqResolve(stu, a) }));
+  });
+  return { results, errors };
+}
+
+// ── UI ──
+let bqPending = [];
+function bqOpen(prefill){
+  const m = document.getElementById('bqModal'); if(!m) return;
+  m.style.display='flex';
+  const ta = document.getElementById('bqModalInput');
+  if(prefill!=null) ta.value = prefill;
+  document.getElementById('bqPreview').innerHTML = '';
+  document.getElementById('bqSaveBtn').disabled = true;
+  if(ta.value.trim()) bqAnalyze(); else setTimeout(()=>ta.focus(), 30);
+}
+function bqClose(){ const m=document.getElementById('bqModal'); if(m) m.style.display='none'; }
+function bqFromBar(){
+  const inp = document.getElementById('bqBarInput');
+  const v = (inp?.value||'').trim();
+  if(!v){ inp?.focus(); return; }
+  bqOpen(v);
+}
+function bqAnalyze(){
+  const text = document.getElementById('bqModalInput').value;
+  if(!allStudents || !allStudents.length){ showKpiToast('⏳ 학생 목록을 아직 불러오는 중이에요'); return; }
+  const { results, errors } = bqParse(text);
+  bqPending = results;
+  bqRenderPreview(errors);
+}
+function bqCatSelect(i, cur){
+  return `<select onchange="bqPending[${i}].cat=this.value" class="bq-sel">${Object.entries(BQ_CATS).map(([k,v])=>`<option value="${k}" ${k===cur?'selected':''}>${v}</option>`).join('')}</select>`;
+}
+function bqEscA(s){ return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;'); }
+function bqRenderPreview(errors){
+  const el = document.getElementById('bqPreview');
+  const rows = bqPending.map((r,i)=>{
+    const isFin = r.action==='finish';
+    const badge = isFin ? '<span class="bq-badge fin">✅ 완료</span>' : '<span class="bq-badge st">▶ 시작</span>';
+    const bookCtl = (r.options && r.options.length>1)
+      ? `<select class="bq-sel bq-book" onchange="bqPickBook(${i},this.value)">${r.options.map(o=>`<option ${o===r.book?'selected':''}>${bqEscA(o)}</option>`).join('')}</select>`
+      : `<input class="bq-inp bq-book" value="${bqEscA(r.book)}" oninput="bqPending[${i}].book=this.value.trim()">`;
+    const note = r.warn ? `<div class="bq-note warn">⚠️ ${bqEscA(r.warn)}</div>`
+      : r.ask ? `<div class="bq-note">🤔 비슷한 교재가 여러 개예요. 맞는 걸 골라주세요</div>`
+      : (r.cat==='ort' && isFin && r.nextOrt) ? `<label class="bq-note"><input type="checkbox" ${r.autoNext!==false?'checked':''} onchange="bqPending[${i}].autoNext=this.checked"> ${r.nextOrt}(으)로 자동 승급</label>` : '';
+    return `<div class="bq-row">
+      <div class="bq-who"><span class="bq-av" style="background:${r.stu.color}">${bqEscA(r.stu.name.slice(-2))}</span>${bqEscA(r.stu.name)}</div>
+      ${badge}${bqCatSelect(i, r.cat)}${bookCtl}
+      <button class="bq-x" title="이 줄 빼기" onclick="bqPending.splice(${i},1);bqRenderPreview()">✕</button>
+      ${note}
+    </div>`;
+  }).join('');
+  const errs = (errors||[]).map(e=>`<div class="bq-err">❗ ${bqEscA(e)}</div>`).join('');
+  el.innerHTML = errs + (rows ? `<div class="bq-ptitle">이렇게 바꿀게요 — 맞으면 저장을 눌러주세요</div>${rows}` : (errs?'':'<div class="bq-err">인식된 내용이 없어요</div>'));
+  document.getElementById('bqSaveBtn').disabled = !bqPending.length;
+}
+function bqPickBook(i, v){
+  const r = bqPending[i]; r.book = v;
+  if(r.optCats && r.optCats[v]) r.cat = r.optCats[v];
+  r.ask = false; bqRenderPreview();
+}
+function bqApply(books, r){
+  const nb = JSON.parse(JSON.stringify(books||{}));
+  const cat = r.cat, book = (r.book||'').trim(); if(!book) return nb;
+  if(BQ_ARRAY_CATS.includes(cat)){
+    let arr = Array.isArray(nb[cat]) ? nb[cat] : (nb[cat]?[nb[cat]]:[]);
+    if(r.action==='finish') arr = arr.filter(x=>bqNorm(x)!==bqNorm(book));
+    else if(!arr.some(x=>bqNorm(x)===bqNorm(book))) arr.push(book);
+    if(arr.length) nb[cat]=arr; else delete nb[cat];
+  } else {
+    if(r.action==='finish'){
+      if(cat==='ort' && r.nextOrt && r.autoNext!==false) nb.ort = r.nextOrt;
+      else if(bqNorm(nb[cat])===bqNorm(book) || cat!=='ort') delete nb[cat];
+    } else nb[cat] = book;
+  }
+  return nb;
+}
+async function bqSave(){
+  if(!bqPending.length) return;
+  const btn = document.getElementById('bqSaveBtn'); btn.disabled = true; btn.textContent='저장 중…';
+  const src = document.getElementById('bqModalInput').value.trim();
+  const byStu = new Map();
+  bqPending.forEach(r=>{ if(!byStu.has(r.stu.id)) byStu.set(r.stu.id, []); byStu.get(r.stu.id).push(r); });
+  let ok = 0, fail = 0; const events = [];
+  for(const [loginId, rs] of byStu){
+    const stu = rs[0].stu;
+    let nb = stu.books || {};
+    rs.forEach(r=>{ nb = bqApply(nb, r); });
+    const upd = { current_books: nb };
+    if(nb.ort && (stu.level==='—' || /^ORT\d/i.test(stu.level||''))) upd.level = nb.ort;
+    const { error } = await sb.from('students').update(upd).eq('login_id', loginId);
+    if(error){ console.error(error); fail++; continue; }
+    ok++;
+    stu.books = nb; if(upd.level) stu.level = upd.level;
+    rs.forEach(r=>{
+      events.push({ student_login_id:loginId, student_name:stu.name, category:r.cat, book:r.book, action:r.action, source_text:src });
+      if(r.cat==='ort' && r.action==='finish' && r.nextOrt && r.autoNext!==false)
+        events.push({ student_login_id:loginId, student_name:stu.name, category:'ort', book:r.nextOrt, action:'start', source_text:src });
+    });
+  }
+  if(events.length){
+    const { error } = await sb.from('book_events').insert(events);
+    if(error) console.error('book_events', error);
+  }
+  btn.textContent='💾 저장';
+  if(fail){ showKpiToast('❌ '+fail+'명 저장 실패 — 다시 시도해주세요'); btn.disabled=false; return; }
+  showKpiToast('✅ '+ok+'명 교재 반영 완료!');
+  const bar = document.getElementById('bqBarInput'); if(bar) bar.value='';
+  document.getElementById('bqModalInput').value='';
+  bqClose();
+  bqRefreshViews();
+}
+function bqRefreshViews(){
+  syncBooksFromStudents();
+  if(document.getElementById('page-books')?.style.display!=='none'){
+    const vis = id => document.getElementById(id)?.style.display!=='none';
+    if(vis('booksPaneOrt')){ renderOrtLevelGrid(); renderOrtStudents(); }
+    if(vis('booksPaneEtc')) renderEtcBooks();
+  }
+  loadBookEvents();
+  if(typeof renderStudentTable==='function') renderStudentTable();
+  if(document.getElementById('sidePanel')?.classList.contains('show')){
+    const n = document.querySelector('#sidePanel .sp-hero-info h1')?.textContent;
+    const s = n && allStudents.find(x=>x.name===n); if(s) renderSpBooks(s);
+  }
+}
+
+// ── 교재 관리 페이지: DB(allStudents.books) 기준으로 다시 구성 ──
+let bookEvents = [];
+async function loadBookEvents(){
+  try{
+    const { data, error } = await sb.from('book_events').select('*').order('created_at',{ascending:false}).limit(200);
+    if(error) throw error;
+    bookEvents = data || [];
+  }catch(e){ console.error('book_events', e); bookEvents = []; }
+  renderBookEvents(); bqUpdateKpis();
+}
+function renderBookEvents(){
+  const el = document.getElementById('bqRecent'); if(!el) return;
+  const top = bookEvents.slice(0,6);
+  el.innerHTML = top.length ? top.map(e=>{
+    const d = (e.event_date||'').slice(5).replace('-','/');
+    return `<span class="bq-chip ${e.action==='finish'?'fin':'st'}">${d} ${bqEscA(e.student_name||'')} · ${bqEscA(e.book)} ${e.action==='finish'?'✅':'▶'}</span>`;
+  }).join('') : '<span style="font-size:11px;color:var(--muted);font-weight:600;">아직 기록이 없어요</span>';
+}
+function bqUpdateKpis(){
+  const learning = (allStudents||[]).filter(s=>s.books && s.books.ort && s.status!=='퇴원').length;
+  const ym = new Date(Date.now()+9*3600e3).toISOString().slice(0,7);
+  const fin = bookEvents.filter(e=>e.action==='finish' && (e.event_date||'').startsWith(ym)).length;
+  const a = document.getElementById('ortKpiLearning'); if(a) a.textContent = learning+'명';
+  const b = document.getElementById('ortKpiFinished'); if(b) b.textContent = fin+'권';
+}
+function syncBooksFromStudents(){
+  if(!allStudents || !allStudents.length) return;
+  const live = allStudents.filter(s=>s.status!=='퇴원');
+  // ORT 레벨별
+  ortLevelData.forEach(d=>{
+    if(d.level==='내신') return;
+    const prev = {}; d.students.forEach(x=>{ const m=/^(.+?)\((\d+)\)$/.exec(x); if(m) prev[m[1]]=m[2]; });
+    d.students = live.filter(s=>(s.books&&s.books.ort)===d.level).map(s=>prev[s.name]?s.name+'('+prev[s.name]+')':s.name);
+  });
+  // 학생별 ORT 진도
+  const old = {}; ortStudentData.forEach(s=>old[s.name]=s);
+  const rows = live.filter(s=>s.books && s.books.ort).map(s=>{
+    const o = old[s.name]; const lv = s.books.ort;
+    if(o && (o.level===lv || !/^ORT/i.test(o.level||''))) return Object.assign({}, o, {color:s.color});
+    return { name:s.name, level:lv, progress:lv+' 진행중', current:0, total:0, color:s.color };
+  }).sort((a,b)=>a.name.localeCompare(b.name,'ko'));
+  ortStudentData.splice(0, ortStudentData.length, ...rows);
+  // 기타 교재: 교재별 사용 학생
+  const groups = { vocab:{}, reading:{}, grammar:{}, naesin:{} };
+  live.forEach(s=>{
+    const b = s.books||{};
+    [['vocab','vocab'],['reading','reading'],['grammar','grammar'],['listening','naesin'],['other','naesin']].forEach(([k,g])=>{
+      const v=b[k]; (Array.isArray(v)?v:(v?[v]:[])).forEach(x=>{ (groups[g][x] = groups[g][x] || []).push(s.name); });
+    });
+  });
+  const extra = window.etcBooks || {};
+  window.etcBooks = {};
+  Object.keys(groups).forEach(g=>{
+    const list = Object.entries(groups[g]).map(([name,names])=>({ name, students:names.length, memo:names.join(', '), live:true }))
+      .sort((a,b)=>b.students-a.students || a.name.localeCompare(b.name,'ko'));
+    (extra[g]||[]).forEach(x=>{ if(!x.live && !list.some(l=>bqNorm(l.name)===bqNorm(x.name))) list.push(x); });
+    window.etcBooks[g] = list;
+  });
+  bqUpdateKpis();
+}
+
 </script>
 
 
+
+<!-- ✍️ 교재 한 줄 입력 모달 -->
+<div id="bqModal" onclick="if(event.target===this)bqClose()">
+  <div class="bq-box">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+      <div style="font-size:16px;font-weight:800;">✍️ 교재 한 줄 입력</div>
+      <button onclick="bqClose()" style="background:none;border:none;font-size:18px;cursor:pointer;color:#9ca3af;">✕</button>
+    </div>
+    <textarea id="bqModalInput" placeholder="이정후 1200 단어 끝, 능률 기본 시작" oninput="clearTimeout(window._bqT);window._bqT=setTimeout(bqAnalyze,350)"></textarea>
+    <div class="bq-ex">여러 명은 줄을 바꿔 적으세요. 예) <code onclick="bqOpen('김여은 RG4 끝, RG5 시작')">김여은 RG4 끝, RG5 시작</code> <code onclick="bqOpen('양은수 ORT2 끝')">양은수 ORT2 끝</code></div>
+    <div id="bqPreview"></div>
+    <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:14px;">
+      <button onclick="bqClose()" style="background:var(--bg);border:none;border-radius:10px;padding:10px 16px;font-size:13px;font-weight:800;cursor:pointer;font-family:inherit;">취소</button>
+      <button id="bqSaveBtn" class="bq-go" onclick="bqSave()" disabled style="padding:10px 20px;font-size:13px;">💾 저장</button>
+    </div>
+  </div>
+</div>
 </body></html>
