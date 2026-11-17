@@ -395,7 +395,7 @@ body{font-family:'Plus Jakarta Sans','Noto Sans KR',sans-serif;background:var(--
         <div class="attend-lbl">경과</div>
         <div class="attend-val" id="elapsedVal">44분</div>
       </div>
-      <button class="leave-btn" onclick="showToast('🏠 하원 기록 완료!')">하원 기록</button>
+      <button class="leave-btn" onclick="saveAndLeave()">하원 기록</button>
     </div>
   </div>
 
@@ -3153,13 +3153,21 @@ function renderHwCal(){
   cal.innerHTML=html;
 }
 
+
+// 하원 기록: 학생 본인 = 하원 시각 + (설정 ON이면) 부모님 문자 / 선생님 보기 = 하원 시각만
+function departNow(){
+  const silent = (typeof isTeacherView==='function') && isTeacherView();
+  return stuApi('depart', { payload:{ silent } }).then(res => {
+    if(!res || !res.ok){ if(typeof showToast==='function') showToast('⚠️ 하원 저장 실패 — 다시 눌러주세요'); return res; }
+    if(res.sent && typeof showToast==='function') showToast('🏠 하원! 부모님께 문자 발송');
+    return res;
+  }).catch(()=>{ if(typeof showToast==='function') showToast('⚠️ 하원 저장 실패 (네트워크) — 다시 눌러주세요'); });
+}
 // ── 저장 + 하원 ──
 function saveAndLeave(){
   saveTodayRecord();
-  // 하원 = 부모님께 하원 문자(하루 1회, 선생님 미리보기 제외)
-  if(!isTeacherView()){
-    stuApi('depart', {}).then(res => { if(res && res.ok && res.sent && typeof showToast==='function') showToast('🏠 하원! 부모님께 문자 발송'); }).catch(()=>{});
-  }
+  // 하원 시각 기록 — 선생님 보기에서도 기록(문자만 생략)
+  departNow();
   const now = new Date();
   const hh = String(now.getHours()).padStart(2,'0');
   const mm = String(now.getMinutes()).padStart(2,'0');
