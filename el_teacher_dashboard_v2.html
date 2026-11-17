@@ -6404,6 +6404,7 @@ async function loadStudents(){
     showKpiToast('❌ 학생 목록 불러오기 실패'); return;
   }
   allStudents = data.map(rowToStudent);
+  if(typeof _stuLoadedAt!=='undefined') _stuLoadedAt = Date.now();
   renderStudentTable();
   try{ syncBooksFromStudents(); loadBookEvents(); loadBookCatalog(); loadBookOrder(); }catch(e){ console.error('books sync', e); }
   const cnt = document.getElementById('studentFilterResult');
@@ -9814,6 +9815,21 @@ function syncSlotFromTime(){
   const s = slotFromClassTime(document.getElementById('newStudentTime').value);
   sel.value = s ? String(s) : '';
 }
+
+// 다른 기기/창에서 수정한 학생 정보 반영: 창으로 돌아올 때(1분 이상 지났으면) + 5분마다 학생 목록 다시 불러오기
+let _stuLoadedAt = Date.now();
+function refreshStudentsIfStale(force){
+  if(typeof loadStudents!=='function') return;
+  const typing = document.activeElement && /INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName);
+  const modalOpen = ['addStudentModal','bqModal','addBookModal'].some(id=>{ const m=document.getElementById(id); return m && m.style.display && m.style.display!=='none'; });
+  if(typing || modalOpen) return;
+  if(!force && Date.now()-_stuLoadedAt < 60000) return;
+  _stuLoadedAt = Date.now();
+  loadStudents();
+}
+document.addEventListener('visibilitychange', ()=>{ if(document.visibilityState==='visible') refreshStudentsIfStale(false); });
+window.addEventListener('focus', ()=>refreshStudentsIfStale(false));
+setInterval(()=>{ if(document.visibilityState==='visible') refreshStudentsIfStale(true); }, 5*60*1000);
 </script>
 
 
