@@ -964,6 +964,24 @@ body { font-family: 'Noto Sans KR','Plus Jakarta Sans',sans-serif; background: l
 .bk-next:hover{background:var(--teal);color:white}
 .bk-all{border:1px dashed var(--teal);background:white;color:var(--teal-d);border-radius:7px;font-size:10px;font-weight:800;cursor:pointer;padding:2px 7px}
 .bk-empty{font-size:10px;color:var(--muted);margin-top:3px}
+
+/* 대시보드 카드: 진도·학습 단계 */
+.spe{margin-top:8px;padding:9px 10px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;cursor:default}
+.spe-row{display:flex;align-items:center;gap:6px}
+.spe-lbl{font-size:10px;font-weight:800;color:var(--teal-d);white-space:nowrap}
+.spe-prog{flex:1;min-width:0;border:1.5px solid var(--border);border-radius:8px;padding:5px 8px;font-size:12px;font-weight:800;font-family:inherit;outline:none;background:white}
+.spe-prog:focus{border-color:var(--teal)}
+.spe-last{font-size:9.5px;color:var(--muted);font-weight:700;margin-top:4px;cursor:pointer}
+.spe-last b{color:var(--teal-d)}
+.spe-steps{display:flex;flex-wrap:wrap;gap:4px;margin-top:7px}
+.spe-st{min-width:26px;height:24px;padding:0 5px;border-radius:7px;border:1.5px solid var(--border);background:white;font-size:11px;font-weight:800;color:#94a3b8;cursor:pointer;font-family:inherit}
+.spe-st.on{background:var(--teal);border-color:var(--teal);color:white}
+.spe-st.wb.on{background:#f59e0b;border-color:#f59e0b}
+.spe-st.cc.on{background:var(--orange);border-color:var(--orange)}
+.spe-st.l.on{background:#ec4899;border-color:#ec4899}
+.spe-st.r.on{background:#ca8a04;border-color:#ca8a04}
+.view-mode-list .spe-last{display:none}
+.spe-last-step{font-size:9.5px;color:#7c3aed;font-weight:800;margin-left:auto;white-space:nowrap}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
@@ -7929,9 +7947,7 @@ function scheduleCardHtml(s){
         <button class="sc-hw-btn none" onclick="event.stopPropagation();selHw(this)" title="과제 없음">🚫</button>
       </div>
     </div>
-    <div class="sc-prog-section">
-      <div class="sc-prog-item"><div class="lbl today">🎯 오늘</div><div class="val" style="color:var(--muted)">예정 진도</div></div>
-    </div>
+    ${progEditHtml(s)}
   </div>`;
 }
 function renderTodaySchedule(){
@@ -7990,7 +8006,7 @@ async function pollArrivals(){
   if(!document.querySelector('#scheduleSections .student-card')) return;
   const today = new Date().toISOString().slice(0,10);
   let logs=[];
-  try { const { data } = await sb.from('daily_logs').select('student_login_id,arrived_at,left_at,progress,test_scores').eq('log_date', today); logs=data||[]; }
+  try { const { data } = await sb.from('daily_logs').select('student_login_id,arrived_at,left_at,progress,test_scores,stages').eq('log_date', today); logs=data||[]; }
   catch(e){ return; }
   const byId={}; logs.forEach(l=>byId[l.student_login_id]=l);
   document.querySelectorAll('#scheduleSections .student-card').forEach(card=>{
@@ -8000,6 +8016,7 @@ async function pollArrivals(){
       const lf = l.left_at || '';
       if(card.dataset.arrived!==l.arrived_at || (card.dataset.left||'')!==lf){ card.dataset.arrived=l.arrived_at; if(lf) card.dataset.left=lf; else delete card.dataset.left; renderCardTimer(card); }
     }
+    if(l) applyProgEdit(card, l);
     renderCardSummary(card, l);  // 진도·점수·소요시간 요약 갱신(학생 자기기록, 선생님 입력칸은 미변경)
   });
   updateSlotArrivalCounts();
@@ -8024,14 +8041,14 @@ function renderCardSummary(card, log){
   [['W','#2563eb','#eff6ff'],['P','#7c3aed','#f5f3ff'],['Q','#16a34a','#f0fdf4']].forEach(([k,c,bg])=>{
     const v = ts[k]; if(v!=null && v!=='') chips.push(scsChip(k+' '+v, c, bg));
   });
-  const prog = log.progress || '';
-  if(!prog && !chips.length) return; // 표시할 게 없으면 숨김
+  const prog = '';
+  if(!chips.length) return; // 표시할 게 없으면 숨김
   const H = (typeof esH==='function') ? esH : (v=>String(v==null?'':v));
   const box = document.createElement('div');
   box.className = 'sc-summary';
   box.style.cssText = 'margin-top:8px;padding:9px 11px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;';
   box.innerHTML = `${prog?`<div style="font-size:12px;font-weight:800;color:#0f172a;margin-bottom:6px;">📚 ${H(prog)}</div>`:''}<div style="display:flex;flex-wrap:wrap;gap:5px;">${chips.join('')}</div>`;
-  const ps = card.querySelector('.sc-prog-section');
+  const ps = card.querySelector('.spe') || card.querySelector('.sc-prog-section');
   if(ps) ps.after(box); else card.appendChild(box);
 }
 
@@ -8041,9 +8058,10 @@ async function loadCardsDaily(){
   const today = new Date().toISOString().slice(0,10);
   let logs = [];
   try {
-    const { data } = await sb.from('daily_logs').select('student_login_id,homework_done,test_scores,arrived_at,left_at,progress').eq('log_date', today);
+    const { data } = await sb.from('daily_logs').select('student_login_id,homework_done,test_scores,arrived_at,left_at,progress,stages').eq('log_date', today);
     logs = data || [];
   } catch(e){ console.error('loadCardsDaily', e); return; }
+  loadLastProgress();
   const byId = {}; logs.forEach(l => byId[l.student_login_id] = l);
   document.querySelectorAll('.student-card').forEach(card => {
     const stu = cardStudent(card); if(!stu) return;
@@ -8063,6 +8081,7 @@ async function loadCardsDaily(){
         onVocabScore(box.querySelector('.sc-vocab-c'));
       }
     }
+    applyProgEdit(card, l);
     renderCardSummary(card, l);
   });
 }
@@ -9877,6 +9896,86 @@ async function _updateDashboardKpis(){
   set('kpiAbsent', absent, '명');
   const hero = document.getElementById('heroLiveLine');
   if(hero) hero.innerHTML = `<span class="live-dot"></span>오늘 등원 <b style="color:var(--green)">${arrived}명</b> · 학습 중 ${now}명 · 늦은 등원 ${late}명`;
+}
+
+// ── 대시보드 카드: 진도 입력 + 학습 단계 (학생 화면과 같은 daily_logs.progress / stages 형식) ──
+const PE_BASE = [['W','W'],['T','T'],['C','C'],['P','P'],['WBF','📓앞','wb'],['D','D'],['S','S'],['Q','Q'],['WBB','📔뒤','wb'],['CC','CC','cc']];
+const PE_NAMES = {W:'단어',T:'텍스트',C:'컨셉',P:'퍼즐',WBF:'워크북 앞',D:'딕테이션',S:'사운드',Q:'퀴즈',WBB:'워크북 뒤',CC:'클래스카드',L:'라이팅',R:'ORT 리뷰'};
+function peOrtLevel(s){
+  const src = (s.books && s.books.ort) || s.level || '';
+  const m = /ORT\s*(\d+)/i.exec(src); return m ? parseInt(m[1]) : 0;
+}
+function peSteps(s){
+  const n = peOrtLevel(s); if(!n) return [];
+  const list = PE_BASE.slice();
+  if(n>=3) list.push(['L','L','l']);
+  if(n>=4) list.push(['R','R','r']);
+  return list;
+}
+function progEditHtml(s){
+  const steps = peSteps(s);
+  const ph = (s.books && s.books.ort) ? s.books.ort+'-1-1' : '오늘 진도';
+  return `<div class="spe" onclick="event.stopPropagation()">
+    <div class="spe-row"><span class="spe-lbl">📚 진도</span>
+      <input class="spe-prog" placeholder="예) ${ph}" onkeydown="if(event.key==='Enter'&&!event.isComposing){this.blur();}" onchange="saveCardProgress(this)"></div>
+    <div class="spe-last" style="display:none" onclick="useLastProgress(this)"></div>
+    ${steps.length?`<div class="spe-steps">${steps.map(([k,lab,cls])=>`<button class="spe-st ${cls||''}" data-step="${k}" title="${PE_NAMES[k]||k}" onclick="toggleCardStage(this)">${lab}</button>`).join('')}<span class="spe-last-step"></span></div>`:''}
+  </div>`;
+}
+function applyProgEdit(card, l){
+  const box = card.querySelector('.spe'); if(!box || !l) return;
+  const inp = box.querySelector('.spe-prog');
+  if(inp && document.activeElement!==inp && (l.progress||'')!==inp.value) inp.value = l.progress || '';
+  if(card.dataset.stagesBusy) return;   // 저장 중이면 덮어쓰지 않음
+  const st = l.stages || {};
+  card.dataset.stages = JSON.stringify(st);
+  let last = '';
+  box.querySelectorAll('.spe-st').forEach(b=>{ const on=!!st[b.dataset.step]; b.classList.toggle('on', on); if(on) last=b.dataset.step; });
+  const ls = box.querySelector('.spe-last-step'); if(ls) ls.textContent = last ? '마지막: '+last+' '+(PE_NAMES[last]||'') : '';
+}
+async function saveCardProgress(inp){
+  const card = inp.closest('.student-card');
+  await saveCardDaily(card, { progress: inp.value.trim() || null });
+}
+async function toggleCardStage(btn){
+  const card = btn.closest('.student-card');
+  let st = {}; try{ st = JSON.parse(card.dataset.stages||'{}'); }catch(e){}
+  const k = btn.dataset.step;
+  if(st[k]) delete st[k]; else st[k] = true;
+  btn.classList.toggle('on', !!st[k]);
+  card.dataset.stages = JSON.stringify(st);
+  card.dataset.stagesBusy = '1';
+  let last=''; card.querySelectorAll('.spe-st').forEach(b=>{ if(st[b.dataset.step]) last=b.dataset.step; });
+  const ls = card.querySelector('.spe-last-step'); if(ls) ls.textContent = last ? '마지막: '+last+' '+(PE_NAMES[last]||'') : '';
+  try{ await saveCardDaily(card, { stages: st }); } finally { delete card.dataset.stagesBusy; }
+}
+// 지난 수업 진도 → "지난번 ORT2-3-2 · 눌러서 ORT2-3-3 입력"
+let lastProgress = {};
+async function loadLastProgress(){
+  const today = new Date().toISOString().slice(0,10);
+  const since = new Date(Date.now()-30*86400e3).toISOString().slice(0,10);
+  try{
+    const { data } = await sb.from('daily_logs').select('student_login_id,log_date,progress').lt('log_date', today).gte('log_date', since).not('progress','is',null).order('log_date',{ascending:false});
+    lastProgress = {};
+    (data||[]).forEach(r=>{ if(r.progress && !lastProgress[r.student_login_id]) lastProgress[r.student_login_id] = r; });
+  }catch(e){ return; }
+  document.querySelectorAll('.student-card').forEach(card=>{
+    const stu = cardStudent(card); const el = card.querySelector('.spe-last'); if(!stu || !el) return;
+    const r = lastProgress[stu.id]; if(!r){ el.style.display='none'; return; }
+    const next = peNextProgress(r.progress);
+    el.dataset.next = next || r.progress;
+    el.innerHTML = `지난번(${r.log_date.slice(5).replace('-','/')}) <b>${(typeof esH==='function'?esH:String)(r.progress)}</b>${next?` · 눌러서 <b>${(typeof esH==='function'?esH:String)(next)}</b> 입력`:' · 눌러서 그대로 입력'}`;
+    el.style.display='block';
+  });
+}
+function peNextProgress(p){
+  const m = /^(.*?)(\d+)\s*$/.exec(String(p||'')); if(!m) return '';
+  return m[1] + (parseInt(m[2])+1);
+}
+function useLastProgress(el){
+  const card = el.closest('.student-card'); const inp = card.querySelector('.spe-prog');
+  if(!inp || !el.dataset.next) return;
+  inp.value = el.dataset.next; saveCardProgress(inp);
 }
 </script>
 
