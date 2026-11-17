@@ -838,7 +838,7 @@ body { font-family: 'Noto Sans KR','Plus Jakarta Sans',sans-serif; background: v
           </div>
           <div class="si-modern ort-level-3-plus" onclick="togSIM(this)" data-stage="L" style="display:none">
             <div class="check"></div>
-            <div class="si-emoji" style="background:var(--pink-light);color:var(--pink)">L</div>
+            <div class="si-emoji" style="background:var(--pink-light);color:var(--pink)">W</div>
             <div class="si-info"><div class="si-name">라이팅 (Writing) <span style="font-size:9px;color:var(--pink);background:var(--pink-light);padding:2px 6px;border-radius:5px;margin-left:4px">ORT3+</span></div></div>
           </div>
           <div class="wb-modern" onclick="togWBM(this)" data-stage="WBB">
@@ -1414,6 +1414,7 @@ document.addEventListener('blur', function(e){
 async function loadTodayStages(){
   const r = await stuApi('get-daily', {}).catch(()=>({ok:false}));
   if(r && r.ok && r.daily){
+    try{ updateORTLevelSteps(); }catch(e){}
     if(r.daily.stages) applySavedStages(r.daily.stages);
     applyStageScores(r.daily.test_scores);
   }
@@ -1830,7 +1831,8 @@ function updateORTLevelSteps(){
     return;
   }
   // ORT숫자 형태 파싱 (예: ORT3-1-1, ort4-2-3)
-  const match = v.match(/ORT\s*(\d+)/i);
+  let match = v.match(/ORT\s*(\d+)/i);
+  if(!match && typeof stuCurrent!=='undefined' && stuCurrent){ const _b=stuCurrent.current_books||{}; match = String(_b.ort || stuCurrent.level || '').match(/ORT\s*(\d+)/i); }
   if(!match){
     document.querySelectorAll('.ort-level-3-plus, .ort-level-4-plus').forEach(function(el){
       el.style.display = 'none';
@@ -1857,11 +1859,11 @@ function updateORTLevelSteps(){
     if(level <= 2){
       noticeText.innerHTML = '<b>ORT' + level + '</b> — W·T·C·P·📓·D·S·Q·📔·C 단계 (퀴즈까지)';
     } else if(level === 3){
-      noticeText.innerHTML = '<b>ORT3</b> — 기존 단계 + <b style="color:var(--pink)">L 라이팅</b> 추가 ✏️';
+      noticeText.innerHTML = '<b>ORT3</b> — 기존 단계 + <b style="color:var(--pink)">W 라이팅</b> 추가 ✏️';
     } else if(level >= 4 && level <= 9){
-      noticeText.innerHTML = '<b>ORT' + level + '</b> — 기존 단계 + <b style="color:var(--pink)">L 라이팅</b> + <b style="color:#ca8a04">R ORT 리뷰</b> 🔁';
+      noticeText.innerHTML = '<b>ORT' + level + '</b> — 기존 단계 + <b style="color:var(--pink)">W 라이팅</b> + <b style="color:#ca8a04">R ORT 리뷰</b> 🔁';
     } else {
-      noticeText.innerHTML = '<b>ORT' + level + '</b> — 기존 단계 + <b style="color:var(--pink)">L 라이팅</b> ✏️';
+      noticeText.innerHTML = '<b>ORT' + level + '</b> — 기존 단계 + <b style="color:var(--pink)">W 라이팅</b> ✏️';
     }
   }
 }

@@ -707,8 +707,10 @@ body{font-family:'Plus Jakarta Sans','Noto Sans KR',sans-serif;background:var(--
       <div class="si" data-step="D" onclick="togSI(this)"><div class="chk"></div><div class="si-emj" style="background:var(--green-light);color:var(--green)">D</div><div class="si-name">딕테이션 (Dictation)</div></div>
       <div class="si" data-step="S" onclick="togSI(this)"><div class="chk"></div><div class="si-emj" style="background:var(--green-light);color:var(--green)">S</div><div class="si-name">사운드 (Sound)</div></div>
       <div class="si" data-step="Q" onclick="togSI(this)"><div class="chk"></div><div class="si-emj" style="background:var(--green-light);color:var(--green)">Q</div><div class="si-name">퀴즈 (Quiz)</div><input class="score-in" type="number" placeholder="—" onclick="event.stopPropagation()"/></div>
+      <div class="si ort-lv3" data-step="L" onclick="togSI(this)" style="display:none"><div class="chk"></div><div class="si-emj" style="background:var(--pink-light);color:var(--pink)">W</div><div class="si-name">라이팅 (Writing) ✏️</div></div>
       <div class="wb" data-step="WBB" onclick="togWB(this)"><div class="chk"></div><div class="wb-ico">📔</div><div style="font-size:13px;font-weight:700;flex:1">워크북 뒷바닥</div></div>
       <div class="si cc" data-step="CC" onclick="togSI(this)"><div class="chk"></div><div class="si-emj" style="background:var(--orange-light);color:var(--orange)">C</div><div class="si-name">클래스카드 (CC)</div></div>
+      <div class="si ort-lv4" data-step="R" onclick="togSI(this)" style="display:none"><div class="chk"></div><div class="si-emj" style="background:#fef3c7;color:#ca8a04">R</div><div class="si-name">ORT 리뷰 🔁</div></div>
     </div>
 
     <!-- ORT 복습 -->
@@ -1467,6 +1469,7 @@ async function loadTodayStages(){
   const r = await stuApi('get-daily', {}).catch(()=>({ok:false}));
   const d = (r && r.ok && r.daily) ? r.daily : {};
   _hwDetail = d.homework_detail || '';
+  updateOrtLevelSteps(d.stages);
   applySavedStages(d.stages);
   applyStageScores(d.test_scores);
   renderHwCheck(d.homework_done);
@@ -3304,6 +3307,19 @@ updateProgMode();
 renderHwView();
 renderNaesinRange();
 updateDday();
+
+// ORT 레벨별 단계: ORT3~9 → Q 뒤 라이팅(W), ORT4~9 → CC 뒤 ORT 리뷰(R)
+// 레벨 = 진도칸(ORT3-1-1) → 없으면 학생 현재 ORT 교재
+function updateOrtLevelSteps(saved){
+  const v = (document.getElementById('progDetail')||{}).value || '';
+  let m = /ORT\s*(\d+)/i.exec(v);
+  if(!m && typeof stuCurrent!=='undefined' && stuCurrent){ const b=stuCurrent.current_books||{}; m = /ORT\s*(\d+)/i.exec(b.ort || stuCurrent.level || ''); }
+  const lv = m ? parseInt(m[1]) : 0;
+  const st = saved || {};
+  document.querySelectorAll('#stepsORT .ort-lv3').forEach(el=>{ const on = (lv>=3 && lv<=9) || !!st.L; el.style.display = on?'':'none'; if(!on) el.classList.remove('done'); });
+  document.querySelectorAll('#stepsORT .ort-lv4').forEach(el=>{ const on = (lv>=4 && lv<=9) || !!st.R; el.style.display = on?'':'none'; if(!on) el.classList.remove('done'); });
+}
+document.addEventListener('DOMContentLoaded', ()=>{ const pd=document.getElementById('progDetail'); if(pd) pd.addEventListener('input', ()=>updateOrtLevelSteps()); });
 </script>
 </body>
 </html>
