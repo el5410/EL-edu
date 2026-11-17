@@ -9900,7 +9900,7 @@ async function _updateDashboardKpis(){
 
 // ── 대시보드 카드: 진도 입력 + 학습 단계 (학생 화면과 같은 daily_logs.progress / stages 형식) ──
 const PE_BASE = [['W','W'],['T','T'],['C','C'],['P','P'],['WBF','📓앞','wb'],['D','D'],['S','S'],['Q','Q'],['WBB','📔뒤','wb'],['CC','CC','cc']];
-const PE_NAMES = {W:'단어',T:'텍스트',C:'컨셉',P:'퍼즐',WBF:'워크북 앞',D:'딕테이션',S:'사운드',Q:'퀴즈',WBB:'워크북 뒤',CC:'클래스카드',L:'라이팅',R:'ORT 리뷰'};
+const PE_NAMES = {W:'단어',T:'텍스트',C:'컨셉',P:'퍼즐',WBF:'워크북 앞',D:'딕테이션',S:'사운드',Q:'퀴즈',WBB:'워크북 뒤',CC:'클래스카드',L:'라이팅(Writing)',R:'ORT 리뷰'};
 function peOrtLevel(s){
   const src = (s.books && s.books.ort) || s.level || '';
   const m = /ORT\s*(\d+)/i.exec(src); return m ? parseInt(m[1]) : 0;
@@ -9908,7 +9908,8 @@ function peOrtLevel(s){
 function peSteps(s){
   const n = peOrtLevel(s); if(!n) return [];
   const list = PE_BASE.slice();
-  if(n>=3) list.push(['L','L','l']);
+  // ORT3~9: 퀴즈(Q) 뒤에 라이팅(Writing) 단계 — 키는 학생 화면과 같은 'L'
+  if(n>=3) list.splice(list.findIndex(x=>x[0]==='Q')+1, 0, ['L','✏️W','l']);
   if(n>=4) list.push(['R','R','r']);
   return list;
 }
