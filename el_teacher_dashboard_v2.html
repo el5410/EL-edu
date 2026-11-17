@@ -990,7 +990,7 @@ body { font-family: 'Noto Sans KR','Plus Jakarta Sans',sans-serif; background: l
       <div class="teacher-avatar">👨‍🏫</div>
       <div class="teacher-text">
         <h1>안녕하세요, ELUM 선생님! ☀️</h1>
-        <p><span class="live-dot"></span>오늘 등원 <b style="color:var(--green)">0명</b> · 학습 중 0명 · 늦은 등원 0명</p>
+        <p id="heroLiveLine"><span class="live-dot"></span>오늘 등원 <b style="color:var(--green)">0명</b> · 학습 중 0명 · 늦은 등원 0명</p>
       </div>
     </div>
     <div class="header-actions">
@@ -1020,22 +1020,22 @@ body { font-family: 'Noto Sans KR','Plus Jakarta Sans',sans-serif; background: l
         <div class="kpi-card attend">
           <div class="kpi-icon"><i class="ti ti-users"></i></div>
           <div class="kpi-lbl">오늘 등원</div>
-          <div class="kpi-val">0<span class="unit">/ 37명</span></div>
+          <div class="kpi-val" id="kpiArrived">0<span class="unit">/ 0명</span></div>
         </div>
         <div class="kpi-card now">
           <div class="kpi-icon"><i class="ti ti-pulse"></i></div>
           <div class="kpi-lbl">현재 학습</div>
-          <div class="kpi-val">0<span class="unit">명</span></div>
+          <div class="kpi-val" id="kpiNow">0<span class="unit">명</span></div>
         </div>
         <div class="kpi-card late">
           <div class="kpi-icon"><i class="ti ti-clock-exclamation"></i></div>
           <div class="kpi-lbl">지각 / 늦은 등원</div>
-          <div class="kpi-val">0<span class="unit">명</span></div>
+          <div class="kpi-val" id="kpiLate">0<span class="unit">명</span></div>
         </div>
         <div class="kpi-card absent">
           <div class="kpi-icon"><i class="ti ti-user-off"></i></div>
           <div class="kpi-lbl">결석</div>
-          <div class="kpi-val">0<span class="unit">명</span></div>
+          <div class="kpi-val" id="kpiAbsent">0<span class="unit">명</span></div>
         </div>
         <div class="kpi-card alert">
           <div class="kpi-icon"><i class="ti ti-alert-triangle"></i></div>
@@ -6753,16 +6753,7 @@ function showLateArrivalNotice(studentName){
   }, 5000);
 }
 
-function updateKpiAfterLateArrival(){
-  // 결석 카운트 -1, 등원 카운트 +1
-  const kpis = document.querySelectorAll('.kpi-card .kpi-val');
-  if(kpis.length >= 2){
-    // 첫 번째: 출석 (등원 +1)
-    const attendVal = kpis[0].textContent.trim();
-    const m = attendVal.match(/(\d+)\/(\d+)/);
-    if(m){ kpis[0].innerHTML = (parseInt(m[1])+1) + '<span class="kpi-unit">/' + m[2] + '</span>'; }
-  }
-}
+function updateKpiAfterLateArrival(){ if(typeof updateDashboardKpis==='function') updateDashboardKpis(); }
 
 // ============ 학생 카드 ⚙️ 메뉴 ============
 let openMenuName = null;
@@ -7791,7 +7782,7 @@ async function sendCardAlert(card, type){
   } catch(e){ err = e.message || String(e); }
   if(!ok){ alert('❌ 발송 실패\n' + err); return; }
   showKpiToast(`📨 ${stu.name} ${label} 문자 발송 완료`);
-  if(type === 'absent') saveCardDaily(card, { homework_done: null, note: '결석' });
+  if(type === 'absent'){ await saveCardDaily(card, { homework_done: null, note: '결석' }); updateDashboardKpis(); }
 }
 
 // ── 대시보드 카드: 수업 시간 + 등원 타이머 (끝 5분 전 예고 · 종료 시 하원 알림) ──
@@ -7887,6 +7878,7 @@ async function stampDeparture(btn){
   renderCardTimer(card);
   updateSlotArrivalCounts && updateSlotArrivalCounts();
   await saveCardDaily(card, { left_at: card.dataset.left });
+  updateDashboardKpis();
 }
 async function clearDeparture(btn){
   const card = btn.closest('.student-card');
@@ -7894,18 +7886,21 @@ async function clearDeparture(btn){
   delete card.dataset.left;
   renderCardTimer(card);
   await saveCardDaily(card, { left_at: null });
+  updateDashboardKpis();
 }
 async function stampArrival(btn){
   const card = btn.closest('.student-card');
   card.dataset.arrived = new Date().toISOString();
   renderCardTimer(card);
   await saveCardDaily(card, { arrived_at: card.dataset.arrived });
+  updateDashboardKpis();
 }
 async function clearArrival(btn){
   const card = btn.closest('.student-card');
   delete card.dataset.arrived;
   renderCardTimer(card);
   await saveCardDaily(card, { arrived_at: null });
+  updateDashboardKpis();
 }
 function tickTimers(){ document.querySelectorAll('.student-card').forEach(c => { if(c.dataset.arrived) renderCardTimer(c); }); }
 setInterval(tickTimers, 30000);
@@ -7972,6 +7967,7 @@ function renderTodaySchedule(){
 }
 // 교시별 "N명 등원 / M명 예정" 카운트 갱신
 function updateSlotArrivalCounts(){
+  if(typeof updateDashboardKpis==='function') updateDashboardKpis();
   document.querySelectorAll('.time-section').forEach(sec=>{
     const cards=[...sec.querySelectorAll('.student-card')];
     const total=cards.length, arr=cards.filter(c=>c.dataset.arrived).length;
@@ -9830,6 +9826,58 @@ function refreshStudentsIfStale(force){
 document.addEventListener('visibilitychange', ()=>{ if(document.visibilityState==='visible') refreshStudentsIfStale(false); });
 window.addEventListener('focus', ()=>refreshStudentsIfStale(false));
 setInterval(()=>{ if(document.visibilityState==='visible') refreshStudentsIfStale(true); }, 5*60*1000);
+
+// ── 상단 KPI: 오늘 등원 / 현재 학습 / 지각 / 결석 (daily_logs 기준) ──
+// 오늘 요일의 수업 시작 시각(분) — "월화목금 3:00, 수 2:00" / "오후 4시" / "월수금4:00(100분수업)"
+function todayClassStartMin(classTime){
+  const t = String(classTime||''); if(!t) return null;
+  const wd = '일월화수목금토'[new Date().getDay()];
+  const re = /([월화수목금토일]*)\s*(\d{1,2})\s*(?::\s*(\d{2})|시)/g; let m, first=null, hit=null;
+  while((m = re.exec(t))){
+    let hr = parseInt(m[2]); const mi = parseInt(m[3]||'0');
+    if(hr < 12) hr += 12;           // 학원 수업은 모두 오후
+    const v = hr*60 + mi;
+    if(first===null) first = v;
+    if(m[1] && m[1].includes(wd)){ hit = v; break; }
+  }
+  return hit!==null ? hit : first;
+}
+let _kpiTimer = null;
+function updateDashboardKpis(){
+  clearTimeout(_kpiTimer);
+  _kpiTimer = setTimeout(_updateDashboardKpis, 300);
+}
+async function _updateDashboardKpis(){
+  if(typeof allStudents==='undefined' || !allStudents.length) return;
+  const today = new Date().toISOString().slice(0,10);
+  let logs = [];
+  try{ const { data } = await sb.from('daily_logs').select('student_login_id,arrived_at,left_at,note').eq('log_date', today); logs = data||[]; }
+  catch(e){ return; }
+  const active = allStudents.filter(s=>s.status==='재원');
+  const ids = new Set(active.map(s=>s.id));
+  const byId = {}; logs.forEach(l=>{ if(ids.has(l.student_login_id)) byId[l.student_login_id]=l; });
+  let arrived=0, now=0, late=0, absent=0;
+  active.forEach(s=>{
+    const l = byId[s.id];
+    if(l && l.arrived_at){
+      arrived++;
+      if(!l.left_at) now++;
+      const st = todayClassStartMin(s.time);
+      if(st!==null){
+        const d = new Date(new Date(l.arrived_at).getTime() + 9*3600e3);   // KST
+        const am = d.getUTCHours()*60 + d.getUTCMinutes();
+        if(am > st + 10) late++;                                          // 10분 넘게 늦으면 지각
+      }
+    } else if(l && /결석/.test(l.note||'')) absent++;
+  });
+  const set = (id, v, unit) => { const el=document.getElementById(id); if(el) el.innerHTML = v + '<span class="unit">'+unit+'</span>'; };
+  set('kpiArrived', arrived, '/ '+active.length+'명');
+  set('kpiNow', now, '명');
+  set('kpiLate', late, '명');
+  set('kpiAbsent', absent, '명');
+  const hero = document.getElementById('heroLiveLine');
+  if(hero) hero.innerHTML = `<span class="live-dot"></span>오늘 등원 <b style="color:var(--green)">${arrived}명</b> · 학습 중 ${now}명 · 늦은 등원 ${late}명`;
+}
 </script>
 
 
