@@ -1106,7 +1106,7 @@ body { font-family: 'Noto Sans KR','Plus Jakarta Sans',sans-serif; background: l
       <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
         <div>
           <div style="font-size:20px;font-weight:800;">👥 학생 관리</div>
-          <div style="font-size:12px;color:var(--muted);font-weight:600;margin-top:2px;">전체 37명 등록 · 현재 수강 0명</div>
+          <div style="font-size:12px;color:var(--muted);font-weight:600;margin-top:2px;" id="studentTotalSummary">전체 0명 등록 · 현재 수강 0명</div>
         </div>
         <div style="display:flex;gap:8px;flex-wrap:wrap;">
           <button onclick="downloadStudentsXlsx()" style="background:white;color:var(--green);border:2px solid var(--green);border-radius:11px;padding:10px 16px;font-size:13px;font-weight:800;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:6px;">
@@ -1134,13 +1134,14 @@ body { font-family: 'Noto Sans KR','Plus Jakarta Sans',sans-serif; background: l
         <select id="studentFilterLevel" onchange="filterStudents()" style="padding:9px 12px;border:1.5px solid var(--border);border-radius:10px;font-size:12px;font-weight:700;font-family:inherit;outline:none;background:white;color:var(--text);">
           <option value="">전체 레벨</option>
           <option>ORT1</option><option>ORT2</option><option>ORT3</option>
-          <option>ORT4</option><option>ORT5</option><option>내신</option>
+          <option>ORT4</option><option>ORT5</option><option>ORT6</option>
+          <option>ORT7</option><option>ORT8</option><option>ORT9</option><option>내신</option>
         </select>
         <select id="studentFilterStatus" onchange="filterStudents()" style="padding:9px 12px;border:1.5px solid var(--border);border-radius:10px;font-size:12px;font-weight:700;font-family:inherit;outline:none;background:white;color:var(--text);">
           <option value="">전체 상태</option>
           <option>재원</option><option>휴원</option><option>퇴원</option>
         </select>
-        <div style="font-size:11px;color:var(--muted);font-weight:600;" id="studentFilterResult">37명</div>
+        <div style="font-size:11px;color:var(--muted);font-weight:600;" id="studentFilterResult">0명</div>
       </div>
 
       <!-- 학생 테이블 -->
@@ -6383,6 +6384,8 @@ function renderStudentTable(data){
   }).join('');
   const rf = document.getElementById('studentFilterResult');
   if(rf) rf.textContent = rows.length + '명';
+  const sum = document.getElementById('studentTotalSummary');
+  if(sum) sum.textContent = '전체 ' + allStudents.length + '명 등록 · 현재 수강 ' + allStudents.filter(s=>s.status==='재원').length + '명';
 }
 
 function filterStudents(){
