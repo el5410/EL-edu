@@ -947,6 +947,23 @@ body { font-family: 'Noto Sans KR','Plus Jakarta Sans',sans-serif; background: l
 .bq-ex{font-size:11px;color:var(--muted);font-weight:600;margin:6px 0 0;line-height:1.8}
 .bq-ex code{background:var(--bg);padding:1px 6px;border-radius:5px;font-family:inherit;cursor:pointer}
 @media (max-width:600px){.bq-note{padding-left:0}.bq-who{min-width:0}}
+
+/* 교재 단계 */
+.bk-item{padding:9px 10px;background:var(--bg);border-radius:10px;margin-bottom:5px}
+.bk-head{display:flex;align-items:center;gap:7px}
+.bk-step{font-size:9.5px;font-weight:800;color:#6d28d9;background:#ede9fe;border-radius:6px;padding:2px 6px;white-space:nowrap}
+.bk-name{flex:1;min-width:0;font-size:12px;font-weight:800}
+.bk-cnt{font-size:11px;color:var(--teal-d);font-weight:800;white-space:nowrap}
+.bk-ord{display:flex;gap:2px}
+.bk-ord button{border:1px solid var(--border);background:white;border-radius:6px;width:22px;height:20px;font-size:9px;cursor:pointer;color:var(--muted);padding:0}
+.bk-ord button:disabled{opacity:.3;cursor:default}
+.bk-del{background:var(--red-light);color:var(--red);border:none;border-radius:6px;padding:3px 7px;font-size:10px;font-weight:800;cursor:pointer}
+.bk-chips{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
+.bk-chip{display:inline-flex;align-items:center;gap:2px;font-size:10.5px;font-weight:700;background:white;border:1px solid var(--border);border-radius:7px;padding:2px 3px 2px 7px}
+.bk-next{border:none;background:var(--teal-light,#ccfbf1);color:var(--teal-d);border-radius:5px;font-size:10px;font-weight:800;cursor:pointer;padding:1px 5px}
+.bk-next:hover{background:var(--teal);color:white}
+.bk-all{border:1px dashed var(--teal);background:white;color:var(--teal-d);border-radius:7px;font-size:10px;font-weight:800;cursor:pointer;padding:2px 7px}
+.bk-empty{font-size:10px;color:var(--muted);margin-top:3px}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
@@ -5898,14 +5915,23 @@ function renderEtcBooks(){
   types.forEach(t=>{
     const el=document.getElementById('etcList_'+t.key); if(!el) return;
     const items=window.etcBooks[t.key]||[];
-    el.innerHTML=items.map((b,i)=>`
-      <div style="display:flex;align-items:center;justify-content:space-between;padding:9px 12px;background:var(--bg);border-radius:10px;margin-bottom:5px;">
-        <div><div style="font-size:12px;font-weight:800;">${b.name}</div>${b.memo?`<div style="font-size:10px;color:var(--muted);">${b.memo}</div>`:''}</div>
-        <div style="display:flex;align-items:center;gap:8px;">
-          <span style="font-size:11px;color:var(--teal-d);font-weight:700;">${b.students||0}명</span>
-          ${b.live?'':`<button onclick="removeEtcBook('${t.key}',${i})" style="background:var(--red-light);color:var(--red);border:none;border-radius:6px;padding:3px 8px;font-size:10px;font-weight:800;cursor:pointer;">✕</button>`}
+    el.innerHTML=items.map((b,i)=>{
+      const next = items[i+1];
+      const chips = (b.names||[]).map(n=>`<span class="bk-chip">${bqEscA(n)}${next?`<button class="bk-next" title="${bqEscA(next.name)}(으)로" onclick="bkMoveNext('${t.key}',${i},'${esc1(n)}')">→</button>`:''}</span>`).join('');
+      return `<div class="bk-item">
+        <div class="bk-head">
+          <span class="bk-step">${i+1}단계</span>
+          <div class="bk-name">${bqEscA(b.name)}</div>
+          <span class="bk-cnt">${b.students||0}명</span>
+          <span class="bk-ord">
+            <button ${i===0?'disabled':''} onclick="bkMove('${t.key}',${i},-1)" title="위로">▲</button>
+            <button ${i===items.length-1?'disabled':''} onclick="bkMove('${t.key}',${i},1)" title="아래로">▼</button>
+          </span>
+          ${b.live?'':`<button class="bk-del" onclick="removeEtcBook('${t.key}',${i})" title="삭제">✕</button>`}
         </div>
-      </div>`).join('')||'<div style="font-size:11px;color:var(--muted);padding:6px 0;">교재 없음</div>';
+        ${chips?`<div class="bk-chips">${chips}${next&&b.names.length>1?`<button class="bk-all" onclick="bkMoveNext('${t.key}',${i},null)">모두 다음 단계 →</button>`:''}</div>`:`<div class="bk-empty">${bqEscA(b.memo||'아직 배정된 학생 없음')}</div>`}
+      </div>`;
+    }).join('')||'<div style="font-size:11px;color:var(--muted);padding:6px 0;">교재 없음</div>';
   });
 }
 async function removeEtcBook(type,idx){
@@ -5913,6 +5939,10 @@ async function removeEtcBook(type,idx){
   if(!confirm('"'+item.name+'" 교재를 목록에서 지울까요?')) return;
   bookCatalog[type] = (bookCatalog[type]||[]).filter(b=>bqNorm(b.name)!==bqNorm(item.name));
   if(!(await saveBookCatalog())) return;
+  if(bookOrder[type]){
+    bookOrder[type] = bookOrder[type].filter(n=>bqNorm(n)!==bqNorm(item.name));
+    await sb.from('app_settings').upsert({ key:'book_order', value:bookOrder, updated_at:new Date().toISOString() }, { onConflict:'key' });
+  }
   syncBooksFromStudents(); renderEtcBooks();
   showKpiToast('🗑️ 교재 삭제됨');
 }
@@ -6365,7 +6395,7 @@ async function loadStudents(){
   }
   allStudents = data.map(rowToStudent);
   renderStudentTable();
-  try{ syncBooksFromStudents(); loadBookEvents(); loadBookCatalog(); }catch(e){ console.error('books sync', e); }
+  try{ syncBooksFromStudents(); loadBookEvents(); loadBookCatalog(); loadBookOrder(); }catch(e){ console.error('books sync', e); }
   const cnt = document.getElementById('studentFilterResult');
   if(cnt) cnt.textContent = allStudents.length + '명';
   if(typeof renderTodaySchedule==='function') renderTodaySchedule();   // 오늘 시간표 DB 실시간 렌더 (교시별) + 부가기능/오늘값 로드
@@ -9595,10 +9625,10 @@ function syncBooksFromStudents(){
   });
   window.etcBooks = {};
   Object.keys(groups).forEach(g=>{
-    const list = Object.entries(groups[g]).map(([name,names])=>({ name, students:names.length, memo:names.join(', '), live:true }))
-      .sort((a,b)=>b.students-a.students || a.name.localeCompare(b.name,'ko'));
-    (bookCatalog[g]||[]).forEach(x=>{ if(!list.some(l=>bqNorm(l.name)===bqNorm(x.name))) list.push({ name:x.name, students:0, memo:x.memo||'아직 배정된 학생 없음', live:false }); });
-    window.etcBooks[g] = list;
+    const list = Object.entries(groups[g]).map(([name,names])=>({ name, students:names.length, names:names.slice().sort((a,b)=>a.localeCompare(b,'ko')), memo:names.join(', '), live:true }));
+    (bookCatalog[g]||[]).forEach(x=>{ if(!list.some(l=>bqNorm(l.name)===bqNorm(x.name))) list.push({ name:x.name, students:0, names:[], memo:x.memo||'아직 배정된 학생 없음', live:false }); });
+    (typeof bookOrder!=='undefined' ? (bookOrder[g]||[]) : []).forEach(nm=>{ if(nm && !list.some(l=>bqNorm(l.name)===bqNorm(nm))) list.push({ name:nm, students:0, names:[], memo:'아직 배정된 학생 없음', live:false }); });
+    window.etcBooks[g] = bkSortByStage(g, list);
   });
   bqUpdateKpis();
 }
@@ -9632,6 +9662,94 @@ function spAddBook(){
   bqOpen('');
   const ta=document.getElementById('bqModalInput');
   if(ta){ ta.value = n ? n+' ' : ''; setTimeout(()=>{ ta.focus(); ta.setSelectionRange(ta.value.length, ta.value.length); }, 40); }
+}
+
+// ── 교재 단계 순서 (app_settings.book_order) ──
+let bookOrder = {};
+async function loadBookOrder(){
+  try{
+    const { data } = await sb.from('app_settings').select('value').eq('key','book_order').maybeSingle();
+    bookOrder = (data && data.value && typeof data.value==='object') ? data.value : {};
+  }catch(e){ console.error('book_order', e); bookOrder = {}; }
+  syncBooksFromStudents();
+  if(document.getElementById('booksPaneEtc')?.style.display!=='none') renderEtcBooks();
+}
+// 이름으로 대략적인 단계 추정 (저장된 순서가 없을 때만 사용)
+function bkGuessRank(g, name){
+  const n = String(name||'').toLowerCase().replace(/\s/g,'');
+  const num = (re)=>{ const m=re.exec(n); return m?parseFloat(m[1]):0; };
+  const grade = /고교|고등|고[123]/.test(n)?3 : /중등|중[123]/.test(n)?2 : /초등|초[1-6]/.test(n)?1 : 0;
+  if(g==='vocab'){
+    if(/800/.test(n)) return 10;
+    if(/1200/.test(n)) return 20;
+    if(/주니어|입문/.test(n)) return 30;
+    if(/능률1|능률.?1\.|n기본/.test(n)) return 40;
+    if(/능률2|능률.?2\.|n필수/.test(n)) return 50;
+    if(/voca중등필수|중등필수/.test(n)) return 55;
+    if(/쓰방/.test(n)) return (/고교/.test(n)?90:/실력/.test(n)?70:60) + num(/\((\d)\)/)/10;
+    if(/절대어휘/.test(n)) return 80 + num(/5100_(\d)/)*5;
+    if(/어원/.test(n)) return 88;
+    return 100 + grade*10;
+  }
+  if(g==='grammar' || g==='reading'){
+    if(/초등클리어/.test(n)) return 10 + num(/클리어(\d)/);
+    if(/^클리어/.test(n)) return 15 + num(/클리어(\d)/);
+    if(/^rg\d/.test(n)) return 20 + num(/rg(\d+)/);
+    if(/^rs\d/.test(n)) return 40 + num(/rs(\d+)/);
+    if(/중등클리어/.test(n)) return 50 + num(/클리어(\d)/);
+    if(/inside/.test(n)) return 60 + num(/inside(\d)/);
+    if(/리딩바이트|readingbite/.test(n)) return 30 + num(/(\d+)/);
+    if(/리더스뱅크/.test(n)) return 45 + num(/(\d+)/)/10;
+    if(/rank/.test(n)) return 75;
+    if(/어법/.test(n)) return 85;
+    return 100 + grade*10;
+  }
+  // 듣기·기타
+  const lv = num(/중(\d)/) ? 10+num(/중(\d)/) : num(/고(\d)/) ? 20+num(/고(\d)/) : 50;
+  return (/듣기/.test(n)?0:100) + lv;
+}
+function bkSortByStage(g, list){
+  const saved = (bookOrder[g]||[]).map(bqNorm);
+  return list.slice().sort((a,b)=>{
+    const ia = saved.indexOf(bqNorm(a.name)), ib = saved.indexOf(bqNorm(b.name));
+    if(ia>=0 && ib>=0) return ia-ib;
+    if(ia>=0) return -1; if(ib>=0) return 1;
+    return bkGuessRank(g,a.name)-bkGuessRank(g,b.name) || a.name.localeCompare(b.name,'ko',{numeric:true});
+  });
+}
+async function bkMove(g, i, dir){
+  const list = window.etcBooks[g]||[]; const j = i+dir;
+  if(j<0 || j>=list.length) return;
+  [list[i], list[j]] = [list[j], list[i]];
+  bookOrder[g] = list.map(x=>x.name);
+  renderEtcBooks();
+  const { error } = await sb.from('app_settings').upsert({ key:'book_order', value:bookOrder, updated_at:new Date().toISOString() }, { onConflict:'key' });
+  if(error){ console.error(error); showKpiToast('❌ 순서 저장 실패'); }
+}
+// 학생(또는 교재의 모든 학생)을 다음 단계 교재로 → 확인창
+function bkMoveNext(g, i, studentName){
+  const list = window.etcBooks[g]||[]; const cur = list[i], next = list[i+1];
+  if(!cur || !next) return;
+  // 단계 순서를 아직 저장 안 했으면 지금 순서로 고정 (학생이 빠진 교재도 단계에 남도록)
+  if(!(bookOrder[g]||[]).length){
+    bookOrder[g] = list.map(x=>x.name);
+    sb.from('app_settings').upsert({ key:'book_order', value:bookOrder, updated_at:new Date().toISOString() }, { onConflict:'key' }).then(r=>{ if(r && r.error) console.error(r.error); });
+  }
+  const names = studentName ? [studentName] : (cur.names||[]);
+  const keys = g==='naesin' ? ['listening','other'] : [g];
+  const rows = [];
+  names.forEach(n=>{
+    const stu = allStudents.find(s=>s.name===n); if(!stu) return;
+    const b = stu.books||{};
+    const curCat = keys.find(k=>{ const v=b[k]; return (Array.isArray(v)?v:(v?[v]:[])).some(x=>bqNorm(x)===bqNorm(cur.name)); }) || keys[0];
+    const nextCat = g==='naesin' ? (bqGuessCat(next.name)==='listening'?'listening':'other') : g;
+    rows.push({ stu, line:'', action:'finish', cat:curCat, book:cur.name, options:[cur.name] });
+    rows.push({ stu, line:'', action:'start', cat:nextCat, book:next.name, options:[next.name] });
+  });
+  if(!rows.length) return;
+  const m = document.getElementById('bqModal'); m.style.display='flex';
+  document.getElementById('bqModalInput').value = names.map(n=>`${n} ${cur.name} 끝, ${next.name} 시작`).join('\n');
+  bqPending = rows; bqRenderPreview([]);
 }
 </script>
 
