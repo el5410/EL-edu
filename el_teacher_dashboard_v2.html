@@ -7003,7 +7003,7 @@ const studentData_sp = {
   '김희원': { level:'ORT8 · 중3', status:'재원', arrive:'—', elapsed:'—', vocab:'—', yest:'—', today:'예정 진도', memo:'',
     passCount:0, passCurrent:0, passTotal:20,
     school:'관동중 · 중3', time:'월수금4:00(100분수업)', phone:'—', startDate:'—', loginId:'el7166', loginPw:'—',
-    bookOrt:'ORT8 진행중', bookDadok:'', bookVocab:'능률 2.기본(혼합)', bookRead:'', bookGrammar:'inside 3, RANK 기본문장쓰기, 중3 영어 듣기', bookNaesin:'',
+    bookOrt:'ORT8 진행중', bookDadok:'', bookVocab:'능률 기본', bookRead:'', bookGrammar:'inside 3, RANK 기본문장쓰기, 중3 영어 듣기', bookNaesin:'',
     stats:[] },
   '박지우': { level:'ORT7 · 초6', status:'재원', arrive:'—', elapsed:'—', vocab:'—', yest:'—', today:'예정 진도', memo:'',
     passCount:0, passCurrent:0, passTotal:20,
@@ -7018,12 +7018,12 @@ const studentData_sp = {
   '박하린': { level:'ORT5 · 초5', status:'재원', arrive:'—', elapsed:'—', vocab:'—', yest:'—', today:'예정 진도', memo:'',
     passCount:0, passCurrent:0, passTotal:20,
     school:'신안초 · 초5', time:'월화수목금4:00', phone:'—', startDate:'—', loginId:'el9301', loginPw:'—',
-    bookOrt:'ORT5 진행중', bookDadok:'Henry and Mudge', bookVocab:'능률 1.N기본(스펠)', bookRead:'', bookGrammar:'RG4, 중등클리어1, 중1 영어 듣기', bookNaesin:'',
+    bookOrt:'ORT5 진행중', bookDadok:'Henry and Mudge', bookVocab:'능률 기본', bookRead:'', bookGrammar:'RG4, 중등클리어1, 중1 영어 듣기', bookNaesin:'',
     stats:[] },
   '박하윤': { level:'ORT5 · 초5', status:'재원', arrive:'—', elapsed:'—', vocab:'—', yest:'—', today:'예정 진도', memo:'',
     passCount:0, passCurrent:0, passTotal:20,
     school:'신안초 · 초5', time:'월화수목금4:00', phone:'—', startDate:'—', loginId:'el6058', loginPw:'—',
-    bookOrt:'ORT5 진행중', bookDadok:'Henry and Mudge', bookVocab:'능률 1.N기본(스펠)', bookRead:'', bookGrammar:'RG5, 중등클리어1, 중1 영어 듣기', bookNaesin:'',
+    bookOrt:'ORT5 진행중', bookDadok:'Henry and Mudge', bookVocab:'능률 기본', bookRead:'', bookGrammar:'RG5, 중등클리어1, 중1 영어 듣기', bookNaesin:'',
     stats:[] },
   '서지연': { level:'ORT2 · 초4', status:'재원', arrive:'—', elapsed:'—', vocab:'—', yest:'—', today:'예정 진도', memo:'',
     passCount:0, passCurrent:0, passTotal:20,
@@ -7073,7 +7073,7 @@ const studentData_sp = {
   '이수현_6': { level:'ORT4 · 초6', status:'재원', arrive:'—', elapsed:'—', vocab:'—', yest:'—', today:'예정 진도', memo:'',
     passCount:0, passCurrent:0, passTotal:20,
     school:'신안초 · 초6', time:'월화수목금6:00', phone:'—', startDate:'—', loginId:'el7274', loginPw:'—',
-    bookOrt:'ORT4 진행중', bookDadok:'fly guy', bookVocab:'능률 1.N기본(스펠)', bookRead:'', bookGrammar:'RG2, 중1 영어 듣기', bookNaesin:'',
+    bookOrt:'ORT4 진행중', bookDadok:'fly guy', bookVocab:'능률 기본', bookRead:'', bookGrammar:'RG2, 중1 영어 듣기', bookNaesin:'',
     stats:[] },
   '이예준': { level:'ORT3 · 초4', status:'재원', arrive:'—', elapsed:'—', vocab:'—', yest:'—', today:'예정 진도', memo:'',
     passCount:0, passCurrent:0, passTotal:20,
@@ -7148,7 +7148,7 @@ const studentData_sp = {
   '추아연': { level:'ORT6 · 초5', status:'재원', arrive:'—', elapsed:'—', vocab:'—', yest:'—', today:'예정 진도', memo:'',
     passCount:0, passCurrent:0, passTotal:20,
     school:'신안초 · 초5', time:'월화수목금5:00', phone:'—', startDate:'—', loginId:'el0098', loginPw:'—',
-    bookOrt:'ORT6 진행중', bookDadok:'Winnie the witch', bookVocab:'능률 1.N기본(스펠)', bookRead:'', bookGrammar:'RG4, 중등클리어1, 중2 영어 듣기', bookNaesin:'',
+    bookOrt:'ORT6 진행중', bookDadok:'Winnie the witch', bookVocab:'능률 기본', bookRead:'', bookGrammar:'RG4, 중등클리어1, 중2 영어 듣기', bookNaesin:'',
     stats:[] },
   '허정우': { level:'ORT3 · 초3', status:'재원', arrive:'—', elapsed:'—', vocab:'—', yest:'—', today:'예정 진도', memo:'',
     passCount:0, passCurrent:0, passTotal:20,
@@ -9747,7 +9747,7 @@ function bkGuessRank(g, name){
     if(/800/.test(n)) return 10;
     if(/1200/.test(n)) return 20;
     if(/주니어|입문/.test(n)) return 30;
-    if(/능률1|능률.?1\.|n기본/.test(n)) return 40;
+    if(/능률1|능률.?1\.|n기본|^능률기본/.test(n)) return 40;
     if(/능률2|능률.?2\.|n필수/.test(n)) return 50;
     if(/voca중등필수|중등필수/.test(n)) return 55;
     if(/쓰방/.test(n)) return (/고교/.test(n)?90:/실력/.test(n)?70:60) + num(/\((\d)\)/)/10;
