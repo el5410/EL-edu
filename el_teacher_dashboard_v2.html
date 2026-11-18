@@ -577,6 +577,13 @@ body { font-family: 'Noto Sans KR','Plus Jakarta Sans',sans-serif; background: l
 .ort-step.current .ort-step-icon { background: var(--teal); color: white; }
 .ort-step.skipped .ort-step-icon { background: var(--orange); color: white; }
 .ort-step.locked .ort-step-icon { background: var(--muted); color: white; }
+.ort-pick-bar { display:flex; align-items:center; gap:8px; flex-wrap:wrap; background:var(--teal-soft); border:1.5px solid var(--teal-light); border-radius:11px; padding:9px 12px; margin-bottom:10px; font-size:11px; font-weight:800; color:var(--teal-d); }
+.ort-pick-bar:empty { display:none; }
+.ort-pick-bar select { padding:6px 10px; border:1.5px solid var(--teal); border-radius:8px; font-size:12px; font-weight:800; font-family:inherit; color:var(--teal-d); background:white; outline:none; cursor:pointer; }
+.ort-pick-bar .ort-pick-hint { color:var(--orange); font-weight:700; }
+.ort-pick-bar button { padding:6px 12px; border:none; border-radius:8px; background:var(--teal); color:white; font-size:11px; font-weight:800; font-family:inherit; cursor:pointer; }
+.ort-step.locked .ort-set-btn { background:var(--teal-light) !important; color:var(--teal-d) !important; cursor:pointer; }
+.ort-step.locked .ort-set-btn:hover { background:var(--teal) !important; color:white !important; }
 .ort-step-info { flex: 1; }
 .ort-step-name { font-size: 13px; font-weight: 800; }
 .ort-step-desc { font-size: 10px; color: var(--muted); font-weight: 600; margin-top: 2px; }
@@ -2924,6 +2931,7 @@ body { font-family: 'Noto Sans KR','Plus Jakarta Sans',sans-serif; background: l
       <div class="section-title">📚 ORT 단계 관리 <span class="badge" id="spOrtBadge">현재 ORT2</span></div>
       <div class="section-subtitle">레벨별 지면 시험 점수(필수) + W·P·Q 정답률(선택) · test_records 실데이터</div>
 
+      <div class="ort-pick-bar" id="ortPickBar"></div>
       <div class="ort-ladder" id="ortLadder"></div>
 
       <div style="margin-top:12px;padding:10px 12px;background:var(--orange-soft);border-radius:10px;font-size:11px;color:var(--orange);font-weight:700">
@@ -7279,6 +7287,19 @@ function renderSpOrt(stu, scores){
   const badge = document.getElementById('spOrtBadge');
   if(badge) badge.textContent = curNum ? '현재 ORT'+curNum : ((stu.books&&stu.books.ort)||'ORT 미지정');
 
+  // 현재 ORT 교재 선택 바
+  const pick = document.getElementById('ortPickBar');
+  if(pick){
+    const levelNum = ortNum(stu.level);
+    const L = "'"+esc1(loginId)+"','"+esc1(name)+"'";
+    let opts = '<option value="0"'+(curNum?'':' selected')+'>— 미지정 —</option>';
+    for(let i=1;i<=12;i++) opts += '<option value="'+i+'"'+(i===curNum?' selected':'')+'>ORT'+i+'</option>';
+    const hint = (!curNum && levelNum)
+      ? '<span class="ort-pick-hint">💡 학생 레벨은 ORT'+levelNum+' → <a href="#" style="color:inherit" onclick="event.preventDefault();setSpOrt('+L+','+levelNum+')">ORT'+levelNum+'(으)로 바로 설정</a></span>' : '';
+    pick.innerHTML = '📚 현재 ORT 교재 <select id="ortPickSel">'+opts+'</select>'
+      + '<button onclick="setSpOrt('+L+',parseInt(document.getElementById(&quot;ortPickSel&quot;).value))">저장</button>' + hint;
+  }
+
   const scoreBox = (lv,rec)=>{
     const sv = rec && rec.score!=null ? rec.score : '';
     const dv = rec && rec.test_date ? rec.test_date : today;
@@ -7322,9 +7343,9 @@ function renderSpOrt(stu, scores){
         <div class="ort-step-icon">${lv}</div>
         <div class="ort-step-info">
           <div class="ort-step-name">ORT${lv}</div>
-          <div class="ort-step-desc">잠금 (이전 단계 완료 후)</div>
+          <div class="ort-step-desc">${curNum?'잠금 (이전 단계 완료 후)':'ORT 미지정 · 오른쪽 버튼으로 이 단계부터 시작'}</div>
         </div>
-        <button class="ort-step-action" style="background:var(--bg);color:var(--muted)">잠금</button>
+        <button class="ort-step-action ort-set-btn" onclick="setSpOrt('${esc1(loginId)}','${esc1(name)}',${lv})">▶ 여기로 설정</button>
       </div>`;
     } else if(isCurrent){
       // 진행 중 (펼침)
@@ -7360,6 +7381,29 @@ function renderSpOrt(stu, scores){
     }
   }
   ladder.innerHTML = html || '<div style="color:var(--muted);font-size:12px;padding:12px;">ORT 기록이 없습니다.</div>';
+}
+
+// 현재 ORT 교재 설정 (current_books.ort = "ORTn", 0이면 미지정)
+async function setSpOrt(loginId, name, lv){
+  const stu = allStudents.find(s=>s.id===loginId) || allStudents.find(s=>s.name===name);
+  const b = Object.assign({}, (stu && stu.books) || {});
+  const cur = ortNum(b.ort);
+  if(lv===cur){ showKpiToast('이미 '+(lv?'ORT'+lv:'미지정')+' 상태예요'); return; }
+  const msg = lv ? (name+' 학생의 현재 ORT를 ORT'+lv+'(으)로 정할까요?'+(cur?'\n(지금: ORT'+cur+')':''))
+                 : (name+' 학생의 ORT를 미지정으로 바꿀까요?');
+  if(!confirm(msg)) return;
+  if(lv) b.ort = 'ORT'+lv; else delete b.ort;
+  const upd = { current_books: b };
+  if(lv && stu && (stu.level==='—' || !stu.level || /^ORT\d/i.test(stu.level))) upd.level = 'ORT'+lv;
+  const { error } = await sb.from('students').update(upd).eq('login_id', loginId);
+  if(error){ showKpiToast('❌ ORT 저장 실패'); console.error(error); return; }
+  if(stu){ stu.books = b; if(upd.level) stu.level = upd.level; }
+  if(lv){
+    const { error: e2 } = await sb.from('book_events').insert({ student_login_id:loginId, student_name:name, category:'ort', book:'ORT'+lv, action:'start', source_text:'상세 패널에서 ORT 설정' });
+    if(e2) console.warn(e2);
+  }
+  showKpiToast('✅ '+name+' · '+(lv?'ORT'+lv+' 설정됨':'ORT 미지정'));
+  openSidePanel(name);
 }
 
 async function saveSpOrtScore(loginId, name, lv, recId){
