@@ -330,6 +330,31 @@ body{font-family:'Plus Jakarta Sans','Noto Sans KR',sans-serif;background:var(--
 @keyframes slideDown{from{opacity:0;transform:translateY(-20px);}to{opacity:1;transform:translateY(0);}}
 @keyframes fadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
 .card,.hero,.mission,.passbank,.yesterday{animation:fadeIn .3s ease both;}
+/* ━━━━━ 📘 고등 과정 ━━━━━ */
+.hs-sec{background:var(--card);border:1.5px solid var(--border);border-radius:14px;padding:12px;margin-bottom:10px}
+.hs-sec-title{font-size:12px;font-weight:800;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.hs-sec-title .sub{font-size:10px;color:var(--muted);font-weight:600;margin-left:auto}
+.hs-book-row{background:var(--bg);border-radius:11px;padding:9px;margin-bottom:7px;position:relative}
+.hs-book-row input{width:100%;padding:9px 10px;border:1.5px solid var(--border);border-radius:9px;font-size:13px;font-weight:700;font-family:inherit;outline:none;background:white;color:var(--text)}
+.hs-book-row input:focus{border-color:var(--teal)}
+.hs-book-row .hs-line2{display:grid;grid-template-columns:1fr 112px;gap:6px;margin-top:6px}
+.hs-score{display:flex;align-items:center;gap:3px}
+.hs-score input{padding:9px 2px;text-align:center;font-size:12px}
+.hs-chip.more{border-style:dashed;color:var(--teal-d)}
+.hs-score span{color:var(--muted);font-weight:700;font-size:11px}
+.hs-del{position:absolute;top:-6px;right:-6px;width:22px;height:22px;border-radius:50%;border:none;background:var(--red-light);color:var(--red);font-size:11px;font-weight:800;cursor:pointer}
+.hs-chips{display:flex;flex-wrap:wrap;gap:5px;margin:2px 0 8px}
+.hs-chip{border:1.5px solid var(--border);background:white;color:var(--text2);font-size:11px;font-weight:700;padding:5px 9px;border-radius:16px;cursor:pointer;font-family:inherit}
+.hs-chip.mine{border-color:var(--teal-light);background:var(--teal-soft);color:var(--teal-d)}
+.hs-chip:active{transform:scale(.96)}
+.hs-add{width:100%;padding:9px;border:1.5px dashed var(--teal);background:var(--teal-soft);color:var(--teal-d);border-radius:10px;font-size:12px;font-weight:800;cursor:pointer;font-family:inherit}
+.hs-mock{display:grid;grid-template-columns:1fr 70px auto;gap:6px;align-items:center}
+.hs-mock input,.hs-sec textarea,.hs-wrong{width:100%;padding:9px 10px;border:1.5px solid var(--border);border-radius:9px;font-size:13px;font-weight:700;font-family:inherit;outline:none;background:white;color:var(--text)}
+.hs-sec textarea{resize:none;min-height:54px;font-weight:600}
+.hs-mock input:focus,.hs-sec textarea:focus,.hs-wrong:focus{border-color:var(--teal)}
+.hs-grade{font-size:12px;font-weight:800;padding:8px 10px;border-radius:9px;background:var(--bg);color:var(--muted);white-space:nowrap;text-align:center;min-width:56px}
+.hs-grade.g1{background:var(--green-light);color:#15803d}.hs-grade.g2{background:var(--teal-light);color:var(--teal-d)}
+.hs-grade.g3{background:var(--orange-light);color:#c2410c}.hs-grade.g4{background:var(--red-light);color:var(--red)}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
@@ -628,6 +653,7 @@ body{font-family:'Plus Jakarta Sans','Noto Sans KR',sans-serif;background:var(--
         <option value="다독진도">다독 진도</option>
         <option value="듣기평가">듣기평가</option>
         <option value="내신">내신</option>
+        <option value="고등">고등 과정 📘</option>
         <option value="기타">기타</option>
         <option value="ORT복습">ORT 복습 🔁</option>
       </select>
@@ -813,6 +839,37 @@ body{font-family:'Plus Jakarta Sans','Noto Sans KR',sans-serif;background:var(--
           <div class="si-name">궁금한 부분 ❓</div>
           <textarea onclick="event.stopPropagation()" placeholder="예) to부정사 설명이 필요해요" style="width:100%;padding:6px 9px;border:1.5px solid var(--border);border-radius:7px;font-size:10px;font-weight:500;font-family:inherit;outline:none;background:white;resize:none;height:42px"></textarea>
         </div>
+      </div>
+    </div>
+
+    <!-- 📘 고등 과정 (중·고등 학생에게만 보임) -->
+    <div id="stepsHigh" style="display:none">
+      <div style="font-size:11px;font-weight:700;color:var(--muted);margin-bottom:8px">📘 고등 과정 학습</div>
+
+      <div class="hs-sec">
+        <div class="hs-sec-title">📚 오늘 공부한 교재 <span class="sub">고르거나 직접 적기</span></div>
+        <div class="hs-chips" id="hsBookChips"></div>
+        <div id="hsBookList"></div>
+        <button class="hs-add" onclick="hsAddBook()">+ 교재 추가</button>
+      </div>
+
+      <div class="hs-sec">
+        <div class="hs-sec-title">📝 모의고사 <span class="sub">푼 날만 적기</span></div>
+        <div class="hs-mock">
+          <input type="text" id="hsMockName" placeholder="예) 고1 2025년 9월" oninput="checkComplete()"/>
+          <input type="number" id="hsMockScore" placeholder="점수" min="0" max="100" inputmode="numeric" oninput="hsUpdateGrade();checkComplete()"/>
+          <div class="hs-grade" id="hsMockGrade">—등급</div>
+        </div>
+      </div>
+
+      <div class="hs-sec">
+        <div class="hs-sec-title">❌ 틀린 문항 번호</div>
+        <input type="text" class="hs-wrong" id="hsWrong" placeholder="예) 21, 24, 33, 38" inputmode="text"/>
+      </div>
+
+      <div class="hs-sec">
+        <div class="hs-sec-title">❓ 궁금한 부분</div>
+        <textarea id="hsQuestion" placeholder="예) 34번 빈칸 왜 답이 3번인지 모르겠어요"></textarea>
       </div>
     </div>
 
@@ -1299,6 +1356,7 @@ function applyStudentIdentity(){
   const b = stuCurrent.current_books || {};
   const booksSummary = [b.ort, b.dadok].filter(Boolean).join(' · ') || (stuCurrent.level || '');
   document.querySelectorAll('[data-stu-name]').forEach(el => el.textContent = stuCurrent.name);
+  if(typeof hsApplyVisibility === 'function') try{ hsApplyVisibility(); }catch(e){}
   document.querySelectorAll('[data-stu-avatar]').forEach(el => el.textContent = stuCurrent.name.slice(-2));
   document.querySelectorAll('[data-stu-greet]').forEach(el => el.textContent = '안녕, ' + stuCurrent.name + '! 👋');
   document.querySelectorAll('[data-stu-given]').forEach(el => el.textContent = given);
@@ -1365,6 +1423,8 @@ function collectTodayRecord(){
   });
   rec.stages = stages;
   if(Object.keys(stageScores).length) rec.test_scores = Object.assign(rec.test_scores || {}, stageScores);
+  // 고등 과정 점수 (교재 맞은/전체, 모의고사)
+  if(typeof hsTodayScores !== 'undefined' && Object.keys(hsTodayScores).length) rec.test_scores = Object.assign(rec.test_scores || {}, hsTodayScores);
   return rec;
 }
 function applySavedStages(stages){
@@ -1787,7 +1847,7 @@ async function saveStagesNow(){
 }
 function checkComplete(){
   const btn = document.getElementById('completeBtn');
-  const allStepIds = ['stepsORT','stepsReview','stepsListening','stepsNaesin','stepsOther'];
+  const allStepIds = ['stepsORT','stepsReview','stepsListening','stepsNaesin','stepsOther','stepsHigh'];
   let done = 0;
   allStepIds.forEach(id => {
     const el = document.getElementById(id);
@@ -1806,6 +1866,8 @@ function checkComplete(){
       });
     }
   });
+  // 고등 과정: 교재 이름 / 모의고사 점수가 적힌 만큼 카운트
+  if(document.getElementById('progSel').value === '고등' && typeof hsDoneCount === 'function') done += hsDoneCount();
   btn.disabled = done === 0;
   btn.textContent = done > 0 ? `🎉 진도 완료 (${done}개 완료)` : '🎉 진도 완료 — 1개 이상 선택하세요';
 }
@@ -1815,7 +1877,14 @@ const todayDone = []; // 오늘 완료한 진도 목록
 
 function completeProgress(){
   const progSel    = document.getElementById('progSel').value;
-  const progDetail = document.getElementById('progDetail').value.trim();
+  // 고등 과정: 교재·범위·모의고사를 진도 문장으로 자동 정리
+  let hs = null;
+  if(progSel === '고등'){
+    hs = hsCollect();
+    if(!hs.detail){ showToast('📚 교재나 모의고사를 하나 이상 적어주세요!'); return; }
+  }
+  const typedDetail = document.getElementById('progDetail').value.trim();
+  const progDetail = hs ? (typedDetail ? typedDetail + ' · ' + hs.detail : hs.detail) : typedDetail;
   if(!progDetail){ showToast('📝 진도 내용을 입력해주세요!'); return; }
 
   // 완료한 단계 목록 수집
@@ -1831,6 +1900,8 @@ function completeProgress(){
     const parent = inp.closest('[data-step]');
     if(parent && inp.value) scores[parent.getAttribute('data-step')] = inp.value;
   });
+
+  if(hs){ Object.assign(scores, hs.scores); Object.assign(hsTodayScores, hs.scores); hsRemember(hs.books); }
 
   // 기록 저장
   const now = new Date();
@@ -1849,6 +1920,7 @@ function completeProgress(){
     if(badge) badge.remove();
   });
   document.querySelectorAll('#stepsORT .score-in').forEach(inp => inp.value = '');
+  if(hs) hsReset();
   checkComplete();
 
   // 다음 진도 힌트 업데이트 (ORT면 +1 자동)
@@ -2725,11 +2797,118 @@ const dadokRecommended = [
   { name:'Mercy Watson', desc:'ORT2 수준 추천' },
 ];
 
+
+// ═══════════ 📘 고등 과정 입력 ═══════════
+// 중·고등 학생에게만 '고등 과정' 메뉴가 보임 · 교재는 칩에서 고르거나 직접 입력 · 직접 적은 교재는 다음에 칩으로 다시 나옴
+const HS_PRESET_BOOKS = ['수능특강 영어','수능특강 영어독해연습','수능완성','올림포스','리딩파워','빠른독해 바른독해','천일문','자이스토리','마더텅 모의고사','그래머존','능률VOCA 고교필수','워드마스터 수능2000'];
+let hsBooks = [];   // [{book, range, c, t}]
+let hsShowPresets = false;   // 내 교재가 있으면 추천 교재는 접어둠
+
+function hsKey(){ const id = (typeof stuCurrent!=='undefined' && stuCurrent) ? stuCurrent.login_id : 'guest'; return 'el_high_books_' + id; }
+function hsMyBooks(){ try { return JSON.parse(localStorage.getItem(hsKey()) || '[]') || []; } catch(e){ return []; } }
+function hsRemember(names){
+  const list = hsMyBooks().filter(b => names.indexOf(b) < 0);
+  try { localStorage.setItem(hsKey(), JSON.stringify(names.concat(list).slice(0, 12))); } catch(e){}
+}
+function hsEsc(s){ return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+// 학생 학년으로 메뉴 보이기/숨기기 (초등이면 숨김 · 학년을 알 수 없으면 보임)
+function hsApplyVisibility(){
+  const opt = document.querySelector('#progSel option[value="고등"]');
+  if(!opt) return;
+  const s = (typeof stuCurrent!=='undefined' && stuCurrent) ? stuCurrent : null;
+  const txt = s ? [s.grade, s.school, s.level].filter(Boolean).join(' ') : '';
+  const isElem = /초\s*[1-6]|초등/.test(txt) && !/[중고]\s*[1-3]|중학|고등/.test(txt);
+  opt.hidden = isElem; opt.disabled = isElem;
+  const sel = document.getElementById('progSel');
+  if(isElem && sel && sel.value === '고등'){ sel.value = 'ORT진도'; updateProgMode(); }
+}
+
+function hsInit(){
+  if(!hsBooks.length) hsBooks.push({ book:'', range:'', c:'', t:'' });
+  hsRenderChips(); hsRenderBooks(); hsUpdateGrade();
+}
+function hsRenderChips(){
+  const mine = hsMyBooks();
+  const preset = HS_PRESET_BOOKS.filter(b => mine.indexOf(b) < 0);
+  const showPreset = hsShowPresets || !mine.length;
+  document.getElementById('hsBookChips').innerHTML =
+    mine.map(b => '<button class="hs-chip mine" onclick="hsPick(this.textContent.slice(2))">⭐ ' + hsEsc(b) + '</button>').join('')
+    + (showPreset
+        ? preset.map(b => '<button class="hs-chip" onclick="hsPick(this.textContent)">' + hsEsc(b) + '</button>').join('')
+          + (mine.length ? '<button class="hs-chip more" onclick="hsShowPresets=false;hsRenderChips()">접기 ▲</button>' : '')
+        : '<button class="hs-chip more" onclick="hsShowPresets=true;hsRenderChips()">+ 다른 교재 ▼</button>');
+}
+function hsRenderBooks(){
+  document.getElementById('hsBookList').innerHTML = hsBooks.map((b, i) =>
+    '<div class="hs-book-row">'
+    + (hsBooks.length > 1 ? '<button class="hs-del" onclick="hsDelBook(' + i + ')">✕</button>' : '')
+    + '<input type="text" placeholder="교재 이름 (위에서 고르거나 직접 입력)" value="' + hsEsc(b.book) + '" oninput="hsSet(' + i + ',\'book\',this.value)"/>'
+    + '<div class="hs-line2">'
+    +   '<input type="text" placeholder="범위 예) 5강 1~4번" value="' + hsEsc(b.range) + '" oninput="hsSet(' + i + ',\'range\',this.value)"/>'
+    +   '<div class="hs-score"><input type="number" inputmode="numeric" placeholder="맞은" value="' + hsEsc(b.c) + '" oninput="hsSet(' + i + ',\'c\',this.value)"/><span>/</span>'
+    +   '<input type="number" inputmode="numeric" placeholder="전체" value="' + hsEsc(b.t) + '" oninput="hsSet(' + i + ',\'t\',this.value)"/></div>'
+    + '</div></div>').join('');
+}
+function hsSet(i, k, v){ if(hsBooks[i]){ hsBooks[i][k] = v; checkComplete(); } }
+function hsAddBook(){ hsBooks.push({ book:'', range:'', c:'', t:'' }); hsRenderBooks(); const ins = document.querySelectorAll('#hsBookList .hs-book-row'); ins[ins.length-1].querySelector('input').focus(); }
+function hsDelBook(i){ hsBooks.splice(i, 1); if(!hsBooks.length) hsBooks.push({ book:'', range:'', c:'', t:'' }); hsRenderBooks(); checkComplete(); }
+// 칩을 누르면 비어 있는 교재 칸에 들어가고, 다 차 있으면 새 칸을 만들어서 넣음
+function hsPick(name){
+  name = name.trim();
+  let i = hsBooks.findIndex(b => !b.book.trim());
+  if(i < 0){ hsBooks.push({ book:'', range:'', c:'', t:'' }); i = hsBooks.length - 1; }
+  hsBooks[i].book = name; hsRenderBooks(); checkComplete();
+  const row = document.querySelectorAll('#hsBookList .hs-book-row')[i];
+  if(row) row.querySelectorAll('input')[1].focus();   // 바로 범위 입력
+}
+// 영어 절대평가 등급 (90↑ 1등급, 10점 간격)
+function hsGradeOf(score){ return score >= 90 ? 1 : score >= 80 ? 2 : score >= 70 ? 3 : score >= 60 ? 4 : score >= 50 ? 5 : score >= 40 ? 6 : score >= 30 ? 7 : score >= 20 ? 8 : 9; }
+function hsUpdateGrade(){
+  const el = document.getElementById('hsMockGrade');
+  const v = document.getElementById('hsMockScore').value;
+  el.className = 'hs-grade';
+  if(v === '' || isNaN(+v)){ el.textContent = '—등급'; return; }
+  const g = hsGradeOf(+v);
+  el.textContent = g + '등급';
+  el.classList.add(g === 1 ? 'g1' : g === 2 ? 'g2' : g === 3 ? 'g3' : 'g4');
+}
+function hsDoneCount(){
+  let n = hsBooks.filter(b => b.book.trim()).length;
+  if(document.getElementById('hsMockScore').value !== '') n++;
+  return n;
+}
+// 진도 완료 시: 진도 문장 + 점수 정리
+function hsCollect(){
+  const books = hsBooks.filter(b => b.book.trim()).map(b => ({ book:b.book.trim(), range:b.range.trim(), c:b.c, t:b.t }));
+  const parts = books.map(b => b.book + (b.range ? ' ' + b.range : '') + (b.c !== '' && b.t ? ' (' + b.c + '/' + b.t + ')' : ''));
+  const mockName = document.getElementById('hsMockName').value.trim();
+  const mockScore = document.getElementById('hsMockScore').value;
+  const scores = {};
+  books.forEach(b => { if(b.c !== '' && b.t) scores[b.book] = b.c + '/' + b.t; });
+  if(mockScore !== ''){
+    const g = hsGradeOf(+mockScore);
+    parts.push('모의고사' + (mockName ? ' ' + mockName : '') + ' ' + mockScore + '점(' + g + '등급)');
+    scores['모의고사'] = mockScore + '/100';
+  }
+  const wrong = document.getElementById('hsWrong').value.trim();
+  const q = document.getElementById('hsQuestion').value.trim();
+  if(wrong) parts.push('오답 ' + wrong);
+  if(q) parts.push('❓ ' + q);
+  return { detail: parts.join(' · '), books: books.map(b => b.book), scores: scores };
+}
+function hsReset(){
+  hsBooks = [{ book:'', range:'', c:'', t:'' }];
+  ['hsMockName','hsMockScore','hsWrong','hsQuestion'].forEach(id => { const el = document.getElementById(id); if(el) el.value = ''; });
+  hsRenderChips(); hsRenderBooks(); hsUpdateGrade();
+}
+let hsTodayScores = {};   // 오늘 고등 과정 점수 (저장 시 test_scores에 합침)
+
 function updateProgMode(){
   const v = document.getElementById('progSel').value;
   const continueBtn = document.getElementById('continueHintBtn');
   const dadokWrap  = document.getElementById('dadokWrap');
-  const allSteps = ['stepsORT','stepsReview','stepsListening','stepsNaesin','stepsOther'];
+  const allSteps = ['stepsORT','stepsReview','stepsListening','stepsNaesin','stepsOther','stepsHigh'];
 
   // 모두 숨김
   continueBtn.style.display = 'none';
@@ -2761,6 +2940,10 @@ function updateProgMode(){
     // 성장 탭 내신 모드 전환
     setGrowthMode(true);
     if(typeof loadExamScope==='function') loadExamScope();
+  } else if(v === '고등'){
+    document.getElementById('progDetail').placeholder = '아래에 적으면 자동으로 정리돼요';
+    document.getElementById('stepsHigh').style.display = 'block';
+    hsInit();
   } else if(v === '기타'){
     document.getElementById('progDetail').placeholder = '내용 직접 입력';
     document.getElementById('stepsOther').style.display = 'block';
