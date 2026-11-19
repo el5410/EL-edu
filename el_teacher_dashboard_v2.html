@@ -934,7 +934,7 @@ body { font-family: 'Noto Sans KR','Plus Jakarta Sans',sans-serif; background: l
 .bq-go:disabled{opacity:.45;cursor:default}
 .bq-recent{display:flex;gap:6px;flex-wrap:wrap;width:100%;align-items:center}
 .bq-chip{font-size:10.5px;font-weight:700;padding:3px 8px;border-radius:7px;background:white;border:1px solid var(--border)}
-.bq-chip.fin{color:#15803d;border-color:#bbf7d0;background:#f0fdf4}.bq-chip.st{color:#6d28d9;border-color:#ddd6fe;background:#f5f3ff}
+.bq-chip.fin{color:#15803d;border-color:#bbf7d0;background:#f0fdf4}.bq-chip.rv{color:#c2410c;border-color:#fed7aa;background:#fff7ed}.bq-chip.st{color:#6d28d9;border-color:#ddd6fe;background:#f5f3ff}
 #bqModal{position:fixed;inset:0;background:rgba(15,23,42,.45);z-index:10050;display:none;align-items:flex-start;justify-content:center;padding:6vh 12px;overflow:auto}
 .bq-box{background:white;border-radius:18px;width:620px;max-width:100%;padding:20px;box-shadow:0 20px 60px rgba(0,0,0,.25);box-sizing:border-box}
 .bq-box textarea{width:100%;box-sizing:border-box;border:1.5px solid var(--border);border-radius:12px;padding:10px 12px;font-size:14px;font-family:inherit;font-weight:600;resize:vertical;min-height:64px;outline:none}
@@ -944,7 +944,8 @@ body { font-family: 'Noto Sans KR','Plus Jakarta Sans',sans-serif; background: l
 .bq-who{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:800;min-width:92px}
 .bq-av{width:24px;height:24px;border-radius:7px;color:white;font-size:9px;font-weight:800;display:flex;align-items:center;justify-content:center}
 .bq-badge{font-size:11px;font-weight:800;padding:3px 8px;border-radius:7px;white-space:nowrap}
-.bq-badge.fin{background:#dcfce7;color:#15803d}.bq-badge.st{background:#ede9fe;color:#6d28d9}
+.bq-badge.fin{background:#dcfce7;color:#15803d}.bq-badge.st{background:#ede9fe;color:#6d28d9}.bq-badge.rv{background:#ffedd5;color:#c2410c}
+.bq-inp.bq-score{width:64px;text-align:center;font-weight:800}.bq-unit{font-size:11px;font-weight:800;color:var(--muted);margin-left:-4px}
 .bq-sel,.bq-inp{border:1.5px solid var(--border);border-radius:8px;padding:5px 8px;font-size:12px;font-family:inherit;font-weight:700;background:white}
 .bq-book{flex:1;min-width:150px}
 .bq-x{background:none;border:none;color:#9ca3af;cursor:pointer;font-size:13px;padding:4px}
@@ -1758,7 +1759,7 @@ body { font-family: 'Noto Sans KR','Plus Jakarta Sans',sans-serif; background: l
       <!-- ✍️ 교재 한 줄 입력 -->
       <div class="bq-bar">
         <span class="bq-lbl">✍️ 한 줄 입력</span>
-        <input id="bqBarInput" placeholder="예) 이정후 1200 단어 끝, 능률 기본 시작" onkeydown="if(event.key==='Enter'&&!event.isComposing){event.preventDefault();bqFromBar();}">
+        <input id="bqBarInput" placeholder="예) 이정후 1200 단어 끝, 능률 기본 시작 · 김수현 ORT3 88점 완료 · 김수현 ORT3 50점 복습" onkeydown="if(event.key==='Enter'&&!event.isComposing){event.preventDefault();bqFromBar();}">
         <button class="bq-go" onclick="bqFromBar()">반영하기</button>
         <div class="bq-recent"><span style="font-size:11px;font-weight:800;color:var(--muted);">최근 변경</span><span id="bqRecent" style="display:contents"></span></div>
       </div>
@@ -9444,7 +9445,17 @@ const BQ_CATS = {ort:'ORT', dadok:'다독', vocab:'단어', reading:'독해1', r
 const BQ_ARRAY_CATS = ['vocab','grammar','reading','reading2','listening','other'];
 const BQ_FINISH_RE = /(끝냈[어고다음]?|끝내고|끝나고|끝났고|마치고|완료하고|끝냄|끝남|끝났[어음다]?|끝|완료|완독|마침|마쳤[어음다]?|마무리|졸업|다\s*했[어음다]?|다\s*함|finish(?:ed)?|done)/i;
 const BQ_START_RE  = /(시작함|시작했[어음다]?|시작|들어감|들어갔[어음다]?|새로|start(?:ed)?)/i;
-const BQ_ACTION_RE = new RegExp('(' + BQ_FINISH_RE.source.slice(1,-1) + '|' + BQ_START_RE.source.slice(1,-1) + ')', 'ig');
+const BQ_REVIEW_RE = /(복습|재학습|다시\s*학습|다시\s*하기|반복|review)/i;
+const BQ_ACTION_RE = new RegExp('(' + BQ_REVIEW_RE.source.slice(1,-1) + '|' + BQ_FINISH_RE.source.slice(1,-1) + '|' + BQ_START_RE.source.slice(1,-1) + ')', 'ig');
+// "ORT3 88점" / "ORT3 88" / "RG4 92.5점" → { phrase:'ORT3', score:88 }
+function bqExtractScore(phrase){
+  let score = null, p = phrase;
+  let m = /(\d{1,3}(?:\.\d+)?)\s*점/.exec(p);
+  if(m){ score = parseFloat(m[1]); p = (p.slice(0,m.index) + p.slice(m.index+m[0].length)); }
+  else if((m = /^(.*\b(?:ort|rg|rs)\s*\d{1,2})\s+(\d{1,3}(?:\.\d+)?)$/i.exec(p.trim()))){ p = m[1]; score = parseFloat(m[2]); }
+  if(score!=null && (score<0 || score>100)) score = null;
+  return { phrase: p.replace(/\s+/g,' ').trim(), score };
+}
 
 function bqNorm(s){ return String(s||'').toLowerCase().replace(/[\s\.\,\(\)\[\]_\-·:]/g,''); }
 function bqTokens(s){
@@ -9510,8 +9521,8 @@ function bqSplitActions(rest){
   BQ_ACTION_RE.lastIndex = 0;
   while((m = BQ_ACTION_RE.exec(rest))){
     const phrase = rest.slice(last, m.index).replace(/^[\s,，、\/;]+|[\s,，、\/;]+$/g,'').replace(/(을|를|은|는|이|가|도)$/,'').replace(/^((했고|하고|하구|하면서|고|그리고|그다음|다음에?|이제|후에?|이어서)(\s+|$))+/,'').replace(/^(했고|하고|하구|하면서)/,'').trim().trim();
-    const action = BQ_FINISH_RE.test(m[0]) ? 'finish' : 'start';
-    if(phrase) out.push({ phrase, action });
+    const action = BQ_REVIEW_RE.test(m[0]) ? 'review' : BQ_FINISH_RE.test(m[0]) ? 'finish' : 'start';
+    if(phrase){ const ex = bqExtractScore(phrase); if(ex.phrase) out.push({ phrase:ex.phrase, action, score:ex.score }); }
     last = m.index + m[0].length;
   }
   return out;
@@ -9525,9 +9536,13 @@ function bqResolve(stu, it){
   if(ortM){
     const n = parseInt(ortM[1]);
     if(it.action==='finish') return { ...it, cat:'ort', book:'ORT'+n, nextOrt: n<9 ? 'ORT'+(n+1) : '', options:['ORT'+n] };
+    if(it.action==='review'){
+      const cur = b.ort || '';
+      return { ...it, cat:'ort', book:'ORT'+n, options:['ORT'+n], warn: (cur && bqNorm(cur)!==bqNorm('ORT'+n)) ? '지금 '+cur+'인데 ORT'+n+'(으)로 되돌려서 다시 해요' : '' };
+    }
     return { ...it, cat:'ort', book:'ORT'+n, options:['ORT'+n] };
   }
-  if(it.action==='finish'){
+  if(it.action==='finish' || it.action==='review'){
     // 학생이 지금 쓰는 교재 중에서 찾기
     const cands = [];
     Object.keys(BQ_CATS).forEach(cat=>{
@@ -9549,11 +9564,11 @@ function bqResolve(stu, it){
 }
 function bqParse(text){
   const results = []; const errors = [];
-  String(text||'').split(/\n+/).map(l=>l.trim()).filter(Boolean).forEach(line=>{
+  String(text||'').split(/\n+|\s+\/\s+/).map(l=>l.trim()).filter(Boolean).forEach(line=>{
     const { stu, rest } = bqFindStudent(line);
     if(!stu){ errors.push('"'+line+'" — 학생 이름을 찾지 못했어요'); return; }
     const acts = bqSplitActions(rest);
-    if(!acts.length){ errors.push('"'+line+'" — "끝" 또는 "시작"이 없어요'); return; }
+    if(!acts.length){ errors.push('"'+line+'" — "완료", "시작", "복습" 중 하나가 없어요'); return; }
     acts.forEach(a=> results.push({ stu, line, ...bqResolve(stu, a) }));
   });
   return { results, errors };
@@ -9592,7 +9607,10 @@ function bqRenderPreview(errors){
   const el = document.getElementById('bqPreview');
   const rows = bqPending.map((r,i)=>{
     const isFin = r.action==='finish';
-    const badge = isFin ? '<span class="bq-badge fin">✅ 완료</span>' : '<span class="bq-badge st">▶ 시작</span>';
+    const isRev = r.action==='review';
+    const badge = isRev ? '<span class="bq-badge rv">🔁 복습</span>' : isFin ? '<span class="bq-badge fin">✅ 완료</span>' : '<span class="bq-badge st">▶ 시작</span>';
+    const scoreCtl = (r.score!=null || r.cat==='ort' || isRev)
+      ? `<input class="bq-inp bq-score" type="number" min="0" max="100" step="0.5" placeholder="점수" value="${r.score!=null?r.score:''}" oninput="bqPending[${i}].score=this.value===''?null:parseFloat(this.value)" title="지면 시험 점수 (비우면 점수 없이 저장)"><span class="bq-unit">점</span>` : '';
     const bookCtl = (r.options && r.options.length>1)
       ? `<select class="bq-sel bq-book" onchange="bqPickBook(${i},this.value)">${r.options.map(o=>`<option ${o===r.book?'selected':''}>${bqEscA(o)}</option>`).join('')}</select>`
       : `<input class="bq-inp bq-book" value="${bqEscA(r.book)}" oninput="bqPending[${i}].book=this.value.trim()">`;
@@ -9601,7 +9619,7 @@ function bqRenderPreview(errors){
       : (r.cat==='ort' && isFin && r.nextOrt) ? `<label class="bq-note"><input type="checkbox" ${r.autoNext!==false?'checked':''} onchange="bqPending[${i}].autoNext=this.checked"> ${r.nextOrt}(으)로 자동 승급</label>` : '';
     return `<div class="bq-row">
       <div class="bq-who"><span class="bq-av" style="background:${r.stu.color}">${bqEscA(r.stu.name.slice(-2))}</span>${bqEscA(r.stu.name)}</div>
-      ${badge}${bqCatSelect(i, r.cat)}${bookCtl}
+      ${badge}${bqCatSelect(i, r.cat)}${bookCtl}${scoreCtl}
       <button class="bq-x" title="이 줄 빼기" onclick="bqPending.splice(${i},1);bqRenderPreview()">✕</button>
       ${note}
     </div>`;
@@ -9618,6 +9636,14 @@ function bqPickBook(i, v){
 function bqApply(books, r){
   const nb = JSON.parse(JSON.stringify(books||{}));
   const cat = r.cat, book = (r.book||'').trim(); if(!book) return nb;
+  if(r.action==='review'){
+    if(BQ_ARRAY_CATS.includes(cat)){
+      const arr = Array.isArray(nb[cat]) ? nb[cat] : (nb[cat]?[nb[cat]]:[]);
+      if(!arr.some(x=>bqNorm(x)===bqNorm(book))) arr.push(book);
+      nb[cat] = arr;
+    } else nb[cat] = book;
+    return nb;
+  }
   if(BQ_ARRAY_CATS.includes(cat)){
     let arr = Array.isArray(nb[cat]) ? nb[cat] : (nb[cat]?[nb[cat]]:[]);
     if(r.action==='finish') arr = arr.filter(x=>bqNorm(x)!==bqNorm(book));
@@ -9637,7 +9663,7 @@ async function bqSave(){
   const src = document.getElementById('bqModalInput').value.trim();
   const byStu = new Map();
   bqPending.forEach(r=>{ if(!byStu.has(r.stu.id)) byStu.set(r.stu.id, []); byStu.get(r.stu.id).push(r); });
-  let ok = 0, fail = 0; const events = [];
+  let ok = 0, fail = 0, scoreOk = 0, scoreFail = 0; const events = [];
   for(const [loginId, rs] of byStu){
     const stu = rs[0].stu;
     let nb = stu.books || {};
@@ -9648,10 +9674,17 @@ async function bqSave(){
     if(error){ console.error(error); fail++; continue; }
     ok++;
     stu.books = nb; if(upd.level) stu.level = upd.level;
+    for(const r of rs){
+      if(r.score==null || isNaN(r.score)) continue;
+      const lv = r.cat==='ort' ? r.book.toUpperCase().replace(/\s/g,'') : r.book;
+      const noteObj = { label:lv, 지면:r.score, result: r.action==='review' ? '복습' : r.action==='finish' ? '완료' : '시작' };
+      const { error:te } = await sb.from('test_records').insert({ student_login_id:loginId, test_date:new Date().toISOString().slice(0,10), category: r.cat==='ort' ? 'ORT' : catOf(lv.toUpperCase()), level:lv, score:r.score, note:JSON.stringify(noteObj) });
+      if(te){ console.error('test_records', te); scoreFail++; } else scoreOk++;
+    }
     rs.forEach(r=>{
-      events.push({ student_login_id:loginId, student_name:stu.name, category:r.cat, book:r.book, action:r.action, source_text:src });
+      events.push({ student_login_id:loginId, student_name:stu.name, category:r.cat, book:r.book, action:r.action, score:(r.score!=null&&!isNaN(r.score))?r.score:null, source_text:src });
       if(r.cat==='ort' && r.action==='finish' && r.nextOrt && r.autoNext!==false)
-        events.push({ student_login_id:loginId, student_name:stu.name, category:'ort', book:r.nextOrt, action:'start', source_text:src });
+        events.push({ student_login_id:loginId, student_name:stu.name, category:'ort', book:r.nextOrt, action:'start', score:null, source_text:src });
     });
   }
   if(events.length){
@@ -9660,7 +9693,7 @@ async function bqSave(){
   }
   btn.textContent='💾 저장';
   if(fail){ showKpiToast('❌ '+fail+'명 저장 실패 — 다시 시도해주세요'); btn.disabled=false; return; }
-  showKpiToast('✅ '+ok+'명 교재 반영 완료!');
+  showKpiToast('✅ '+ok+'명 반영 완료!' + (scoreOk ? ' · 점수 '+scoreOk+'건 기록' : '') + (scoreFail ? ' · ⚠️ 점수 '+scoreFail+'건 실패' : ''));
   const bar = document.getElementById('bqBarInput'); if(bar) bar.value='';
   document.getElementById('bqModalInput').value='';
   bqClose();
@@ -9696,7 +9729,8 @@ function renderBookEvents(){
   const top = bookEvents.slice(0,6);
   el.innerHTML = top.length ? top.map(e=>{
     const d = (e.event_date||'').slice(5).replace('-','/');
-    return `<span class="bq-chip ${e.action==='finish'?'fin':'st'}">${d} ${bqEscA(e.student_name||'')} · ${bqEscA(e.book)} ${e.action==='finish'?'✅':'▶'}</span>`;
+    const ic = e.action==='finish'?'✅':e.action==='review'?'🔁':'▶';
+    return `<span class="bq-chip ${e.action==='finish'?'fin':e.action==='review'?'rv':'st'}">${d} ${bqEscA(e.student_name||'')} · ${bqEscA(e.book)}${e.score!=null?' '+e.score+'점':''} ${ic}</span>`;
   }).join('') : '<span style="font-size:11px;color:var(--muted);font-weight:600;">아직 기록이 없어요</span>';
 }
 function bqUpdateKpis(){
@@ -10033,7 +10067,7 @@ function useLastProgress(el){
       <div style="font-size:16px;font-weight:800;">✍️ 교재 한 줄 입력</div>
       <button onclick="bqClose()" style="background:none;border:none;font-size:18px;cursor:pointer;color:#9ca3af;">✕</button>
     </div>
-    <textarea id="bqModalInput" placeholder="이정후 1200 단어 끝, 능률 기본 시작" oninput="clearTimeout(window._bqT);window._bqT=setTimeout(bqAnalyze,350)"></textarea>
+    <textarea id="bqModalInput" placeholder="이정후 1200 단어 끝, 능률 기본 시작&#10;김수현 ORT3 88점 완료&#10;김수현 ORT3 50점 복습" oninput="clearTimeout(window._bqT);window._bqT=setTimeout(bqAnalyze,350)"></textarea>
     <div class="bq-ex">여러 명은 줄을 바꿔 적으세요. 예) <code onclick="bqOpen('김여은 RG4 끝, RG5 시작')">김여은 RG4 끝, RG5 시작</code> <code onclick="bqOpen('양은수 ORT2 끝')">양은수 ORT2 끝</code></div>
     <div id="bqPreview"></div>
     <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:14px;">
