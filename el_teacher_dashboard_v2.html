@@ -1607,7 +1607,7 @@ body { font-family: 'Noto Sans KR','Plus Jakarta Sans',sans-serif; background: l
               
               
               
-            <option>김시언</option><option>김여은</option><option>김연지</option><option>김혜령</option><option>김희원</option><option>박지우</option><option>박태양</option><option>박하린</option><option>박하윤</option><option>서윤</option><option>서지연</option><option>성채영</option><option>신보민</option><option>신정우</option><option>신희윤</option><option>양수연</option><option>양은수</option><option>이상윤</option><option>이수현</option><option>이수현_6</option><option>이예준</option><option>이온유</option><option>이정후</option><option>이지연</option><option>이혜빈</option><option>임도혜</option><option>장민성</option><option>장서준</option><option>장수인</option><option>장윤서</option><option>조우빈</option><option>조윤아</option><option>주해리</option><option>주효라</option><option>추아연</option><option>허정우</option><option>황도훈</option>
+            <option>김시언</option><option>김여은</option><option>김연지</option><option>김혜령</option><option>김희원</option><option>박지우</option><option>박태양</option><option>박하린</option><option>박하윤</option><option>서윤</option><option>서지연</option><option>성채영</option><option>신보민</option><option>신정우</option><option>신희윤</option><option>양수연</option><option>양은수</option><option>이상윤</option><option>이수현</option><option>이수현_6</option><option>이예준</option><option>이정후</option><option>이지연</option><option>이혜빈</option><option>임도혜</option><option>장민성</option><option>장서준</option><option>장수인</option><option>장윤서</option><option>조우빈</option><option>주해리</option><option>주효라</option><option>추아연</option><option>허정우</option><option>황도훈</option>
             </select>
           </div>
           <div style="display:grid;grid-template-columns:90px 1fr 60px 55px 55px 55px;gap:0;background:var(--bg);padding:7px 10px;border-radius:9px;font-size:9px;font-weight:800;color:var(--muted);margin-bottom:5px;">
@@ -3987,7 +3987,6 @@ const parentStudents = [
   {name:'이수현', parent:'이수현 학부모', color:'linear-gradient(135deg,#f59e0b,#ef4444)', attendance:0, ort:0, dadok:0, W:0, P:0, Q:0, pass:0},
   {name:'이수현_6', parent:'이수현_6 학부모', color:'linear-gradient(135deg,#6366f1,#8b5cf6)', attendance:0, ort:0, dadok:0, W:0, P:0, Q:0, pass:0},
   {name:'이예준', parent:'이예준 학부모', color:'linear-gradient(135deg,#14b8a6,#0ea5e9)', attendance:0, ort:0, dadok:0, W:0, P:0, Q:0, pass:0},
-  {name:'이온유', parent:'이온유 학부모', color:'linear-gradient(135deg,#8b5cf6,#ec4899)', attendance:0, ort:0, dadok:0, W:0, P:0, Q:0, pass:0},
   {name:'이정후', parent:'이정후 학부모', color:'linear-gradient(135deg,#fb923c,#f43f5e)', attendance:0, ort:0, dadok:0, W:0, P:0, Q:0, pass:0},
   {name:'이지연', parent:'이지연 학부모', color:'linear-gradient(135deg,#3b82f6,#22c55e)', attendance:0, ort:0, dadok:0, W:0, P:0, Q:0, pass:0},
   {name:'이혜빈', parent:'이혜빈 학부모', color:'linear-gradient(135deg,#a855f7,#6366f1)', attendance:0, ort:0, dadok:0, W:0, P:0, Q:0, pass:0},
@@ -3997,7 +3996,6 @@ const parentStudents = [
   {name:'장수인', parent:'장수인 학부모', color:'linear-gradient(135deg,#f59e0b,#ef4444)', attendance:0, ort:0, dadok:0, W:0, P:0, Q:0, pass:0},
   {name:'장윤서', parent:'장윤서 학부모', color:'linear-gradient(135deg,#6366f1,#8b5cf6)', attendance:0, ort:0, dadok:0, W:0, P:0, Q:0, pass:0},
   {name:'조우빈', parent:'조우빈 학부모', color:'linear-gradient(135deg,#14b8a6,#0ea5e9)', attendance:0, ort:0, dadok:0, W:0, P:0, Q:0, pass:0},
-  {name:'조윤아', parent:'조윤아 학부모', color:'linear-gradient(135deg,#8b5cf6,#ec4899)', attendance:0, ort:0, dadok:0, W:0, P:0, Q:0, pass:0},
   {name:'주해리', parent:'주해리 학부모', color:'linear-gradient(135deg,#fb923c,#f43f5e)', attendance:0, ort:0, dadok:0, W:0, P:0, Q:0, pass:0},
   {name:'주효라', parent:'주효라 학부모', color:'linear-gradient(135deg,#3b82f6,#22c55e)', attendance:0, ort:0, dadok:0, W:0, P:0, Q:0, pass:0},
   {name:'추아연', parent:'추아연 학부모', color:'linear-gradient(135deg,#a855f7,#6366f1)', attendance:0, ort:0, dadok:0, W:0, P:0, Q:0, pass:0},
@@ -4563,10 +4561,10 @@ function connectKakao(){
 // ── 학년별 통계 ──
 const gradeGroups = [
   {grade:'초3', students:['양은수','이정후','이혜빈','허정우']},
-  {grade:'초4', students:['박태양','서지연','신정우','신희윤','이예준','이온유']},
+  {grade:'초4', students:['박태양','서지연','신정우','신희윤','이예준']},
   {grade:'초5', students:['김시언','김여은','박하린','박하윤','서윤','신보민','이수현','장서준','장윤서','추아연']},
   {grade:'초6', students:['박지우','양수연','이수현_6','장수인','조우빈','주해리']},
-  {grade:'중1', students:['이상윤','이지연','장민성','조윤아','황도훈']},
+  {grade:'중1', students:['이상윤','이지연','장민성','황도훈']},
   {grade:'중2', students:['성채영']},
   {grade:'중3', students:['김혜령','김희원','임도혜','주효라']},
   {grade:'고2', students:['김연지']},
@@ -5364,10 +5362,10 @@ function clearAllNotif(){
 // ── 교재 관리 데이터 ──
 const ortLevelData = [
   { level:'ORT1', total:36, color:'#14b8a6', students:['신정우'], nextLevel:'ORT2' },
-  { level:'ORT2', total:36, color:'#6366f1', students:['서지연','양은수','이온유','이정후'], nextLevel:'ORT3' },
+  { level:'ORT2', total:36, color:'#6366f1', students:['서지연','양은수','이정후'], nextLevel:'ORT3' },
   { level:'ORT3', total:36, color:'#f97316', students:['김시언(18)','신희윤','이예준','이혜빈','허정우'], nextLevel:'ORT4' },
   { level:'ORT4', total:36, color:'#ec4899', students:['박태양','이수현_6'], nextLevel:'ORT5' },
-  { level:'ORT5', total:36, color:'#8b5cf6', students:['김여은','박하린','박하윤','신보민','이수현','장서준','조윤아'], nextLevel:'ORT6' },
+  { level:'ORT5', total:36, color:'#8b5cf6', students:['김여은','박하린','박하윤','신보민','이수현','장서준'], nextLevel:'ORT6' },
   { level:'ORT6', total:36, color:'#0ea5e9', students:['양수연','장윤서','추아연'], nextLevel:'ORT7' },
   { level:'ORT7', total:36, color:'#84cc16', students:['박지우','성채영','조우빈','주해리'], nextLevel:'ORT8' },
   { level:'ORT8', total:36, color:'#f59e0b', students:['김희원','이상윤','장민성','장수인','황도훈'], nextLevel:'ORT9' },
@@ -5394,7 +5392,6 @@ const ortStudentData = [
   {name:'이수현', level:'ORT5', progress:'ORT5 진행중', current:0, total:0, color:'linear-gradient(135deg,#f59e0b,#ef4444)'},
   {name:'이수현_6', level:'ORT4', progress:'ORT4 진행중', current:0, total:0, color:'linear-gradient(135deg,#6366f1,#8b5cf6)'},
   {name:'이예준', level:'ORT3', progress:'ORT3 진행중', current:0, total:0, color:'linear-gradient(135deg,#14b8a6,#0ea5e9)'},
-  {name:'이온유', level:'ORT2', progress:'ORT2 진행중', current:0, total:0, color:'linear-gradient(135deg,#8b5cf6,#ec4899)'},
   {name:'이정후', level:'ORT2', progress:'ORT2 진행중', current:0, total:0, color:'linear-gradient(135deg,#fb923c,#f43f5e)'},
   {name:'이지연', level:'ORT9', progress:'ORT9 진행중', current:0, total:0, color:'linear-gradient(135deg,#3b82f6,#22c55e)'},
   {name:'이혜빈', level:'ORT3', progress:'ORT3 진행중', current:0, total:0, color:'linear-gradient(135deg,#a855f7,#6366f1)'},
@@ -5403,7 +5400,6 @@ const ortStudentData = [
   {name:'장수인', level:'ORT8', progress:'ORT8 진행중', current:0, total:0, color:'linear-gradient(135deg,#f59e0b,#ef4444)'},
   {name:'장윤서', level:'ORT6', progress:'ORT6 진행중', current:0, total:0, color:'linear-gradient(135deg,#6366f1,#8b5cf6)'},
   {name:'조우빈', level:'ORT7', progress:'ORT7 진행중', current:0, total:0, color:'linear-gradient(135deg,#14b8a6,#0ea5e9)'},
-  {name:'조윤아', level:'ORT5', progress:'ORT5 진행중', current:0, total:0, color:'linear-gradient(135deg,#8b5cf6,#ec4899)'},
   {name:'주해리', level:'ORT7', progress:'ORT7 진행중', current:0, total:0, color:'linear-gradient(135deg,#fb923c,#f43f5e)'},
   {name:'주효라', level:'ORT9', progress:'ORT9 진행중', current:0, total:0, color:'linear-gradient(135deg,#3b82f6,#22c55e)'},
   {name:'추아연', level:'ORT6', progress:'ORT6 진행중', current:0, total:0, color:'linear-gradient(135deg,#a855f7,#6366f1)'},
@@ -6006,7 +6002,6 @@ const dadokStudentData = [
   {name:'이수현', color:'linear-gradient(135deg,#f59e0b,#ef4444)', book:'다독 진행중', progress:'—', pct:0, W:0, P:0, Q:0},
   {name:'이수현_6', color:'linear-gradient(135deg,#6366f1,#8b5cf6)', book:'다독 진행중', progress:'—', pct:0, W:0, P:0, Q:0},
   {name:'이예준', color:'linear-gradient(135deg,#14b8a6,#0ea5e9)', book:'다독 진행중', progress:'—', pct:0, W:0, P:0, Q:0},
-  {name:'이온유', color:'linear-gradient(135deg,#8b5cf6,#ec4899)', book:'다독 진행중', progress:'—', pct:0, W:0, P:0, Q:0},
   {name:'이정후', color:'linear-gradient(135deg,#fb923c,#f43f5e)', book:'—', progress:'—', pct:0, W:0, P:0, Q:0},
   {name:'이지연', color:'linear-gradient(135deg,#3b82f6,#22c55e)', book:'—', progress:'—', pct:0, W:0, P:0, Q:0},
   {name:'이혜빈', color:'linear-gradient(135deg,#a855f7,#6366f1)', book:'다독 진행중', progress:'—', pct:0, W:0, P:0, Q:0},
@@ -6016,7 +6011,6 @@ const dadokStudentData = [
   {name:'장수인', color:'linear-gradient(135deg,#f59e0b,#ef4444)', book:'다독 진행중', progress:'—', pct:0, W:0, P:0, Q:0},
   {name:'장윤서', color:'linear-gradient(135deg,#6366f1,#8b5cf6)', book:'다독 진행중', progress:'—', pct:0, W:0, P:0, Q:0},
   {name:'조우빈', color:'linear-gradient(135deg,#14b8a6,#0ea5e9)', book:'다독 진행중', progress:'—', pct:0, W:0, P:0, Q:0},
-  {name:'조윤아', color:'linear-gradient(135deg,#8b5cf6,#ec4899)', book:'—', progress:'—', pct:0, W:0, P:0, Q:0},
   {name:'주해리', color:'linear-gradient(135deg,#fb923c,#f43f5e)', book:'—', progress:'—', pct:0, W:0, P:0, Q:0},
   {name:'주효라', color:'linear-gradient(135deg,#3b82f6,#22c55e)', book:'다독 진행중', progress:'—', pct:0, W:0, P:0, Q:0},
   {name:'추아연', color:'linear-gradient(135deg,#a855f7,#6366f1)', book:'다독 진행중', progress:'—', pct:0, W:0, P:0, Q:0},
@@ -6135,7 +6129,6 @@ const dadokProgressData = [
   {name:'이수현', color:'linear-gradient(135deg,#f59e0b,#ef4444)', book:'Henry and Mudge', current:0, total:0, completed:[]},
   {name:'이수현_6', color:'linear-gradient(135deg,#6366f1,#8b5cf6)', book:'fly guy', current:0, total:0, completed:[]},
   {name:'이예준', color:'linear-gradient(135deg,#14b8a6,#0ea5e9)', book:'fly guy', current:0, total:0, completed:[]},
-  {name:'이온유', color:'linear-gradient(135deg,#8b5cf6,#ec4899)', book:'Usborne', current:0, total:0, completed:[]},
   {name:'이정후', color:'linear-gradient(135deg,#fb923c,#f43f5e)', book:'—', current:0, total:0, completed:[]},
   {name:'이지연', color:'linear-gradient(135deg,#3b82f6,#22c55e)', book:'—', current:0, total:0, completed:[]},
   {name:'이혜빈', color:'linear-gradient(135deg,#a855f7,#6366f1)', book:'Usborne', current:0, total:0, completed:[]},
@@ -6145,7 +6138,6 @@ const dadokProgressData = [
   {name:'장수인', color:'linear-gradient(135deg,#f59e0b,#ef4444)', book:'Magic tree house', current:0, total:0, completed:[]},
   {name:'장윤서', color:'linear-gradient(135deg,#6366f1,#8b5cf6)', book:'Winnie the witch', current:0, total:0, completed:[]},
   {name:'조우빈', color:'linear-gradient(135deg,#14b8a6,#0ea5e9)', book:'Marvin Redpost', current:0, total:0, completed:[]},
-  {name:'조윤아', color:'linear-gradient(135deg,#8b5cf6,#ec4899)', book:'—', current:0, total:0, completed:[]},
   {name:'주해리', color:'linear-gradient(135deg,#fb923c,#f43f5e)', book:'—', current:0, total:0, completed:[]},
   {name:'주효라', color:'linear-gradient(135deg,#3b82f6,#22c55e)', book:'magic tree house', current:0, total:0, completed:[]},
   {name:'추아연', color:'linear-gradient(135deg,#a855f7,#6366f1)', book:'Winnie the witch', current:0, total:0, completed:[]},
@@ -6431,6 +6423,7 @@ async function loadStudents(){
     showKpiToast('❌ 학생 목록 불러오기 실패'); return;
   }
   allStudents = data.map(rowToStudent);
+  try{ pruneRemovedStudents(); }catch(e){ console.error('prune', e); }
   if(typeof _stuLoadedAt!=='undefined') _stuLoadedAt = Date.now();
   renderStudentTable();
   try{ syncBooksFromStudents(); loadBookEvents(); loadBookCatalog(); loadBookOrder(); }catch(e){ console.error('books sync', e); }
@@ -6893,7 +6886,6 @@ const searchStudentList = [
   { name: '이수현', level: 'ORT5 · 초5', time: '매번90분수업,월화목금3:30 수 1:40', section: 't15' },
   { name: '이수현_6', level: 'ORT4 · 초6', time: '월화수목금6:00', section: 't18' },
   { name: '이예준', level: 'ORT3 · 초4', time: '월화수금2:40 목3:40', section: 't14' },
-  { name: '이온유', level: 'ORT2 · 초4', time: '화수목금 2:40', section: 't14' },
   { name: '이정후', level: 'ORT2 · 초3', time: '월화목2:50 수 1:50(90분수업) 금3:30(30분수업)', section: 't14' },
   { name: '이지연', level: 'ORT9 · 중1', time: '월수금 3:40 (100분수업)', section: 't15' },
   { name: '이혜빈', level: 'ORT3 · 초3', time: '화목금2:40, 수1:50', section: 't14' },
@@ -6903,7 +6895,6 @@ const searchStudentList = [
   { name: '장수인', level: 'ORT8 · 초6', time: '월화수목금 3:10', section: 't15' },
   { name: '장윤서', level: 'ORT6 · 초5', time: '월화수목금5:10', section: 't17' },
   { name: '조우빈', level: 'ORT7 · 초6', time: '월화수목금 2:50', section: 't14' },
-  { name: '조윤아', level: 'ORT5 · 중1', time: '월수금 3:40, 화목4:40', section: 't15' },
   { name: '주해리', level: 'ORT7 · 초6', time: '월화수목금 2:40', section: 't14' },
   { name: '주효라', level: 'ORT9 · 중3', time: '월수금3:40,화목4:40', section: 't15' },
   { name: '추아연', level: 'ORT6 · 초5', time: '월화수목금5:00', section: 't17' },
@@ -7089,11 +7080,6 @@ const studentData_sp = {
     school:'덕정초 · 초4', time:'월화수금2:40 목3:40', phone:'—', startDate:'—', loginId:'el3246', loginPw:'—',
     bookOrt:'ORT3 진행중', bookDadok:'fly guy', bookVocab:'초등 1200단어', bookRead:'', bookGrammar:'RG1, 초등클리어1', bookNaesin:'',
     stats:[] },
-  '이온유': { level:'ORT2 · 초4', status:'재원', arrive:'—', elapsed:'—', vocab:'—', yest:'—', today:'예정 진도', memo:'',
-    passCount:0, passCurrent:0, passTotal:20,
-    school:'신안초 · 초4', time:'화수목금 2:40', phone:'—', startDate:'—', loginId:'el2286', loginPw:'—',
-    bookOrt:'ORT2 진행중', bookDadok:'Usborne', bookVocab:'리톡 초등 800단어', bookRead:'', bookGrammar:'RG1', bookNaesin:'',
-    stats:[] },
   '이정후': { level:'ORT2 · 초3', status:'재원', arrive:'—', elapsed:'—', vocab:'—', yest:'—', today:'예정 진도', memo:'',
     passCount:0, passCurrent:0, passTotal:20,
     school:'신안초 · 초3', time:'월화목2:50 수 1:50(90분수업) 금3:30(30분수업)', phone:'—', startDate:'—', loginId:'el5433', loginPw:'—',
@@ -7138,11 +7124,6 @@ const studentData_sp = {
     passCount:0, passCurrent:0, passTotal:20,
     school:'신안초 · 초6', time:'월화수목금 2:50', phone:'—', startDate:'—', loginId:'el8551', loginPw:'—',
     bookOrt:'ORT7 진행중', bookDadok:'Marvin Redpost', bookVocab:'절대어휘5100_1(문장/단어)', bookRead:'', bookGrammar:'RS1, inside 2, 중3 영어 듣기', bookNaesin:'',
-    stats:[] },
-  '조윤아': { level:'ORT5 · 중1', status:'재원', arrive:'—', elapsed:'—', vocab:'—', yest:'—', today:'예정 진도', memo:'',
-    passCount:0, passCurrent:0, passTotal:20,
-    school:'관동중 · 중1', time:'월수금 3:40, 화목4:40', phone:'—', startDate:'—', loginId:'el0335', loginPw:'—',
-    bookOrt:'ORT5 진행중', bookDadok:'', bookVocab:'쓰방 중등기본(2), 능률 0주니어 VOCA 입문', bookRead:'', bookGrammar:'RG4, 중등클리어2, 중2 영어 듣기', bookNaesin:'',
     stats:[] },
   '주해리': { level:'ORT7 · 초6', status:'재원', arrive:'—', elapsed:'—', vocab:'—', yest:'—', today:'예정 진도', memo:'',
     passCount:0, passCurrent:0, passTotal:20,
@@ -9739,6 +9720,28 @@ function bqUpdateKpis(){
   const fin = bookEvents.filter(e=>e.action==='finish' && (e.event_date||'').startsWith(ym)).length;
   const a = document.getElementById('ortKpiLearning'); if(a) a.textContent = learning+'명';
   const b = document.getElementById('ortKpiFinished'); if(b) b.textContent = fin+'권';
+}
+// ── 삭제된 학생 자동 정리 ──
+// DB(students)에 없는 학생을 파일 안에 직접 적어둔 목록(학년별 진도·통계·학부모·다독·검색 등)에서 빼고 다시 그림
+function pruneRemovedStudents(){
+  if(!allStudents || !allStudents.length) return;           // 불러오기 실패 시 아무것도 지우지 않음
+  const inDb = new Set(allStudents.map(s=>s.name));
+  const keep = n => inDb.has(String(n||'').replace(/\(\d+\)$/,''));
+  const pruneArr = a => { if(!Array.isArray(a)) return; for(let i=a.length-1;i>=0;i--){ if(a[i] && a[i].name && !keep(a[i].name)) a.splice(i,1); } };
+  try{ [parentStudents, studentStats, ortScoreData, dadokStudentData, dadokProgressData, searchStudentList].forEach(pruneArr); }catch(e){ console.error('prune', e); }
+  try{ Object.values(rankingData).forEach(pruneArr); }catch(e){}
+  try{
+    gradeGroups.forEach(g=>{ g.students = g.students.filter(keep); });
+    for(let i=gradeGroups.length-1;i>=0;i--){ if(!gradeGroups[i].students.length) gradeGroups.splice(i,1); }
+  }catch(e){}
+  try{ Object.keys(studentData_sp).forEach(n=>{ if(!inDb.has(n)) delete studentData_sp[n]; }); }catch(e){}
+  const sel = document.getElementById('dadokStudentFilter');
+  if(sel) Array.from(sel.options).forEach(o=>{ if(o.value!=='' && !keep(o.textContent.trim())) o.remove(); });
+  const redraw = [
+    ()=>renderGradeStats(typeof gradeMode!=='undefined'?gradeMode:'ort'),
+    ()=>renderReportList(), ()=>renderChatList(), ()=>renderDadokStudents(), ()=>renderDadokProgress()
+  ];
+  redraw.forEach(r=>{ try{ r(); }catch(e){} });
 }
 function syncBooksFromStudents(){
   if(!allStudents || !allStudents.length) return;
